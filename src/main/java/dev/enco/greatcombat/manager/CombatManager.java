@@ -48,6 +48,7 @@ public class CombatManager {
 
     public void startCombat(Player damager, Player target, Cancellable e) {
         if (settings.ignoredWorlds().contains(damager.getWorld().getName())) return;
+        if (damager.equals(target)) return;
 
         var damagerUUID = damager.getUniqueId();
         var targetUUID = target.getUniqueId();
@@ -63,27 +64,20 @@ public class CombatManager {
         boolean isDamagerInCombat = isInCombat(damagerUUID);
         boolean isTargetInCombat = isInCombat(targetUUID);
 
+        damagerUser.addOpponent(targetUser);
+        targetUser.addOpponent(damagerUser);
+
+        damagerUser.setStartPvpTime(start);
+        targetUser.setStartPvpTime(start);
+
         if (isDamagerInCombat && isTargetInCombat) {
             damagerUser.refresh(start);
             targetUser.refresh(start);
-            damagerUser.setStartPvpTime(start);
-            targetUser.setStartPvpTime(start);
             return;
-        }
-
-        if (!damagerUser.containsOpponent(targetUser)) {
-            damagerUser.addOpponent(targetUser);
-        }
-
-        if (!targetUser.containsOpponent(damagerUser)) {
-            targetUser.addOpponent(damagerUser);
         }
 
         this.playersInCombat.add(damagerUser);
         this.playersInCombat.add(targetUser);
-
-        damagerUser.setStartPvpTime(start);
-        targetUser.setStartPvpTime(start);
 
         damagerUser.startTimer();
         targetUser.startTimer();
@@ -95,12 +89,10 @@ public class CombatManager {
         }
     }
 
-    private User getOrCreateUser(UUID playerUUID) {
-        if (!isInCombat(playerUUID)) {
-            var newUser = new User(playerUUID);
-            return newUser;
-        }
-        return getUser(playerUUID);
+    public User getOrCreateUser(UUID playerUUID) {
+        var user = getUser(playerUUID);
+        if (user == null) return new User(playerUUID);
+        return user;
     }
 
     public void stopCombat(User user) {

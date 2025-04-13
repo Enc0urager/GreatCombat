@@ -11,6 +11,7 @@ public class Time {
     private static final TimeFormats hoursForms = ConfigManager.getHoursFormats();
 
     public String format(int sec) {
+        if (sec <= 0) return "1 " + secondsForms.form1();
         int h = sec / 3600;
         int min = (sec % 3600) / 60;
         int s = sec % 60;

@@ -109,4 +109,14 @@ public class CombatListener implements Listener {
             e.setCancelled(true);
         }
     }
+
+    @EventHandler(
+            priority = EventPriority.MONITOR
+    )
+    public void onCombatTick(CombatTickEvent e) {
+        var user = e.getUser();
+        long remainingTime = user.getRemaining();
+        if (remainingTime < settings.minTime()) combatManager.stopCombat(user);
+        else user.updateBoardAndBar(remainingTime);
+    }
 }

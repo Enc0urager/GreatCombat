@@ -40,8 +40,7 @@ public class ScoreboardManager {
         var opponents = user.getOpponents();
         if (opponents.isEmpty()) opponentsList.add(boardSettings.empty());
         for (var opponent : opponents) {
-            var player = opponent.toPlayer();
-            opponentsList.add(Placeholders.replaceInBoard(player, boardSettings.opponent()));
+            opponentsList.add(Placeholders.replaceInBoard(opponent.toPlayer(), boardSettings.opponent()));
         }
         return opponentsList;
     }

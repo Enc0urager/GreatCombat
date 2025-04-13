@@ -1,15 +1,16 @@
 package dev.enco.greatcombat.manager;
 
 import dev.enco.greatcombat.GreatCombat;
+import dev.enco.greatcombat.api.CombatTickEvent;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Bossbar;
 import dev.enco.greatcombat.config.settings.Settings;
-import dev.enco.greatcombat.utils.Logger;
 import dev.enco.greatcombat.utils.Time;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class User {
     private final Settings settings = ConfigManager.getSettings();
     private final CombatManager combatManager = GreatCombat.getInstance().getCombatManager();
     private BukkitRunnable runnable;
+    private final PluginManager pm = Bukkit.getPluginManager();
 
     public Player toPlayer() {
         return Bukkit.getPlayer(playerUUID);
@@ -39,12 +41,12 @@ public class User {
         this.runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                update();
+                pm.callEvent(new CombatTickEvent(User.this));
             }
         };
         this.runnable.runTaskTimer(GreatCombat.getInstance(),
                 0L,
-                barSettings.updInterval());
+                settings.tickInterval());
     }
 
     public void refresh(long start) {
@@ -55,7 +57,6 @@ public class User {
     }
 
     public void deleteBossbar() {
-        BossBar bossBar = getBossBar();
         if (bossBar != null) {
             bossBar.removePlayer(Bukkit.getPlayer(getPlayerUUID()));
             this.bossBar = null;
@@ -87,19 +88,13 @@ public class User {
         return this.opponents.contains(user);
     }
 
-    public void update() {
-        long remainingTime = calculateRemainingTime();
-        if (remainingTime < 1000) combatManager.stopCombat(this);
-        else updateScoreboardAndBossBar(remainingTime);
-    }
-
-    private long calculateRemainingTime() {
+    public long getRemaining() {
         long leftTime = System.currentTimeMillis() - startPvpTime;
         long totalTime = settings.combatTime() * 1000;
         return totalTime - leftTime;
     }
 
-    private void updateScoreboardAndBossBar(long remainingTime) {
+    public void updateBoardAndBar(long remainingTime) {
         String time = Time.format((int) remainingTime / 1000);
         ScoreboardManager.setScoreboard(this, time);
         if (this.bossBar != null) {

@@ -18,6 +18,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
@@ -180,6 +181,24 @@ public class PlayerListener implements Listener {
                         }
                         break;
                     }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        var player = e.getPlayer();
+        if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
+        var uuid = player.getUniqueId();
+        if (combatManager.isInCombat(uuid)) {
+            var is = player.getItemInHand();
+            if (is == null) return;
+            var material = is.getType();
+            var item = CooldownManager.getCooldownItem(material);
+            if (item != null) {
+                if (item.handlers().contains(CooldownHandler.BLOCK_BREAK)) {
+                    handleCooldown(uuid, player, item, e);
                 }
             }
         }

@@ -16,8 +16,8 @@ public class UpdateChecker {
                      new URL("https://raw.githubusercontent.com/Enc0urager/GreatCombat/master/VERSION")
                              .openStream()))) {
                  consumer.accept(reader.readLine().trim());
-             } catch (IOException ex) {
-                 plugin.getLogger().warning("Unable to check for updates: " + ex.getMessage());
+             } catch (IOException e) {
+                 Logger.warn("An error occurred while checking updates: " + e);
              }
          }, 30L);
      }

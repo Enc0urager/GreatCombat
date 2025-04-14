@@ -1,33 +1,39 @@
-# Доступные действия:
-# [MESSAGE] message - сообщение игроку
-# [ACTIONBAR] message - сообщение в экшнбар
-# [SOUND] sound;volume;pitch - звук игроку
-# [TITLE] title;subtitle;fadein;stayin;fadeout - тайтл игроку
-# [BROADCASTMESSAGE] / [BROADCASTACTIONBAR] / [BROADCASTSOUND] / [BROADCASTTITLE] отправить всем игрокам
-# [PLAYER] message - сообщение в чат от имени игрока, для команды /command
-# [CONSOLE] command - команда от имени консоли
+# Available actions:
+# [MESSAGE] message - send message to player
+# [ACTIONBAR] message - send actionbar message to player
+# [SOUND] sound;volume;pitch - play sound for player
+# [TITLE] title;subtitle;fadein;stayin;fadeout - send a title message
+# [BROADCASTMESSAGE] / [BROADCASTACTIONBAR] / [BROADCASTSOUND] / [BROADCASTTITLE] send action to all players
+# [PLAYER] message - chat message by player, for command use /command
+# [CONSOLE] command - command from console sender
 bossbar:
   enable: true
-  #Стиль боссбара
+  #Bossbar style
   style: SOLID
-  #Цвет боссбара
+  #Bossbar color
   color: RED
-  #Заголовок боссбара
-  title: '&cРежим боя &7| &fДо окончания: &6{time}'
-  #Будет ли изменяться прогресс с течением времени
+  #Bossbar title
+  title: '&cCombat &7| &fWait: &6{time}'
+  #Will the bossbar occupancy scale decrease along with the time until the end of combat
   progress: true
-  # Период обновления боссбара и скорборда
-  progress-update-interval: 20
 actions:
+  #Actions performed for the attacking player at the start of combat
   on-start-damager:
-    - '[MESSAGE] Вы начали пвп с &c{0}'
+    - '[MESSAGE] You start combat with &c{0}'
+  #Actions performed for the attacked player at the beginning of combat
   on-start-target:
-    - '[MESSAGE] Игрок &c{0} &fначал с вами пвп'
+    - '[MESSAGE] Player &c{0} &fstart combat with you'
+  #Actions performed at the end of combat
   on-stop:
-    - '[MESSAGE] &aРежим боя окончен'
+    - '[MESSAGE] &aCombat ended'
+  #Actions performed at the end of combat
   on-item-cooldown:
-    - '[MESSAGE] Подождите &6{0} &fперед использованием &c{1}'
+    - '[MESSAGE] Wait &6{0} &fbefore use &c{1}'
+  #Actions performed when the player quit / kick in combat
   on-pvp-leave:
-    - '[BROADCASTMESSAGE] Игрок %luckperms_prefix% &f{0} покинул игру во время пвп'
+    - '[BROADCASTMESSAGE] Player %luckperms_prefix% &f{0} quit in combat'
+  #Actions performed when the player perform command in combat
   on-pvp-command:
-    - "[MESSAGE] &cВы не можете использовать эту команду во время пвп"
+    - "[MESSAGE] &cYou can't use this command in combat"
+  on-interact-prevention:
+    - '[MESSAGE] &cYou cant use {0} in combat'

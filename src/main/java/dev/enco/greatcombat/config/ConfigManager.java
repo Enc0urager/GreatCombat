@@ -19,6 +19,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class ConfigManager {
     private final GreatCombat plugin;
     @Getter
+    private static boolean checkUpdates;
+    @Getter
     private static boolean teleportEnable;
     @Getter
     private static boolean metricsEnable;
@@ -64,6 +66,7 @@ public class ConfigManager {
         setupPowerups(mainConfig);
         setupSettings(mainConfig);
         setupCommands(mainConfig);
+        checkUpdates = mainConfig.getBoolean("update-checker");
         PreventionManager.load(mainConfig.getConfigurationSection("preventable-items"));
         usingPapi = mainConfig.getBoolean("use-papi");
         teleportEnable = mainConfig.getBoolean("allow-teleport");

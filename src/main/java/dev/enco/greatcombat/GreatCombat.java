@@ -33,15 +33,17 @@ public final class GreatCombat extends JavaPlugin {
         }
         Logger.info("Plugin successfully loaded!");
         Logger.info("Author - Encourager, Version " + this.getDescription().getVersion());
-        new UpdateChecker(this, version -> {
-            if (getDescription().getVersion().equals(version)) {
-                Logger.info("You're using the latest version!");
-            } else {
-                Logger.info("You are using §cold §fversion of plugin!");
-                Logger.info("You can download latest version here:");
-                Logger.info("§ehttps://github.com/Enc0urager/GreatCombat/releases/");
-            }
-        });
+        if (ConfigManager.isCheckUpdates()) {
+            new UpdateChecker(this, version -> {
+                if (getDescription().getVersion().equals(version)) {
+                    Logger.info("You're using the latest version!");
+                } else {
+                    Logger.info("You are using §cold §fversion of plugin!");
+                    Logger.info("You can download latest version here:");
+                    Logger.info("§ehttps://github.com/Enc0urager/GreatCombat/releases/");
+                }
+            });
+        }
     }
 
     @Override

@@ -18,12 +18,12 @@ public class ActionRegistry {
         settings.forEach(s -> {
             var matcher = ACTION_PATTERN.matcher(s);
             if (!matcher.matches()) {
-                Logger.warn("Неверный формат записи действия " + s);
+                Logger.warn("Illegal action pattern " + s);
                 return;
             }
             var type = ActionType.valueOf(matcher.group(1));
             if (type == null) {
-                Logger.warn("Тип действия " + s + " не существует!");
+                Logger.warn("ActionType " + s + " is not available!");
                 return;
             }
             var context = matcher.group(2).trim();

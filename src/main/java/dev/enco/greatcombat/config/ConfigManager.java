@@ -1,11 +1,13 @@
 package dev.enco.greatcombat.config;
 
 import dev.enco.greatcombat.GreatCombat;
+import dev.enco.greatcombat.actions.ActionExecutor;
 import dev.enco.greatcombat.actions.ActionRegistry;
 import dev.enco.greatcombat.config.settings.*;
 import dev.enco.greatcombat.cooldowns.CooldownManager;
 import dev.enco.greatcombat.listeners.CommandsType;
 import dev.enco.greatcombat.powerups.PowerupsManager;
+import dev.enco.greatcombat.prevent.PreventionManager;
 import dev.enco.greatcombat.utils.Colorizer;
 import dev.enco.greatcombat.utils.Logger;
 import lombok.Getter;
@@ -62,9 +64,10 @@ public class ConfigManager {
         setupPowerups(mainConfig);
         setupSettings(mainConfig);
         setupCommands(mainConfig);
+        PreventionManager.load(mainConfig.getConfigurationSection("preventable-items"));
         usingPapi = mainConfig.getBoolean("use-papi");
         teleportEnable = mainConfig.getBoolean("allow-teleport");
-        Logger.info("Конфиг загружен за " + (System.currentTimeMillis() - start) + " ms.");
+        Logger.info("Config loaded in " + (System.currentTimeMillis() - start) + " ms.");
     }
 
     private void setupConfigFiles() {
@@ -91,7 +94,9 @@ public class ConfigManager {
                 config.getStringList("ignored-worlds"),
                 config.getBoolean("kill-on-leave"),
                 config.getBoolean("kill-on-kick"),
-                config.getStringList("kick-messages")
+                config.getStringList("kick-messages"),
+                config.getLong("tick-interval"),
+                config.getLong("time-to-stop")
         );
     }
 
@@ -135,7 +140,6 @@ public class ConfigManager {
                 color,
                 Colorizer.colorize(section.getString("title")),
                 section.getBoolean("progress"),
-                section.getLong("progress-update-interval"),
                 section.getBoolean("enable")
         );
     }
@@ -148,7 +152,8 @@ public class ConfigManager {
                 ActionRegistry.transform(section.getStringList("on-stop")),
                 ActionRegistry.transform(section.getStringList("on-item-cooldown")),
                 ActionRegistry.transform(section.getStringList("on-pvp-leave")),
-                ActionRegistry.transform(section.getStringList("on-pvp-command"))
+                ActionRegistry.transform(section.getStringList("on-pvp-command")),
+                ActionRegistry.transform(section.getStringList("on-interact-prevention"))
         );
     }
 

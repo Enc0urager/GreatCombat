@@ -8,5 +8,7 @@ public record Settings(
         List<String> ignoredWorlds,
         boolean killOnLeave,
         boolean killOnKick,
-        List<String> kickMessages
+        List<String> kickMessages,
+        long tickInterval,
+        long minTime
 ) {}

@@ -28,28 +28,28 @@ public class CooldownManager {
             try {
                 material = Material.valueOf(key.toUpperCase());
             } catch (IllegalArgumentException e) {
-                Logger.warn("Материал " + key + " не существует, путь " + section.getCurrentPath());
+                Logger.warn("Material " + key + " is not available, path " + section.getCurrentPath());
             }
             var parts = section.getString(key).split(";");
             if (parts.length < 3) {
-                Logger.warn("Записывайте предметы в вормате MATERIAL: TRANSLATION;TIME;HANDLERS");
+                Logger.warn("Write items like MATERIAL: TRANSLATION;TIME;HANDLERS");
                 continue;
             }
             int time = 0;
             try {
                 time = Integer.valueOf(parts[1]);
             } catch (NumberFormatException e) {
-                Logger.warn("Время кулдауна должно быть числом");
+                Logger.warn("Cooldown time will be a number");
             }
-            List<CooldownHandler> handlers = new ArrayList<>();
+            List<InteractionHandler> handlers = new ArrayList<>();
             var handlersString = parts[2].split(",");
             Arrays.stream(handlersString).toList().forEach(handlerStr -> {
-                CooldownHandler handler;
+                InteractionHandler handler;
                 try {
-                    handler = CooldownHandler.valueOf(handlerStr);
+                    handler = InteractionHandler.valueOf(handlerStr);
                 } catch (IllegalArgumentException e) {
-                    handler = CooldownHandler.CONSUME;
-                    Logger.warn("Обработчик " + handlerStr + " не существует, используем CONSUME");
+                    handler = InteractionHandler.CONSUME;
+                    Logger.warn("Handler " + handlerStr + " is not available, using CONSUME");
                 }
                 handlers.add(handler);
             });

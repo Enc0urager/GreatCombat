@@ -15,10 +15,10 @@ public class SoundAction implements Action {
             if (args.length >= 1) {
                 sound = Sound.valueOf(args[0].toUpperCase());
             } else {
-                Logger.warn("Звук не был указан");
+                Logger.warn("Sound is null");
             }
         } catch (IllegalArgumentException e) {
-            Logger.warn("Звук " + args[0] + " не существует");
+            Logger.warn("Sound " + args[0] + " is not available");
         }
 
         try {
@@ -26,7 +26,7 @@ public class SoundAction implements Action {
             float pitch = args.length > 2 ? Float.parseFloat(args[2]) : 1;
             player.playSound(player.getLocation(), sound, volume, pitch);
         } catch (NumberFormatException e) {
-            Logger.warn("Громкость и тон звука должны быть числом");
+            Logger.warn("Volume and pitch must be a number");
         }
     }
 }

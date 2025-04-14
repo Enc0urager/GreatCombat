@@ -6,6 +6,7 @@ import dev.enco.greatcombat.listeners.PlayerListener;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.powerups.PowerupsManager;
 import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.UpdateChecker;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,14 +31,23 @@ public final class GreatCombat extends JavaPlugin {
         if (ConfigManager.isMetricsEnable()) {
             new Metrics(this, 25444);
         }
-        Logger.info("Плагин успешно загружен!");
-        Logger.info("Автор - Encourager, Версия " + this.getDescription().getVersion());
+        Logger.info("Plugin successfully loaded!");
+        Logger.info("Author - Encourager, Version " + this.getDescription().getVersion());
+        new UpdateChecker(this, version -> {
+            if (getDescription().getVersion().equals(version)) {
+                Logger.info("You're using the latest version!");
+            } else {
+                Logger.info("You are using §cold §fversion of plugin!");
+                Logger.info("You can download latest version here:");
+                Logger.info("§ehttps://github.com/Enc0urager/GreatCombat/releases/");
+            }
+        });
     }
 
     @Override
     public void onDisable() {
         combatManager.stop();
-        Logger.info("Плагин успешно выключен");
-        Logger.info("Разработчик - Encourager, Версия " + this.getDescription().getVersion());
+        Logger.info("Plugin successfully disabled");
+        Logger.info("Author - Encourager, Version " + this.getDescription().getVersion());
     }
 }

@@ -8,6 +8,5 @@ public record Bossbar(
         BarColor color,
         String title,
         boolean progress,
-        long updInterval,
         boolean enable
 ) {}

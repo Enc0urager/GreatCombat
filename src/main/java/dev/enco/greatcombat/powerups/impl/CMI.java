@@ -23,7 +23,7 @@ public class CMI implements ServerManager, Listener {
 
     @Override
     public void setup() {
-        Logger.info("Подключаемся к CMI");
+        Logger.info("Starting loading CMI");
         long start = System.currentTimeMillis();
         try {
             cmi = com.Zrips.CMI.CMI.getInstance();
@@ -38,9 +38,9 @@ public class CMI implements ServerManager, Listener {
             setupVanishDisabler();
             setupWalkspeedChecker();
             setupWalkspeedDisabler();
-            Logger.info("CMI успешно подключен за " + (System.currentTimeMillis() - start) + " ms.");
+            Logger.info("CMI successfully loaded in " + (System.currentTimeMillis() - start) + " ms.");
         } catch (Exception e) {
-            Logger.error("Ошибка при подключении к CMI " + e);
+            Logger.error("Error while loading CMI " + e);
         }
     }
 

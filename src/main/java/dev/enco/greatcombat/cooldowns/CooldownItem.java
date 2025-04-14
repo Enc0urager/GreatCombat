@@ -7,6 +7,6 @@ import java.util.List;
 public record CooldownItem(
        Material material,
        String translation,
-       List<CooldownHandler> handlers,
+       List<InteractionHandler> handlers,
        int time
 ) {}

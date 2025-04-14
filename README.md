@@ -14,6 +14,11 @@ RIGHT_CLICK_AIR - правый клик по воздуху
 RIGHT_CLICK_BLOCK - правый клик по блоку
 LEFT_CLICK_AIR - правый клик по воздуху
 LEFT_CLICK_BLOCK - правый клик по блоку
+BLOCK_BREAK - при ломании блока
+
+# Типы запрещённых предметов
+INTERACTED_ITEM - предмет в руке с которым взаимодействуют
+INTERACTED_BLOCK - блок с которым взаимодействуют
 
 # Поверапы
 Плагин поддерживает CMI Essentials и Vanilla

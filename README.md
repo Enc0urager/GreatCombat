@@ -1,4 +1,4 @@
-# GreatCombat
+# GreatCombat [![CodeFactor](https://www.codefactor.io/repository/github/enc0urager/greatcombat/badge)](https://www.codefactor.io/repository/github/enc0urager/greatcombat)
 Функциональный и гибкий менеджер пвп
 
 # Права плагина:

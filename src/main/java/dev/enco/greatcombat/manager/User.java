@@ -5,6 +5,7 @@ import dev.enco.greatcombat.api.CombatTickEvent;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Bossbar;
 import dev.enco.greatcombat.config.settings.Settings;
+import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.Time;
 import lombok.Data;
 import org.bukkit.Bukkit;

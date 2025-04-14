@@ -9,8 +9,9 @@ import dev.enco.greatcombat.config.settings.Messages;
 import dev.enco.greatcombat.config.settings.Powerups;
 import dev.enco.greatcombat.config.settings.Settings;
 import dev.enco.greatcombat.manager.CombatManager;
-import dev.enco.greatcombat.manager.ScoreboardManager;
+import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.powerups.PowerupsManager;
+import dev.enco.greatcombat.utils.Time;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -117,6 +118,9 @@ public class CombatListener implements Listener {
         var user = e.getUser();
         long remainingTime = user.getRemaining();
         if (remainingTime < settings.minTime()) combatManager.stopCombat(user);
-        else user.updateBoardAndBar(remainingTime);
+        else {
+            ActionExecutor.execute(user.toPlayer(), messages.onTick(), Time.format((int) (remainingTime / 1000L)), "");
+            user.updateBoardAndBar(remainingTime);
+        }
     }
 }

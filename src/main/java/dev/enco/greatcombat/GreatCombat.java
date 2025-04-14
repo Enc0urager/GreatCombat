@@ -31,15 +31,15 @@ public final class GreatCombat extends JavaPlugin {
         if (ConfigManager.isMetricsEnable()) {
             new Metrics(this, 25444);
         }
-        Logger.info("Plugin successfully loaded!");
-        Logger.info("Author - Encourager, Version " + this.getDescription().getVersion());
+        Logger.info("Плагин успешно загружен!");
+        Logger.info("Автор - Encourager, Версия " + this.getDescription().getVersion());
         if (ConfigManager.isCheckUpdates()) {
             new UpdateChecker(this, version -> {
                 if (getDescription().getVersion().equals(version)) {
-                    Logger.info("You're using the latest version!");
+                    Logger.info("Вы используете последнюю версию плагина!");
                 } else {
-                    Logger.info("You are using §cold §fversion of plugin!");
-                    Logger.info("You can download latest version here:");
+                    Logger.info("Вы используете §cустаревшую §fверсию плагина!");
+                    Logger.info("Вы можете скачать последнюю версию здесь:");
                     Logger.info("§ehttps://github.com/Enc0urager/GreatCombat/releases/");
                 }
             });
@@ -49,7 +49,7 @@ public final class GreatCombat extends JavaPlugin {
     @Override
     public void onDisable() {
         combatManager.stop();
-        Logger.info("Plugin successfully disabled");
-        Logger.info("Author - Encourager, Version " + this.getDescription().getVersion());
+        Logger.info("Плагин успешно включён");
+        Logger.info("Автор - Encourager, Версия " + this.getDescription().getVersion());
     }
 }

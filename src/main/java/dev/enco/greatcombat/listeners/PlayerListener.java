@@ -5,6 +5,7 @@ import dev.enco.greatcombat.api.*;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
+import dev.enco.greatcombat.config.settings.Settings;
 import dev.enco.greatcombat.cooldowns.InteractionHandler;
 import dev.enco.greatcombat.cooldowns.CooldownItem;
 import dev.enco.greatcombat.cooldowns.CooldownManager;
@@ -23,11 +24,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +38,7 @@ public class PlayerListener implements Listener {
     private final PluginManager pm = Bukkit.getPluginManager();
     private final Commands commands = ConfigManager.getCommands();
     private final Messages messages = ConfigManager.getMessages();
+    private final Settings settings = ConfigManager.getSettings();
 
     @EventHandler(
             priority = EventPriority.HIGHEST,
@@ -53,7 +55,8 @@ public class PlayerListener implements Listener {
 
     private Player getDamager(Entity damager) {
         if (damager instanceof Player pl) return pl;
-        if (damager instanceof Projectile pr && pr.getShooter() instanceof Player pl) return pl;
+        if (damager instanceof Projectile pr && pr.getShooter() instanceof Player pl)
+            if (!settings.ignoredProjectile().contains(damager.getType())) return pl;
         if (damager instanceof AreaEffectCloud cl && cl.getSource() instanceof Player pl) return pl;
         if (damager instanceof TNTPrimed tnt && tnt.getSource() instanceof Player pl) return pl;
         return null;
@@ -177,6 +180,37 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onResurrect(EntityResurrectEvent e) {
+        if (e.getEntity() instanceof Player player && !e.isCancelled()) {
+            if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
+            var uuid = player.getUniqueId();
+            if (combatManager.isInCombat(uuid)) {
+                var equipment = player.getEquipment();
+                var itemInMain = equipment.getItemInMainHand();
+                var itemInOff = equipment.getItemInOffHand();
+                handleResurrect(e, player, equipment.getItemInMainHand(), InteractionHandler.RESURRECT_MAINHAND, uuid);
+                if (!itemInOff.getType().equals(itemInMain.getType()))
+                    handleResurrect(e, player, equipment.getItemInOffHand(), InteractionHandler.RESURRECT_OFFHAND, uuid);
+            }
+        }
+    }
+
+    private void handleResurrect(EntityResurrectEvent e, Player player, ItemStack item, InteractionHandler handler, UUID uuid) {
+        if (item != null) {
+            var material = item.getType();
+            var preventableItem = PreventionManager.getPreventableItem(material);
+            if (preventableItem != null && preventableItem.handlers().contains(handler)) {
+                ActionExecutor.execute(player, messages.onInteract(), preventableItem.translation(), "");
+                e.setCancelled(true);
+            }
+            var cooldownItem = CooldownManager.getCooldownItem(material);
+            if (cooldownItem != null && cooldownItem.handlers().contains(handler)) {
+                handleCooldown(uuid, player, cooldownItem, e);
+            }
+        }
+    }
+
     private void handleBlockInteraction(PlayerInteractEvent e, Player player) {
         if (player.hasPermission("greatcombat.interaction.bypass")) return;
         var blockMaterial = e.getClickedBlock() != null ? e.getClickedBlock().getType() : null;
@@ -197,7 +231,6 @@ public class PlayerListener implements Listener {
         ItemStack is = e.getItem();
         if (is == null) return;
         var material = is.getType();
-        var item = CooldownManager.getCooldownItem(material);
         var preventable = PreventionManager.getPreventableItem(material);
         var action = e.getAction();
         if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_ITEM)) {
@@ -207,6 +240,7 @@ public class PlayerListener implements Listener {
                 return;
             }
         }
+        var item = CooldownManager.getCooldownItem(material);
         if (item != null) {
             if (shouldBlockAction(action, item.handlers())) {
                 handleCooldown(player.getUniqueId(), player, item, e);

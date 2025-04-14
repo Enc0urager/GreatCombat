@@ -24,7 +24,7 @@ public class EssentialsX implements ServerManager, Listener {
     @Override
     public void setup() {
         long start = System.currentTimeMillis();
-        Logger.info("Starting loading Essentials");
+        Logger.info("Подключаемся к Essentials");
         try {
             essentials = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
             setupFlyDisabler();
@@ -37,9 +37,9 @@ public class EssentialsX implements ServerManager, Listener {
             setupVanishDisabler();
             setupWalkspeedChecker();
             setupWalkspeedDisabler();
-            Logger.info("Essentials successfully loaded in " + (System.currentTimeMillis() - start) + " ms.");
+            Logger.info("Essentials подключён за " + (System.currentTimeMillis() - start) + " ms.");
         } catch (Exception e) {
-            Logger.error("Error while loading EssentialsX " + e);
+            Logger.error("Ошибка при подключении к EssentialsX " + e);
         }
     }
 

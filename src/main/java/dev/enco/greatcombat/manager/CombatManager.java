@@ -7,6 +7,7 @@ import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Powerups;
 import dev.enco.greatcombat.config.settings.Settings;
 import dev.enco.greatcombat.powerups.PowerupsManager;
+import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

@@ -11,5 +11,6 @@ public record Messages(
         Map<ActionType, List<String>> onItemCooldown,
         Map<ActionType, List<String>> onPvpLeave,
         Map<ActionType, List<String>> onPvpCommand,
-        Map<ActionType, List<String>> onInteract
+        Map<ActionType, List<String>> onInteract,
+        Map<ActionType, List<String>> onTick
 ) {}

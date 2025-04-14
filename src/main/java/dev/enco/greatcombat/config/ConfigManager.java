@@ -1,19 +1,23 @@
 package dev.enco.greatcombat.config;
 
 import dev.enco.greatcombat.GreatCombat;
-import dev.enco.greatcombat.actions.ActionExecutor;
 import dev.enco.greatcombat.actions.ActionRegistry;
 import dev.enco.greatcombat.config.settings.*;
 import dev.enco.greatcombat.cooldowns.CooldownManager;
 import dev.enco.greatcombat.listeners.CommandsType;
 import dev.enco.greatcombat.powerups.PowerupsManager;
 import dev.enco.greatcombat.prevent.PreventionManager;
+import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.Colorizer;
 import dev.enco.greatcombat.utils.Logger;
 import lombok.Getter;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class ConfigManager {
@@ -66,11 +70,12 @@ public class ConfigManager {
         setupPowerups(mainConfig);
         setupSettings(mainConfig);
         setupCommands(mainConfig);
+        ScoreboardManager.setProvider(mainConfig.getString("scoreboard-manager"));
         checkUpdates = mainConfig.getBoolean("update-checker");
         PreventionManager.load(mainConfig.getConfigurationSection("preventable-items"));
         usingPapi = mainConfig.getBoolean("use-papi");
         teleportEnable = mainConfig.getBoolean("allow-teleport");
-        Logger.info("Config loaded in " + (System.currentTimeMillis() - start) + " ms.");
+        Logger.info("Конфиг загружен за " + (System.currentTimeMillis() - start) + " ms.");
     }
 
     private void setupConfigFiles() {
@@ -82,15 +87,23 @@ public class ConfigManager {
     private void setupScoreboard() {
         var scoreboardConfig = FilesHandler.getConfigFile("scoreboard").get();
         this.scoreboard = new Scoreboard(
-                scoreboardConfig.getString("title"),
-                scoreboardConfig.getStringList("lines"),
-                scoreboardConfig.getString("opponent"),
-                scoreboardConfig.getString("empty"),
+                Colorizer.colorize(scoreboardConfig.getString("title")),
+                Colorizer.colorizeAll(scoreboardConfig.getStringList("lines")),
+                Colorizer.colorize(scoreboardConfig.getString("opponent")),
+                Colorizer.colorize(scoreboardConfig.getString("empty")),
                 scoreboardConfig.getBoolean("enable")
         );
     }
 
     private void setupSettings(FileConfiguration config) {
+        List<EntityType> ignored = new ArrayList<>();
+        for (var type : config.getStringList("ignored-projectile")) {
+            try {
+                ignored.add(EntityType.valueOf(type));
+            } catch (IllegalArgumentException e) {
+                Logger.warn("Снаряд " + type + " не существует");
+            }
+        }
         settings = new Settings(
                 config.getInt("pvp-time"),
                 config.getBoolean("allow-teleport"),
@@ -99,7 +112,8 @@ public class ConfigManager {
                 config.getBoolean("kill-on-kick"),
                 config.getStringList("kick-messages"),
                 config.getLong("tick-interval"),
-                config.getLong("time-to-stop")
+                config.getLong("time-to-stop"),
+                ignored
         );
     }
 
@@ -156,7 +170,8 @@ public class ConfigManager {
                 ActionRegistry.transform(section.getStringList("on-item-cooldown")),
                 ActionRegistry.transform(section.getStringList("on-pvp-leave")),
                 ActionRegistry.transform(section.getStringList("on-pvp-command")),
-                ActionRegistry.transform(section.getStringList("on-interact-prevention"))
+                ActionRegistry.transform(section.getStringList("on-interact-prevention")),
+                ActionRegistry.transform(section.getStringList("on-tick"))
         );
     }
 

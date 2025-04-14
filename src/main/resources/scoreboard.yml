@@ -1,12 +1,12 @@
 enable: true
-title: '&cCombat'
+title: '&cРежим боя'
 lines:
   - ''
-  - '&fWait &c{time}'
-  - '&fBefore leave the server'
+  - '&fПодождите &c{time}'
+  - '&fПеред тем как выйти с сервера'
   - ''
-  - '&cOpponents:'
+  - '&cПротивники:'
   - '{opponents}'
   - ''
 opponent: '%luckperms_prefix% &f{player} &c{health}❤ &9{ping}⇄'
-empty: '&7Empty'
+empty: '&7Отсутствуют'

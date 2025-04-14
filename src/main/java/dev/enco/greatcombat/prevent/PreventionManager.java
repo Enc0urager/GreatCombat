@@ -31,7 +31,7 @@ public class PreventionManager {
             }
             var parts = section.getString(item).split(";");
             if (parts.length < 3) {
-                Logger.warn("Write preventable items like this: MATERIAL: translation;Item type;handlers");
+                Logger.warn("Формат записи запрещённых предметов: MATERIAL: translation;Item type;handlers");
                 continue;
             }
             List<PreventionType> preventionTypes = new ArrayList<>();
@@ -40,7 +40,7 @@ public class PreventionManager {
                 try {
                     preventionTypes.add(PreventionType.valueOf(type));
                 } catch (IllegalArgumentException e) {
-                    Logger.warn("Prevented item type " + type + "is not available");
+                    Logger.warn("Тип запрещённого предмета " + type + " не существует");
                 }
             }
             List<InteractionHandler> preventionHandlers = new ArrayList<>();
@@ -49,7 +49,7 @@ public class PreventionManager {
                 try {
                     preventionHandlers.add(InteractionHandler.valueOf(handler));
                 } catch (IllegalArgumentException e) {
-                    Logger.warn("Handler " + handler + " is not available");
+                    Logger.warn("Обработчик " + handler + " не существует");
                 }
             }
             preventableItems.add(new PreventableItem(

@@ -6,5 +6,7 @@ public enum InteractionHandler {
     RIGHT_CLICK_BLOCK,
     LEFT_CLICK_AIR,
     LEFT_CLICK_BLOCK,
-    BLOCK_BREAK
+    BLOCK_BREAK,
+    RESURRECT_MAINHAND,
+    RESURRECT_OFFHAND
 }

@@ -1,114 +1,124 @@
-# Find bug/Any ideas for improvement? Write me in discord _encourager_
-# Plugin permissions:
-# greatcombat.teleports.bypass - teleports bypass permission
-# greatcombat.powerups.bypass - powerups disable bypass permission
-# greatcombat.commands.bypass - commands send bypass permission
-# greatcombat.cooldowns.bypass - items cooldowns bypass permission
-# greatcombat.kill.bypass - kill on quit and kick bypass permission
+# Нашли баг/Есть идея по улучшению? пишите в обсуждение ресурса или в дискорд _encourager_
+# Права:
+# greatcombat.teleports.bypass - право на обход запрета телепортации
+# greatcombat.powerups.bypass - право на обход отключения поверапов
+# greatcombat.commands.bypass - право на обход блокировки команд
+# greatcombat.cooldowns.bypass - право на обход задержек на предметы
+# greatcombat.kill.bypass - право на обход убийства при выходе и кике
 
-#Send anonymous statistic
+#Отправка анонимной статистики
 metrics: true
-#Notify updates of plugin in console
+#Уведомления о наличии обновлений
 update-checker: true
-#Will placeholders be filled in scoreboards and messages
-#In messages, placeholders are filled in for the player who receives them
+#Будут ли заполняться плейсхолдеры в сообщениях и скорборде
 use-papi: true
-# Time displaying
+# Настройки отображения времени
 time:
   seconds:
-    form1: 'second'
-    form3: 'seconds'
-    form5: 'seconds'
+    form1: 'секунду'
+    form3: 'секунды'
+    form5: 'секунд'
   minutes:
-    form1: 'minute'
-    form3: 'minutes'
-    form5: 'minutes'
+    form1: 'минуту'
+    form3: 'минуты'
+    form5: 'минут'
   hours:
-    form1: 'hour'
-    form3: 'hours'
-    form5: 'hours'
-# Plugin which will be used to disable powerups
-# Available CMI Essentials and Vanilla
-# If you need integrate to other plugins - write me
+    form1: 'час'
+    form3: 'часа'
+    form5: 'часов'
+# Какой плагин будет использоваться для отключения поверапов
+# На данный момент доступны CMI Essentials и Vanilla
+# Если вам нужна поддержка других плагинов - пишите
 server-manager: Essentials
-# Now available only TAB, in future maybe Vanilla
-# If you need other plugins - write me
-#scoreboard-manager: TAB
-# Combat duration in seconds
+# Доступны TAB и FastBoard
+# FastBoard не требует сторонних плагинов
+scoreboard-manager: FastBoard
+# Длительность режима пвп в секундах
 pvp-time: 30
-# Player tick delay (How often will scoreboard and bossbar update)
-# Small value may produse a lags if you have plugins that handle tickevent
+# Период между тиком игрока (Как часто будет обновляться скорборд боссбар и проверяться не истекло ли время)
+# При уменьшении может быть большая нагрузка, особенно если используются плагины обрабатывающие tickevent
 tick-interval: 20
-# If remaining time is smaller that this value combat is stop (in ms)
-# Change if you have a problems with negative bossbar progress
+# Если оставшееся время будет меньше чем это число бой остановится (в миллисекундах)
+# Измените если возникают проблемы с отрицательным прогрессом боссбара
 time-to-stop: 1
-# Items cooldowns in form MATERIAL: translation;time;handlers
-# Available handlers:
-# CONSUME - while you eat item
-# RIGHT_CLICK_AIR - right click air
-# RIGHT_CLICK_BLOCK - right click block
-# LEFT_CLICK_AIR - left click air
-# LEFT_CLICK_BLOCK - right click block
-# BLOCK_BREAK - while you break block
-# Write handlers like CONSUME,RIGHT_CLICK_AIR
+# От каких снарядов не будет даваться пвп
+ignored-projectile:
+  - EGG
+  - SNOWBALL
+# Задержки на предметы в формате MATERIAL: перевод;время;обработчики
+# Доступные обработчики:
+# CONSUME - когда вы съедаете выпиваете предмет
+# RIGHT_CLICK_AIR - пкм по воздуъу
+# RIGHT_CLICK_BLOCK - пкм по блоку
+# LEFT_CLICK_AIR - лкм по воздуху
+# LEFT_CLICK_BLOCK - пкм по блоку
+# BLOCK_BREAK - поломка блока
+# RESURRECT_OFFHAND - при перерождении на предмет во второй руке
+# RESURRECT_MAINHAND - при перерождении на предмет в главной руке
+# Если предмет с RESURRECT обработчиком в кд игрок не воскреснет
+# Записывайте обработчики через запятую CONSUME,RIGHT_CLICK_AIR и т.д
 items-cooldowns:
-  GOLDEN_APPLE: 'Golden Apple;10;CONSUME'
-  ENCHANTED_GOLDEN_APPLE: 'Enchanted apple;30;CONSUME'
-  ENDER_PEARL: 'Pearl;10;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK'
-#Items interact with that will be blocked in combat
-#Write in format translation;prevention item type;handlers
-#handlers is similar with cooldowns
-#prevention item types:
-#INTERACTED_ITEM - item in hand
-#INTERACTED_BLOCK - block that was interacted
+  TOTEM_OF_UNDYING: 'Тотем;60;RESURRECT_OFFHAND,RESURRECT_MAINHAND'
+  GOLDEN_APPLE: 'Золотое яблоко;10;CONSUME'
+  ENCHANTED_GOLDEN_APPLE: 'Зачарованное золотое яблоко;30;CONSUME'
+  ENDER_PEARL: 'Эндер-жемчуг;10;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK'
+#Предметы взаимодействие с которыми в пвп будет запрещено
+#Записывать в формате перевод;тип предмета;обработчики
+#обработчики такие же как и в кулдаунах
+#типы предметов
+#INTERACTED_ITEM - предмет в руке с которым взаимодействуют
+#INTERACTED_BLOCK - блок с которым взаимодействует игрок
+# Если предмет с обработчиком RESURRECT находится в указаной руке игрок не воскреснет
 preventable-items:
-  DIAMOND_ORE: Region;INTERACTED_ITEM;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
-  FIREWORK_ROCKET: Firework;INTERACTED_ITEM;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
-  ENDER_CHEST: Enderchest;INTERACTED_ITEM,INTERACTED_BLOCK;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
-# Will work only if ServerManager not Vanilla
+  DIAMOND_ORE: Алмазный регион;INTERACTED_ITEM;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
+  FIREWORK_ROCKET: Фейерверк;INTERACTED_ITEM;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
+  ENDER_CHEST: Эндерсундук;INTERACTED_ITEM,INTERACTED_BLOCK;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
+# Разрешить ли телепортации во время пвп?
+# Будет работать только если ServerManager не Vanilla
 allow-teleport: false
-# Worlds where combat couldn't start
+# Миры в которых не будет начинаться пвп режим
 ignored-worlds: []
-# Combat couldn't start if player has this powerups
-# Available powerups
-# GAMEMODE - any gamemode except survival
-# VANISH - enabled vanish
-# FLY - enabled fly
-# GOD - enabled god
-# WALKSPEED - increased walking speed
+# Бой не будет начинаться если у игрока есть поверапы из этого списка
+# Список поверапов
+# GAMEMODE - любой режим кроме выживания
+# VANISH - включенный ваниш
+# FLY - включенный флай
+# GOD - включенный год
+# WALKSPEED - увеличенная скорость ходьбы
 prevent-start-if-damager:
   - GAMEMODE
   - VANISH
-# Combat couldn't start if target player has this powerups
+# Бой не будет начинаться если у атакуемого есть эти поверапы
 prevent-start-if-target:
   - GAMEMODE
   - VANISH
   - GOD
-# Wich powerups will be disabled for damager
+# какие поверапы будут отключаться для атакующего
 disable-for-damager:
   - GOD
   - GAMEMODE
   - FLY
   - VANISH
-# Wich powerups will be disabled for target
+# Какие поверапы будут отключаться для атакуемого
 disable-for-target:
   - WALKSPEED
   - FLY
-# Should plugin kill a player if he quit server during combat
+# Убивать игроков при выходе с сервера во время пвп
 kill-on-leave: true
-# Should plugin kill a player if he was kicked during combat
+# Убивать игроков которых кикнули во время пвп
 kill-on-kick: true
-# List of reasons will be player killed
-# If its empty player always will be killed
+# Список причин по которым игрока нужно убить
+# Если список пуст будет убивать постоянно
 kick-messages: []
 commands:
-  # If the type is WHITELIST, all the commands from the list will be available to the player
-  # If the BLACKLIST type is used, all commands except those in the list will be available to the player.
+  # Если WHITELIST, будут доступны все команды из списка
+  # Если BLACKLIST будут доступны все команды кроме списка
   type: WHITELIST
-  # Should plugin change the tabcomplete to the available commands?
+  # Менять табкомплит с учётом забаненых команд
   change-tabcomplete: true
-  #If empty all commands will be available
+  #Если команды пустые будут доступны все
   commands:
     - tell
     - msg
     - check
+

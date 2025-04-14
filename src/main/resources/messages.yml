@@ -1,39 +1,35 @@
-# Available actions:
-# [MESSAGE] message - send message to player
-# [ACTIONBAR] message - send actionbar message to player
-# [SOUND] sound;volume;pitch - play sound for player
-# [TITLE] title;subtitle;fadein;stayin;fadeout - send a title message
-# [BROADCASTMESSAGE] / [BROADCASTACTIONBAR] / [BROADCASTSOUND] / [BROADCASTTITLE] send action to all players
-# [PLAYER] message - chat message by player, for command use /command
-# [CONSOLE] command - command from console sender
+# Доступные действия:
+# [MESSAGE] message - сообщение игроку
+# [ACTIONBAR] message - сообщение в экшнбар
+# [SOUND] sound;volume;pitch - звук игроку
+# [TITLE] title;subtitle;fadein;stayin;fadeout - тайтл игроку
+# [BROADCASTMESSAGE] / [BROADCASTACTIONBAR] / [BROADCASTSOUND] / [BROADCASTTITLE] отправить всем игрокам
+# [PLAYER] message - сообщение в чат от имени игрока, для команды /command
+# [CONSOLE] command - команда от имени консоли
 bossbar:
   enable: true
-  #Bossbar style
+  #Стиль боссбара
   style: SOLID
-  #Bossbar color
+  #Цвет боссбара
   color: RED
-  #Bossbar title
-  title: '&cCombat &7| &fWait: &6{time}'
-  #Will the bossbar occupancy scale decrease along with the time until the end of combat
+  #Заголовок боссбара
+  title: '&cРежим боя &7| &fДо окончания: &6{time}'
+  #Будет ли изменяться прогресс с течением времени
   progress: true
 actions:
-  #Actions performed for the attacking player at the start of combat
   on-start-damager:
-    - '[MESSAGE] You start combat with &c{0}'
-  #Actions performed for the attacked player at the beginning of combat
+    - '[MESSAGE] Вы начали пвп с &c{0}'
   on-start-target:
-    - '[MESSAGE] Player &c{0} &fstart combat with you'
-  #Actions performed at the end of combat
+    - '[MESSAGE] Игрок &c{0} &fначал с вами пвп'
   on-stop:
-    - '[MESSAGE] &aCombat ended'
-  #Actions performed at the end of combat
+    - '[MESSAGE] &aРежим боя окончен'
   on-item-cooldown:
-    - '[MESSAGE] Wait &6{0} &fbefore use &c{1}'
-  #Actions performed when the player quit / kick in combat
+    - '[MESSAGE] Подождите &6{0} &fперед использованием &c{1}'
   on-pvp-leave:
-    - '[BROADCASTMESSAGE] Player %luckperms_prefix% &f{0} quit in combat'
-  #Actions performed when the player perform command in combat
+    - '[BROADCASTMESSAGE] Игрок %luckperms_prefix% &f{0} покинул игру во время пвп'
   on-pvp-command:
-    - "[MESSAGE] &cYou can't use this command in combat"
+    - "[MESSAGE] &cВы не можете использовать эту команду во время пвп"
   on-interact-prevention:
-    - '[MESSAGE] &cYou cant use {0} in combat'
+    - '[MESSAGE] &cВы не можете использовать {0} в режиме боя'
+  on-tick:
+    - '[ACTIONBAR] &cРежим боя &7| &fДо окончания: &6{0}'

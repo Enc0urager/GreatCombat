@@ -9,7 +9,7 @@ import org.bukkit.GameMode;
 public class Vanilla implements ServerManager {
     @Override
     public void setup() {
-        Logger.info("Using Vanilla for ServerManager");
+        Logger.info("Используем Vanilla в качестве менеждера сервера");
         setupFlyDisabler();
         setupFlyChecker();
         setupGodDisabler();

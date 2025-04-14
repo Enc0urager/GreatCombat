@@ -18,15 +18,18 @@ public class Placeholders {
         s = s.replace("{player}", player.getName())
                 .replace("{health}", df.format(player.getHealth()))
                 .replace("{ping}", String.valueOf(player.getPing()));
-        if (ConfigManager.isUsingPapi() && PlaceholderAPI.containsPlaceholders(s))
-                s = Colorizer.colorize(PlaceholderAPI.setPlaceholders(player, s));
-        return s;
+        return replace(player, s);
     }
 
     public String replaceInMessage(Player player, String s, String first, String second) {
         s = s.replace("{0}", first).replace("{1}", second);
-        if (ConfigManager.isUsingPapi() && PlaceholderAPI.containsPlaceholders(s))
-            s = Colorizer.colorize(PlaceholderAPI.setPlaceholders(player, s));
+        return replace(player, s);
+    }
+
+    public String replace(Player player, String s) {
+        if (ConfigManager.isUsingPapi() && PlaceholderAPI.containsPlaceholders(s)) {
+            return Colorizer.colorize(PlaceholderAPI.setPlaceholders(player, s));
+        }
         return s;
     }
 }

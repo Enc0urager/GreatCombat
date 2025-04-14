@@ -64,8 +64,10 @@ public class CombatManager {
         boolean isDamagerInCombat = isInCombat(damagerUUID);
         boolean isTargetInCombat = isInCombat(targetUUID);
 
-        damagerUser.addOpponent(targetUser);
-        targetUser.addOpponent(damagerUser);
+        if (!damagerUser.containsOpponent(targetUser))
+            damagerUser.addOpponent(targetUser);
+        if (!targetUser.containsOpponent(damagerUser))
+            targetUser.addOpponent(damagerUser);
 
         damagerUser.setStartPvpTime(start);
         targetUser.setStartPvpTime(start);

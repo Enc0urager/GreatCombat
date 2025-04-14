@@ -5,10 +5,12 @@ import dev.enco.greatcombat.api.*;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
-import dev.enco.greatcombat.cooldowns.CooldownHandler;
+import dev.enco.greatcombat.cooldowns.InteractionHandler;
 import dev.enco.greatcombat.cooldowns.CooldownItem;
 import dev.enco.greatcombat.cooldowns.CooldownManager;
 import dev.enco.greatcombat.manager.CombatManager;
+import dev.enco.greatcombat.prevent.PreventionManager;
+import dev.enco.greatcombat.prevent.PreventionType;
 import dev.enco.greatcombat.utils.Time;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
@@ -18,12 +20,15 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
+
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -137,7 +142,7 @@ public class PlayerListener implements Listener {
             var material = e.getItem().getType();
             var item = CooldownManager.getCooldownItem(material);
             if (item != null) {
-                if (item.handlers().contains(CooldownHandler.CONSUME)) {
+                if (item.handlers().contains(InteractionHandler.CONSUME)) {
                     handleCooldown(uuid, player, item, e);
                 }
             }
@@ -147,42 +152,10 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         var player = e.getPlayer();
-        if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
-            ItemStack is = e.getItem();
-            if (is == null) return;
-            var material = is.getType();
-            var item = CooldownManager.getCooldownItem(material);
-            if (item != null) {
-                var action = e.getAction();
-                switch (action) {
-                    case RIGHT_CLICK_AIR: {
-                        if (item.handlers().contains(CooldownHandler.RIGHT_CLICK_AIR)) {
-                            handleCooldown(uuid, player, item, e);
-                        }
-                        break;
-                    }
-                    case RIGHT_CLICK_BLOCK: {
-                        if (item.handlers().contains(CooldownHandler.RIGHT_CLICK_BLOCK)) {
-                            handleCooldown(uuid, player, item, e);
-                        }
-                        break;
-                    }
-                    case LEFT_CLICK_AIR: {
-                        if (item.handlers().contains(CooldownHandler.LEFT_CLICK_AIR)) {
-                            handleCooldown(uuid, player, item, e);
-                        }
-                        break;
-                    }
-                    case LEFT_CLICK_BLOCK: {
-                        if (item.handlers().contains(CooldownHandler.LEFT_CLICK_BLOCK)) {
-                            handleCooldown(uuid, player, item, e);
-                        }
-                        break;
-                    }
-                }
-            }
+            handleInteraction(e, player);
+            handleBlockInteraction(e, player);
         }
     }
 
@@ -197,10 +170,62 @@ public class PlayerListener implements Listener {
             var material = is.getType();
             var item = CooldownManager.getCooldownItem(material);
             if (item != null) {
-                if (item.handlers().contains(CooldownHandler.BLOCK_BREAK)) {
+                if (item.handlers().contains(InteractionHandler.BLOCK_BREAK)) {
                     handleCooldown(uuid, player, item, e);
                 }
             }
+        }
+    }
+
+    private void handleBlockInteraction(PlayerInteractEvent e, Player player) {
+        if (player.hasPermission("greatcombat.interaction.bypass")) return;
+        var blockMaterial = e.getClickedBlock() != null ? e.getClickedBlock().getType() : null;
+        if (blockMaterial != null) {
+            var preventable = PreventionManager.getPreventableItem(blockMaterial);
+            if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_BLOCK)) {
+                var action = e.getAction();
+                if (shouldBlockAction(action, preventable.handlers())) {
+                    ActionExecutor.execute(player, messages.onInteract(), preventable.translation(), "");
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    private void handleInteraction(PlayerInteractEvent e, Player player) {
+        if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
+        ItemStack is = e.getItem();
+        if (is == null) return;
+        var material = is.getType();
+        var item = CooldownManager.getCooldownItem(material);
+        var preventable = PreventionManager.getPreventableItem(material);
+        var action = e.getAction();
+        if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_ITEM)) {
+            if (shouldBlockAction(action, preventable.handlers())) {
+                ActionExecutor.execute(player, messages.onInteract(), preventable.translation(), "");
+                e.setCancelled(true);
+                return;
+            }
+        }
+        if (item != null) {
+            if (shouldBlockAction(action, item.handlers())) {
+                handleCooldown(player.getUniqueId(), player, item, e);
+            }
+        }
+    }
+
+    private boolean shouldBlockAction(Action action, List<InteractionHandler> handlers) {
+        switch (action) {
+            case RIGHT_CLICK_AIR:
+                return handlers.contains(InteractionHandler.RIGHT_CLICK_AIR);
+            case RIGHT_CLICK_BLOCK:
+                return handlers.contains(InteractionHandler.RIGHT_CLICK_BLOCK);
+            case LEFT_CLICK_AIR:
+                return handlers.contains(InteractionHandler.LEFT_CLICK_AIR);
+            case LEFT_CLICK_BLOCK:
+                return handlers.contains(InteractionHandler.LEFT_CLICK_BLOCK);
+            default:
+                return false;
         }
     }
 

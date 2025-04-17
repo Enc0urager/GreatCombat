@@ -1,6 +1,7 @@
 package dev.enco.greatcombat.utils;
 
 import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import lombok.experimental.UtilityClass;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;

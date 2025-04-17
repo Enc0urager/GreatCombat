@@ -8,7 +8,7 @@ import dev.enco.greatcombat.listeners.CommandsType;
 import dev.enco.greatcombat.powerups.PowerupsManager;
 import dev.enco.greatcombat.prevent.PreventionManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
-import dev.enco.greatcombat.utils.Colorizer;
+import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.Logger;
 import lombok.Getter;
 import org.bukkit.boss.BarColor;
@@ -53,17 +53,20 @@ public class ConfigManager {
 
     public ConfigManager(GreatCombat plugin) {
         this.plugin = plugin;
+        setupConfigFiles();
         load();
     }
 
     public void load() {
         long start = System.currentTimeMillis();
-        setupConfigFiles();
+        var mainConfig = FilesHandler.getConfigFile("config").get();
+        var colorizerSection = mainConfig.getConfigurationSection("colorizer");
+        if (colorizerSection == null) mainConfig.createSection("colorizer");
+        Colorizer.setColorizer(mainConfig.getString("colorizer", "LEGACY"));
         setupScoreboard();
         var messagesConfig = FilesHandler.getConfigFile("messages").get();
         setupBossbar(messagesConfig);
         setupActions(messagesConfig);
-        var mainConfig = FilesHandler.getConfigFile("config").get();
         metricsEnable = mainConfig.getBoolean("metrics");
         CooldownManager.setupCooldownItems(mainConfig);
         setupTimeFormats(mainConfig);
@@ -101,7 +104,7 @@ public class ConfigManager {
             try {
                 ignored.add(EntityType.valueOf(type));
             } catch (IllegalArgumentException e) {
-                Logger.warn("Снаряд " + type + " не существует");
+                Logger.warn("Projectile " + type + " is not available");
             }
         }
         settings = new Settings(

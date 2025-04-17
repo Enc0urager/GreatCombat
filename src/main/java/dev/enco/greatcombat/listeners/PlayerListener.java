@@ -10,6 +10,7 @@ import dev.enco.greatcombat.cooldowns.InteractionHandler;
 import dev.enco.greatcombat.cooldowns.CooldownItem;
 import dev.enco.greatcombat.cooldowns.CooldownManager;
 import dev.enco.greatcombat.manager.CombatManager;
+import dev.enco.greatcombat.prevent.PreventableItem;
 import dev.enco.greatcombat.prevent.PreventionManager;
 import dev.enco.greatcombat.prevent.PreventionType;
 import dev.enco.greatcombat.utils.Time;
@@ -41,10 +42,10 @@ public class PlayerListener implements Listener {
     private final Settings settings = ConfigManager.getSettings();
 
     @EventHandler(
-            priority = EventPriority.HIGHEST,
-            ignoreCancelled = true
+                priority = EventPriority.MONITOR
     )
     public void onDamage(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) return;
         if (e.getEntity() instanceof Player target) {
             var damager = getDamager(e.getDamager());
             if (damager != null) {
@@ -139,15 +140,16 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onConsume(PlayerItemConsumeEvent e) {
         var player = e.getPlayer();
-        if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             var material = e.getItem().getType();
             var item = CooldownManager.getCooldownItem(material);
-            if (item != null) {
-                if (item.handlers().contains(InteractionHandler.CONSUME)) {
-                    handleCooldown(uuid, player, item, e);
-                }
+            if (item != null && item.handlers().contains(InteractionHandler.CONSUME)) {
+                handleCooldown(uuid, player, item, e);
+            }
+            var preventable = PreventionManager.getPreventableItem(material);
+            if (preventable != null && preventable.handlers().contains(InteractionHandler.CONSUME)) {
+                handlePreventable(preventable, player, e);
             }
         }
     }
@@ -165,7 +167,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         var player = e.getPlayer();
-        if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             var is = player.getItemInHand();
@@ -177,13 +178,16 @@ public class PlayerListener implements Listener {
                     handleCooldown(uuid, player, item, e);
                 }
             }
+            var preventable = PreventionManager.getPreventableItem(material);
+            if (preventable != null && preventable.handlers().contains(InteractionHandler.BLOCK_BREAK)) {
+                handlePreventable(preventable, player, e);
+            }
         }
     }
 
     @EventHandler
     public void onResurrect(EntityResurrectEvent e) {
         if (e.getEntity() instanceof Player player && !e.isCancelled()) {
-            if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
             var uuid = player.getUniqueId();
             if (combatManager.isInCombat(uuid)) {
                 var equipment = player.getEquipment();
@@ -201,8 +205,7 @@ public class PlayerListener implements Listener {
             var material = item.getType();
             var preventableItem = PreventionManager.getPreventableItem(material);
             if (preventableItem != null && preventableItem.handlers().contains(handler)) {
-                ActionExecutor.execute(player, messages.onInteract(), preventableItem.translation(), "");
-                e.setCancelled(true);
+                handlePreventable(preventableItem, player, e);
             }
             var cooldownItem = CooldownManager.getCooldownItem(material);
             if (cooldownItem != null && cooldownItem.handlers().contains(handler)) {
@@ -212,22 +215,19 @@ public class PlayerListener implements Listener {
     }
 
     private void handleBlockInteraction(PlayerInteractEvent e, Player player) {
-        if (player.hasPermission("greatcombat.interaction.bypass")) return;
         var blockMaterial = e.getClickedBlock() != null ? e.getClickedBlock().getType() : null;
         if (blockMaterial != null) {
             var preventable = PreventionManager.getPreventableItem(blockMaterial);
             if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_BLOCK)) {
                 var action = e.getAction();
                 if (shouldBlockAction(action, preventable.handlers())) {
-                    ActionExecutor.execute(player, messages.onInteract(), preventable.translation(), "");
-                    e.setCancelled(true);
+                    handlePreventable(preventable, player, e);
                 }
             }
         }
     }
 
     private void handleInteraction(PlayerInteractEvent e, Player player) {
-        if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
         ItemStack is = e.getItem();
         if (is == null) return;
         var material = is.getType();
@@ -235,9 +235,7 @@ public class PlayerListener implements Listener {
         var action = e.getAction();
         if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_ITEM)) {
             if (shouldBlockAction(action, preventable.handlers())) {
-                ActionExecutor.execute(player, messages.onInteract(), preventable.translation(), "");
-                e.setCancelled(true);
-                return;
+                handlePreventable(preventable, player, e);
             }
         }
         var item = CooldownManager.getCooldownItem(material);
@@ -263,7 +261,14 @@ public class PlayerListener implements Listener {
         }
     }
 
+    private void handlePreventable(PreventableItem preventable, Player player, Cancellable e) {
+        if (player.hasPermission("greatcombat.prevention.bypass")) return;
+        ActionExecutor.execute(player, messages.onInteract(), preventable.translation(), "");
+        e.setCancelled(true);
+    }
+
     private void handleCooldown(UUID uuid, Player player, CooldownItem item, Cancellable e) {
+        if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
         if (CooldownManager.hasCooldown(uuid, item)) {
             int time = CooldownManager.getCooldownTime(uuid, item);
             ActionExecutor.execute(player, messages.onItemCooldown(), Time.format(time), item.translation());

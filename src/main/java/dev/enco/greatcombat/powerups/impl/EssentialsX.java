@@ -37,9 +37,9 @@ public class EssentialsX implements ServerManager, Listener {
             setupVanishDisabler();
             setupWalkspeedChecker();
             setupWalkspeedDisabler();
-            Logger.info("Essentials подключён за " + (System.currentTimeMillis() - start) + " ms.");
+            Logger.info("Essentials подключен за " + (System.currentTimeMillis() - start) + " ms.");
         } catch (Exception e) {
-            Logger.error("Ошибка при подключении к EssentialsX " + e);
+            Logger.error("Unable to load EssentialsX " + e);
         }
     }
 

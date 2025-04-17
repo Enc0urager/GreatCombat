@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import dev.enco.greatcombat.utils.Logger;
-import dev.enco.greatcombat.utils.Colorizer;
+import dev.enco.greatcombat.utils.colorizer.Colorizer;
 
 @UtilityClass
 public class ActionRegistry {

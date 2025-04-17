@@ -19,12 +19,12 @@ public class ScoreboardManager {
         switch (s) {
             case "TAB": {
                 provider = new TABProvider();
-                Logger.info("Используем TAB в качестве менеджера скорборда");
+                Logger.info("Используем TAB для управления скорбордами");
                 return;
             }
             default: {
                 provider = new FastBoardProvider();
-                Logger.info("Используем FastBoard в качестве менеджера скорборда");
+                Logger.info("Используем FastBoard для управления скорбордами");
             }
         }
     }

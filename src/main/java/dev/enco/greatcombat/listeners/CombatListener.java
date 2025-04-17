@@ -10,7 +10,6 @@ import dev.enco.greatcombat.config.settings.Powerups;
 import dev.enco.greatcombat.config.settings.Settings;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
-import dev.enco.greatcombat.powerups.PowerupsManager;
 import dev.enco.greatcombat.utils.Time;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,29 +17,9 @@ import org.bukkit.event.Listener;
 
 public class CombatListener implements Listener {
     private final Messages messages = ConfigManager.getMessages();
-    private final Powerups powerups = ConfigManager.getPowerups();
     private final Settings settings = ConfigManager.getSettings();
     private final Commands commands = ConfigManager.getCommands();
     private final CombatManager combatManager = GreatCombat.getInstance().getCombatManager();
-
-    @EventHandler(
-            priority = EventPriority.MONITOR
-    )
-    public void onStartCombat(CombatStartEvent e) {
-        var damager = e.getDamager();
-        var target = e.getTarget();
-
-        var damagerPlayer = damager.toPlayer();
-        var targetPlayer = target.toPlayer();
-
-        if (!damagerPlayer.hasPermission("greatcombat.powerups.bypass"))
-            PowerupsManager.disablePowerups(damagerPlayer, powerups.disablingDamagerPowerups());
-        if (!targetPlayer.hasPermission("greatcombat.powerups.bypass"))
-            PowerupsManager.disablePowerups(targetPlayer, powerups.disablingTargetPowerups());
-
-        ActionExecutor.execute(damagerPlayer, messages.onStartDamager(), targetPlayer.getName(), "");
-        ActionExecutor.execute(targetPlayer, messages.onStartTarget(), damagerPlayer.getName(), "");
-    }
 
     @EventHandler(
             priority = EventPriority.MONITOR

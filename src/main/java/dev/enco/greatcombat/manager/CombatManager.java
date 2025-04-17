@@ -1,9 +1,10 @@
 package dev.enco.greatcombat.manager;
 
+import dev.enco.greatcombat.actions.ActionExecutor;
 import dev.enco.greatcombat.api.CombatEndEvent;
-import dev.enco.greatcombat.api.CombatJoinEvent;
 import dev.enco.greatcombat.api.CombatStartEvent;
 import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.config.settings.Messages;
 import dev.enco.greatcombat.config.settings.Powerups;
 import dev.enco.greatcombat.config.settings.Settings;
 import dev.enco.greatcombat.powerups.PowerupsManager;
@@ -12,15 +13,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.plugin.PluginManager;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
 
 public class CombatManager {
-    private final List<User> playersInCombat = new ArrayList<>();
+    private final Set<User> playersInCombat = new HashSet<>();
     private final PluginManager pm = Bukkit.getPluginManager();
     private final Powerups powerups = ConfigManager.getPowerups();
     private final Settings settings = ConfigManager.getSettings();
+    private final Messages messages = ConfigManager.getMessages();
 
     public void stop() {
         for (var user : playersInCombat) {
@@ -50,6 +51,8 @@ public class CombatManager {
     public void startCombat(Player damager, Player target, Cancellable e) {
         if (settings.ignoredWorlds().contains(damager.getWorld().getName())) return;
         if (damager.equals(target)) return;
+        if (PowerupsManager.hasPowerups(damager, powerups.preventableDamagerPowerups())
+                || PowerupsManager.hasPowerups(target, powerups.preventableTargetPowerups())) return;
 
         var damagerUUID = damager.getUniqueId();
         var targetUUID = target.getUniqueId();
@@ -57,38 +60,38 @@ public class CombatManager {
         var damagerUser  = this.getOrCreateUser(damagerUUID);
         var targetUser  = this.getOrCreateUser(targetUUID);
 
-        if (PowerupsManager.hasPowerups(damager, powerups.preventableDamagerPowerups())
-                || PowerupsManager.hasPowerups(target, powerups.preventableTargetPowerups())) return;
-
-        long start = System.currentTimeMillis();
-
-        boolean isDamagerInCombat = isInCombat(damagerUUID);
-        boolean isTargetInCombat = isInCombat(targetUUID);
-
         if (!damagerUser.containsOpponent(targetUser))
             damagerUser.addOpponent(targetUser);
         if (!targetUser.containsOpponent(damagerUser))
             targetUser.addOpponent(damagerUser);
 
-        damagerUser.setStartPvpTime(start);
-        targetUser.setStartPvpTime(start);
+        boolean isDamagerInCombat = isInCombat(damagerUUID);
+        boolean isTargetInCombat = isInCombat(targetUUID);
 
-        if (isDamagerInCombat && isTargetInCombat) {
-            damagerUser.refresh(start);
-            targetUser.refresh(start);
-            return;
+        long start = System.currentTimeMillis();
+
+        if (isDamagerInCombat) damagerUser.refresh(start);
+        else {
+            if (!damager.hasPermission("greatcombat.powerups.bypass"))
+                PowerupsManager.disablePowerups(damager, powerups.disablingDamagerPowerups());
+            ActionExecutor.execute(damager, messages.onStartDamager(), target.getName(), "");
+            damagerUser.setStartPvpTime(start);
+            damagerUser.startTimer();
+            this.playersInCombat.add(damagerUser);
         }
 
-        this.playersInCombat.add(damagerUser);
-        this.playersInCombat.add(targetUser);
-
-        damagerUser.startTimer();
-        targetUser.startTimer();
+        if (isTargetInCombat) targetUser.refresh(start);
+        else {
+            if (!target.hasPermission("greatcombat.powerups.bypass"))
+                PowerupsManager.disablePowerups(target, powerups.disablingTargetPowerups());
+            ActionExecutor.execute(target, messages.onStartDamager(), damager.getName(), "");
+            targetUser.setStartPvpTime(start);
+            targetUser.startTimer();
+            this.playersInCombat.add(targetUser);
+        }
 
         if (!isDamagerInCombat && !isTargetInCombat) {
             pm.callEvent(new CombatStartEvent(damagerUser, targetUser, e));
-        } else {
-            pm.callEvent(new CombatJoinEvent(damagerUser, targetUser, e));
         }
     }
 

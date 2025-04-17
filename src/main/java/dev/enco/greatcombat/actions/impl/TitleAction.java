@@ -10,6 +10,9 @@ public class TitleAction implements Action {
         var args = context.split(";");
         var title = args.length > 0 ? args[0] : "";
         var subTitle = args.length > 1 ? args[1] : "";
-        player.sendTitle(title, subTitle, 10, 70, 20);
+        int fadeIn = args.length > 2 ? Integer.valueOf(args[2]) : 10;
+        int stayIn = args.length > 3 ? Integer.valueOf(args[3]) : 70;
+        int fadeOut = args.length > 4 ? Integer.valueOf(args[4]) : 20;
+        player.sendTitle(title, subTitle, fadeIn, stayIn, fadeOut);
     }
 }

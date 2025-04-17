@@ -4,11 +4,11 @@ import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.powerups.impl.CMI;
 import dev.enco.greatcombat.powerups.impl.EssentialsX;
 import dev.enco.greatcombat.powerups.impl.Vanilla;
+import dev.enco.greatcombat.utils.Logger;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,23 +18,29 @@ public class PowerupsManager {
 
     public List<PowerupType> transform(List<String> pw) {
         List<PowerupType> pws = new ArrayList<>();
-        for (var str : pw) pws.add(PowerupType.valueOf(str));
+        for (var str : pw) {
+            try {
+                pws.add(PowerupType.valueOf(str));
+            } catch (IllegalArgumentException e) {
+                Logger.warn("Powerup type " + str + " is unavailable");
+            }
+        }
         return pws;
     }
 
     public void setServerManager(String manager) {
         var pm = Bukkit.getPluginManager();
-        var smanager = GreatCombat.getInstance().getCombatManager();
+        var combatManager = GreatCombat.getInstance().getCombatManager();
         switch (manager) {
             case "CMI": {
-                var cmi = new CMI(smanager);
+                var cmi = new CMI(combatManager);
                 serverManager = cmi;
                 pm.registerEvents(cmi, GreatCombat.getInstance());
                 serverManager.setup();
                 break;
             }
             case "Essentials": {
-                var ess = new EssentialsX(smanager);
+                var ess = new EssentialsX(combatManager);
                 serverManager = ess;
                 pm.registerEvents(ess, GreatCombat.getInstance());
                 serverManager.setup();

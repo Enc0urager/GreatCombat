@@ -5,7 +5,11 @@
 # greatcombat.commands.bypass - право на обход блокировки команд
 # greatcombat.cooldowns.bypass - право на обход задержек на предметы
 # greatcombat.kill.bypass - право на обход убийства при выходе и кике
+# greatcombat.prevent.bypass - право на обход запретов
 
+# LEGACY - &#RRGGBB
+# MINIMESSAGE - <color>
+colorizer: LEGACY
 #Отправка анонимной статистики
 metrics: true
 #Уведомления о наличии обновлений
@@ -121,4 +125,5 @@ commands:
     - tell
     - msg
     - check
+
 

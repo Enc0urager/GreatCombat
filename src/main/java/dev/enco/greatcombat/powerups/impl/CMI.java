@@ -38,9 +38,9 @@ public class CMI implements ServerManager, Listener {
             setupVanishDisabler();
             setupWalkspeedChecker();
             setupWalkspeedDisabler();
-            Logger.info("CMI успешно подключён за " + (System.currentTimeMillis() - start) + " ms.");
+            Logger.info("CMI подключен за " + (System.currentTimeMillis() - start) + " ms.");
         } catch (Exception e) {
-            Logger.error("Ошибка при подключении к CMI " + e);
+            Logger.error("Unable to load CMI " + e);
         }
     }
 

@@ -7,6 +7,13 @@ greatcombat.powerups.bypass - право на обход отключения п
 greatcombat.commands.bypass - право на обход запрета использования команд
 greatcombat.cooldowns.bypass - право на обход задержек на предметы
 greatcombat.kill.bypass - право на обход убийства при выходе в режиме боя
+greatcombat.prevention.bypass - право на обход запрета использования предметов
+greatcombat.admin - право на использование команд плагина
+
+# Команды плагина
+/combat give игрок1 игрок2 - начинает пвп между игроками
+/combat stop игрок - прекращает бой у игрока
+/combat stopall - прекращает все активные бои
 
 # Обработчики кулдаунов
 CONSUME - при съедании предмета

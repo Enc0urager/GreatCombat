@@ -1,0 +1,14 @@
+name: GreatCombat
+version: '${project.version}'
+main: dev.enco.greatcombat.GreatCombat
+api-version: '1.16'
+softdepend:
+  - TAB
+  - CMI
+  - Essentials
+  - PlaceholderAPI
+commands:
+  greatcombat:
+    aliases: combat
+libraries:
+  - com.github.ben-manes.caffeine:caffeine:3.1.8

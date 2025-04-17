@@ -1,0 +1,35 @@
+# Доступные действия:
+# [MESSAGE] message - сообщение игроку
+# [ACTIONBAR] message - сообщение в экшнбар
+# [SOUND] sound;volume;pitch - звук игроку
+# [TITLE] title;subtitle;fadein;stayin;fadeout - тайтл игроку
+# [BROADCASTMESSAGE] / [BROADCASTACTIONBAR] / [BROADCASTSOUND] / [BROADCASTTITLE] отправить всем игрокам
+# [PLAYER] message - сообщение в чат от имени игрока, для команды /command
+# [CONSOLE] command - команда от имени консоли
+bossbar:
+  enable: true
+  #Стиль боссбара
+  style: SOLID
+  #Цвет боссбара
+  color: RED
+  #Заголовок боссбара
+  title: '&cРежим боя &7| &fДо окончания: &6{time}'
+  #Будет ли изменяться прогресс с течением времени
+  progress: true
+actions:
+  on-start-damager:
+    - '[MESSAGE] Вы начали пвп с &c{0}'
+  on-start-target:
+    - '[MESSAGE] Игрок &c{0} &fначал с вами пвп'
+  on-stop:
+    - '[MESSAGE] &aРежим боя окончен'
+  on-item-cooldown:
+    - '[MESSAGE] Подождите &6{0} &fперед использованием &c{1}'
+  on-pvp-leave:
+    - '[BROADCASTMESSAGE] Игрок %luckperms_prefix% &f{0} покинул игру во время пвп'
+  on-pvp-command:
+    - "[MESSAGE] &cВы не можете использовать эту команду во время пвп"
+  on-interact-prevention:
+    - '[MESSAGE] &cВы не можете использовать {0} в режиме боя'
+  on-tick:
+    - '[ACTIONBAR] &cРежим боя &7| &fДо окончания: &6{0}'

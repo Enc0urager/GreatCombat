@@ -1,14 +1,16 @@
 package dev.enco.greatcombat.listeners;
 
 import dev.enco.greatcombat.actions.ActionExecutor;
-import dev.enco.greatcombat.api.*;
+import dev.enco.greatcombat.api.CommandPreprocessInCombatEvent;
+import dev.enco.greatcombat.api.PlayerKickInCombatEvent;
+import dev.enco.greatcombat.api.PlayerLeaveInCombatEvent;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
 import dev.enco.greatcombat.config.settings.Settings;
-import dev.enco.greatcombat.cooldowns.InteractionHandler;
 import dev.enco.greatcombat.cooldowns.CooldownItem;
 import dev.enco.greatcombat.cooldowns.CooldownManager;
+import dev.enco.greatcombat.cooldowns.InteractionHandler;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.prevent.PreventableItem;
 import dev.enco.greatcombat.prevent.PreventionManager;
@@ -30,6 +32,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -66,7 +69,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         var player = e.getPlayer();
-        if (player.hasPermission("greatcombat.kill.bypass")) return;
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             pm.callEvent(new PlayerLeaveInCombatEvent(combatManager.getUser(uuid)));
@@ -76,7 +78,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onKick(PlayerKickEvent e) {
         var player = e.getPlayer();
-        if (player.hasPermission("greatcombat.kill.bypass")) return;
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             pm.callEvent(new PlayerKickInCombatEvent(combatManager.getUser(uuid), ChatColor.stripColor(e.getReason())));

@@ -1,7 +1,6 @@
 package dev.enco.greatcombat.actions.impl;
 
 import dev.enco.greatcombat.actions.Action;
-import dev.enco.greatcombat.actions.ActionType;
 import dev.enco.greatcombat.utils.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;

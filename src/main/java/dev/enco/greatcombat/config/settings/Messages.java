@@ -1,6 +1,7 @@
 package dev.enco.greatcombat.config.settings;
 
 import dev.enco.greatcombat.actions.ActionType;
+
 import java.util.List;
 import java.util.Map;
 

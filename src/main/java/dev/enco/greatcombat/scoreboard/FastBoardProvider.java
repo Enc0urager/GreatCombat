@@ -2,6 +2,7 @@ package dev.enco.greatcombat.scoreboard;
 
 import dev.enco.greatcombat.manager.User;
 import fr.mrmicky.fastboard.FastBoard;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

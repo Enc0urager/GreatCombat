@@ -1,6 +1,7 @@
 package dev.enco.greatcombat.config;
 
 import lombok.experimental.UtilityClass;
+
 import java.util.ArrayList;
 import java.util.List;
 

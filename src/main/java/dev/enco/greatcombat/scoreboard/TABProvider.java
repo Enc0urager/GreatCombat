@@ -3,6 +3,7 @@ package dev.enco.greatcombat.scoreboard;
 import dev.enco.greatcombat.manager.User;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.scoreboard.Scoreboard;
+
 import java.util.List;
 
 public class TABProvider implements ScoreboardProvider {

@@ -1,14 +1,15 @@
 package dev.enco.greatcombat.cooldowns;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @UtilityClass
 public class CooldownManager {

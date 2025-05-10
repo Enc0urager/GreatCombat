@@ -1,10 +1,10 @@
 package dev.enco.greatcombat.scoreboard;
 
 import dev.enco.greatcombat.config.ConfigManager;
-import dev.enco.greatcombat.utils.Logger;
-import dev.enco.greatcombat.utils.Placeholders;
 import dev.enco.greatcombat.config.settings.Scoreboard;
 import dev.enco.greatcombat.manager.User;
+import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.Placeholders;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;

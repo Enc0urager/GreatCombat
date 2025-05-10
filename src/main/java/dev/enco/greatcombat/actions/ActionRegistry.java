@@ -1,13 +1,14 @@
 package dev.enco.greatcombat.actions;
 
+import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import lombok.experimental.UtilityClass;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import dev.enco.greatcombat.utils.Logger;
-import dev.enco.greatcombat.utils.colorizer.Colorizer;
 
 @UtilityClass
 public class ActionRegistry {

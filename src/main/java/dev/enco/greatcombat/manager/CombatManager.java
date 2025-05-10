@@ -14,7 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class CombatManager {
     private final Set<User> playersInCombat = new HashSet<>();

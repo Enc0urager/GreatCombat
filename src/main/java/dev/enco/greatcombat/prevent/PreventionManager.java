@@ -5,6 +5,7 @@ import dev.enco.greatcombat.utils.Logger;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

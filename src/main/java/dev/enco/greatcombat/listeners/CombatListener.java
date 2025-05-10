@@ -6,7 +6,6 @@ import dev.enco.greatcombat.api.*;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
-import dev.enco.greatcombat.config.settings.Powerups;
 import dev.enco.greatcombat.config.settings.Settings;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
@@ -41,8 +40,8 @@ public class CombatListener implements Listener {
     public void onCombatQuit(PlayerLeaveInCombatEvent e) {
         var user = e.getUser();
         combatManager.stopCombat(user);
-        if (settings.killOnLeave()) {
-            var player = user.toPlayer();
+        var player = user.toPlayer();
+        if (settings.killOnLeave() && !player.hasPermission("greatcombat.kill.bypass")) {
             player.setHealth(0);
             ActionExecutor.execute(player, messages.onPvpLeave(), player.getName(), "");
         }
@@ -54,9 +53,9 @@ public class CombatListener implements Listener {
     public void onCombatKick(PlayerKickInCombatEvent e) {
         var user = e.getUser();
         combatManager.stopCombat(user);
-        if (settings.killOnKick()) {
+        var player = user.toPlayer();
+        if (settings.killOnKick() && !player.hasPermission("greatcombat.kill.bypass")) {
             var kickmessages = settings.kickMessages();
-            var player = user.toPlayer();
             if (kickmessages.isEmpty() || kickmessages.contains(e.getReason())) {
                 player.setHealth(0);
                 ActionExecutor.execute(player, messages.onPvpLeave(), player.getName(), "");

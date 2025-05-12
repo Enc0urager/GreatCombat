@@ -1,7 +1,5 @@
 package dev.enco.greatcombat.utils.colorizer;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,9 +9,6 @@ public class LegacyColorizer implements ColorizerType {
 
     @Override
     public String colorize(String message) {
-        if (message == null || message.isEmpty()) {
-            return message;
-        }
         final Matcher matcher = HEX_PATTERN.matcher(message);
         final StringBuilder builder = new StringBuilder(message.length() + 32);
         while (matcher.find()) {
@@ -29,13 +24,6 @@ public class LegacyColorizer implements ColorizerType {
         }
         message = matcher.appendTail(builder).toString();
         return translateAlternateColorCodes('&', message);
-    }
-
-    @Override
-    public List<String> colorizeAll(List<String> list) {
-        List<String> colored = new ArrayList<>();
-        for (var str : list) colored.add(colorize(str));
-        return colored;
     }
 
     public String translateAlternateColorCodes(char altColorChar, String textToTranslate) {

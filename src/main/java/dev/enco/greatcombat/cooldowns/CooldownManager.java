@@ -9,7 +9,6 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,5 +67,9 @@ public class CooldownManager {
     public void putCooldown(UUID playerUUID, Player player, CooldownItem item) {
         itemsCooldowns.get(item).put(playerUUID, System.currentTimeMillis());
         if (item.setMaterialCooldown()) player.setCooldown(item.itemStack().getType(), item.time() * 20);
+    }
+
+    public void clearPlayerCooldowns(Player player) {
+        for (var item : itemsCooldowns.keySet()) player.setCooldown(item.itemStack().getType(), 0);
     }
 }

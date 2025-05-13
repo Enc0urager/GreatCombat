@@ -2,22 +2,27 @@ package dev.enco.greatcombat.cooldowns;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import dev.enco.greatcombat.utils.ItemSerializer;
 import dev.enco.greatcombat.utils.Logger;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @UtilityClass
 public class CooldownManager {
     private final Map<CooldownItem, Cache<UUID, Long>> itemsCooldowns = new HashMap<>();
 
-    public CooldownItem getCooldownItem(Material material) {
+    public CooldownItem getCooldownItem(ItemStack i) {
         return itemsCooldowns.keySet().stream()
-                .filter(item -> item.material().equals(material))
+                .filter(item -> item.itemStack().isSimilar(i))
                 .findFirst()
                 .orElse(null);
     }
@@ -25,40 +30,23 @@ public class CooldownManager {
     public void setupCooldownItems(FileConfiguration config) {
         var section = config.getConfigurationSection("items-cooldowns");
         for (var key : section.getKeys(false)) {
-            Material material = null;
-            try {
-                material = Material.valueOf(key.toUpperCase());
+            var itemSection = section.getConfigurationSection(key);
+            var handlers = new ArrayList<InteractionHandler>();
+
+            for (var handler : itemSection.getStringList("handlers")) try {
+                handlers.add(InteractionHandler.valueOf(handler));
             } catch (IllegalArgumentException e) {
-                Logger.warn("Material " + key + " is not available, path " + section.getCurrentPath());
+                Logger.warn("Обработчик " + handler + " не существует");
             }
-            var parts = section.getString(key).split(";");
-            if (parts.length < 3) {
-                Logger.warn("Write items like MATERIAL: TRANSLATION;TIME;HANDLERS");
-                continue;
-            }
-            int time = 0;
-            try {
-                time = Integer.valueOf(parts[1]);
-            } catch (NumberFormatException e) {
-                Logger.warn("Cooldown time will be a number");
-            }
-            List<InteractionHandler> handlers = new ArrayList<>();
-            var handlersString = parts[2].split(",");
-            Arrays.stream(handlersString).toList().forEach(handlerStr -> {
-                InteractionHandler handler;
-                try {
-                    handler = InteractionHandler.valueOf(handlerStr);
-                } catch (IllegalArgumentException e) {
-                    handler = InteractionHandler.CONSUME;
-                    Logger.warn("Handler " + handlerStr + " is not available, using CONSUME");
-                }
-                handlers.add(handler);
-            });
+
+            int time = itemSection.getInt("time");
+
             var item = new CooldownItem(
-                    material,
-                    Colorizer.colorize(parts[0]),
+                    ItemSerializer.decode(itemSection.getString("base64")),
+                    Colorizer.colorize(itemSection.getString("translation")),
                     handlers,
-                    time
+                    time,
+                    itemSection.getBoolean("set-material-cooldown")
             );
             itemsCooldowns.put(item, Caffeine.newBuilder()
                     .expireAfterWrite(time, TimeUnit.SECONDS)
@@ -77,7 +65,8 @@ public class CooldownManager {
         return (int) (remainingTime / 1000L);
     }
 
-    public void putCooldown(UUID playerUUID, CooldownItem item) {
+    public void putCooldown(UUID playerUUID, Player player, CooldownItem item) {
         itemsCooldowns.get(item).put(playerUUID, System.currentTimeMillis());
+        if (item.setMaterialCooldown()) player.setCooldown(item.itemStack().getType(), item.time() * 20);
     }
 }

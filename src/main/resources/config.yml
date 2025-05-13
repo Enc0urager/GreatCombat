@@ -49,7 +49,6 @@ time-to-stop: 1
 ignored-projectile:
   - EGG
   - SNOWBALL
-# Items cooldowns in form MATERIAL: translation;time;handlers
 # Available handlers:
 # CONSUME - while you eat item
 # RIGHT_CLICK_AIR - right click air
@@ -59,22 +58,40 @@ ignored-projectile:
 # BLOCK_BREAK - while you break block
 # RESURRECT_MAINHAND - while player resurrect with item in main hand
 # RESURRECT_OFFHAND - while player resurrect with item in off hand
-# Write handlers like CONSUME,RIGHT_CLICK_AIR
 items-cooldowns:
-  GOLDEN_APPLE: 'Golden Apple;10;CONSUME'
-  ENCHANTED_GOLDEN_APPLE: 'Enchanted apple;30;CONSUME'
-  ENDER_PEARL: 'Pearl;10;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK'
+  #Название может быть любым
+  CHORUS_FRUIT:
+    translation: 'Хорус'
+    handlers:
+      - CONSUME
+    #Чтобы получить предмет в виде base64 возьмите его в руку и пропишите /combat copy
+    base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs7ILyotjk8rKs0sYWRgdc4vzQPSAGpDd/c8AAAA'
+    time: 20
+    #Для ванильных предметов рекомендую ставить true т.к проверка обходится банальным переименованием предмета
+    set-material-cooldown: true
+  GOLDEN_APPLE:
+    translation: 'Золотое яблоко'
+    handlers:
+      - CONSUME
+    base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs/PSUnNi08sKMhJZWRgdc4vzSthZAAAKVnRWDwAAAA='
+    time: 30
+    set-material-cooldown: true
 #Items interact with that will be blocked in combat
-#Write in format translation;prevention item type;handlers
 #handlers is similar with cooldowns
 #prevention item types:
 #INTERACTED_ITEM - item in hand
 #INTERACTED_BLOCK - block that was interacted
 # If RESURRECT player will die
 preventable-items:
-  DIAMOND_ORE: Region;INTERACTED_ITEM;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
-  FIREWORK_ROCKET: Firework;INTERACTED_ITEM;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
-  ENDER_CHEST: Enderchest;INTERACTED_ITEM,INTERACTED_BLOCK;RIGHT_CLICK_AIR,RIGHT_CLICK_BLOCK
+  DIAMOND_ORE:
+    translation: 'регион'
+    handlers:
+      - RIGHT_CLICK_BLOCK
+      - RIGHT_CLICK_AIR
+    types:
+      - INTERACTED_ITEM
+    #Чтобы получить предмет в виде base64 возьмите его в руку и пропишите /combat copy
+    base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDNzcxLTS5KTCuxSslMzM3PS4nPL0plZGB1zi/NK2FkAADqMtJCOwAAAA=='
 # Will work only if ServerManager not Vanilla
 allow-teleport: false
 # Worlds where combat couldn't start

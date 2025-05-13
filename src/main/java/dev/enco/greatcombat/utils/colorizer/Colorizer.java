@@ -1,6 +1,7 @@
 package dev.enco.greatcombat.utils.colorizer;
 
 import lombok.experimental.UtilityClass;
+
 import java.util.ArrayList;
 import java.util.List;
 

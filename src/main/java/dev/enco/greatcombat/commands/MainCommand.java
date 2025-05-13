@@ -30,5 +30,6 @@ public class MainCommand implements CommandExecutor {
         sender.sendMessage("/combat stop (Игрок) - Остановить бой игроку");
         sender.sendMessage("/combat stopall - Остановить все активные бои");
         sender.sendMessage("/combat give (Игрок1) (Игрок2) - Начать поединок между игроками");
+        sender.sendMessage("/combat copy - Получить base64 предмета в руке");
     }
 }

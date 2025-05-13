@@ -143,12 +143,12 @@ public class PlayerListener implements Listener {
         var player = e.getPlayer();
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
-            var material = e.getItem().getType();
-            var item = CooldownManager.getCooldownItem(material);
+            var is = e.getItem();
+            var item = CooldownManager.getCooldownItem(e.getItem());
             if (item != null && item.handlers().contains(InteractionHandler.CONSUME)) {
                 handleCooldown(uuid, player, item, e);
             }
-            var preventable = PreventionManager.getPreventableItem(material);
+            var preventable = PreventionManager.getPreventableItem(is);
             if (preventable != null && preventable.handlers().contains(InteractionHandler.CONSUME)) {
                 handlePreventable(preventable, player, e);
             }
@@ -172,14 +172,13 @@ public class PlayerListener implements Listener {
         if (combatManager.isInCombat(uuid)) {
             var is = player.getItemInHand();
             if (is == null) return;
-            var material = is.getType();
-            var item = CooldownManager.getCooldownItem(material);
+            var item = CooldownManager.getCooldownItem(is);
             if (item != null) {
                 if (item.handlers().contains(InteractionHandler.BLOCK_BREAK)) {
                     handleCooldown(uuid, player, item, e);
                 }
             }
-            var preventable = PreventionManager.getPreventableItem(material);
+            var preventable = PreventionManager.getPreventableItem(is);
             if (preventable != null && preventable.handlers().contains(InteractionHandler.BLOCK_BREAK)) {
                 handlePreventable(preventable, player, e);
             }
@@ -203,12 +202,11 @@ public class PlayerListener implements Listener {
 
     private void handleResurrect(EntityResurrectEvent e, Player player, ItemStack item, InteractionHandler handler, UUID uuid) {
         if (item != null) {
-            var material = item.getType();
-            var preventableItem = PreventionManager.getPreventableItem(material);
+            var preventableItem = PreventionManager.getPreventableItem(item);
             if (preventableItem != null && preventableItem.handlers().contains(handler)) {
                 handlePreventable(preventableItem, player, e);
             }
-            var cooldownItem = CooldownManager.getCooldownItem(material);
+            var cooldownItem = CooldownManager.getCooldownItem(item);
             if (cooldownItem != null && cooldownItem.handlers().contains(handler)) {
                 handleCooldown(uuid, player, cooldownItem, e);
             }
@@ -218,7 +216,7 @@ public class PlayerListener implements Listener {
     private void handleBlockInteraction(PlayerInteractEvent e, Player player) {
         var blockMaterial = e.getClickedBlock() != null ? e.getClickedBlock().getType() : null;
         if (blockMaterial != null) {
-            var preventable = PreventionManager.getPreventableItem(blockMaterial);
+            var preventable = PreventionManager.getPreventableItem(new ItemStack(blockMaterial));
             if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_BLOCK)) {
                 var action = e.getAction();
                 if (shouldBlockAction(action, preventable.handlers())) {
@@ -231,15 +229,14 @@ public class PlayerListener implements Listener {
     private void handleInteraction(PlayerInteractEvent e, Player player) {
         ItemStack is = e.getItem();
         if (is == null) return;
-        var material = is.getType();
-        var preventable = PreventionManager.getPreventableItem(material);
+        var preventable = PreventionManager.getPreventableItem(is);
         var action = e.getAction();
         if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_ITEM)) {
             if (shouldBlockAction(action, preventable.handlers())) {
                 handlePreventable(preventable, player, e);
             }
         }
-        var item = CooldownManager.getCooldownItem(material);
+        var item = CooldownManager.getCooldownItem(is);
         if (item != null) {
             if (shouldBlockAction(action, item.handlers())) {
                 handleCooldown(player.getUniqueId(), player, item, e);
@@ -274,6 +271,6 @@ public class PlayerListener implements Listener {
             int time = CooldownManager.getCooldownTime(uuid, item);
             ActionExecutor.execute(player, messages.onItemCooldown(), Time.format(time), item.translation());
             e.setCancelled(true);
-        } else CooldownManager.putCooldown(uuid, item);
+        } else CooldownManager.putCooldown(uuid, player, item);
     }
 }

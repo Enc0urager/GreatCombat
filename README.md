@@ -1,6 +1,9 @@
 # GreatCombat [![CodeFactor](https://www.codefactor.io/repository/github/enc0urager/greatcombat/badge)](https://www.codefactor.io/repository/github/enc0urager/greatcombat)
 
-Функциональный и гибкий менеджер пвп
+Функциональный менеджер режима боя. Задержки, скорборд, запреты и многое другое.
+
+![image](https://github.com/user-attachments/assets/65076725-cfe8-4de9-8014-a9fd4c6a9582)
+![image](https://github.com/user-attachments/assets/b3e2c468-5bff-4829-bf40-2eb2bd028023)
 
 ## Права плагина:
 greatcombat.teleports.bypass - право на обход запрета телепортации greatcombat.powerups.bypass - право на обход отключения поверапов greatcombat.commands.bypass - право на обход запрета использования команд greatcombat.cooldowns.bypass - право на обход задержек на предметы greatcombat.kill.bypass - право на обход убийства при выходе в режиме боя greatcombat.prevention.bypass - право на обход запрета использования предметов greatcombat.admin - право на использование команд плагина

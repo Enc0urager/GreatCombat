@@ -7,7 +7,7 @@ import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
 import dev.enco.greatcombat.config.settings.Settings;
-import dev.enco.greatcombat.cooldowns.CooldownManager;
+import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.Time;

@@ -6,6 +6,7 @@ import dev.enco.greatcombat.listeners.CombatListener;
 import dev.enco.greatcombat.listeners.PlayerListener;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.powerups.PowerupsManager;
+import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.utils.Logger;
 import dev.enco.greatcombat.utils.UpdateChecker;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public final class GreatCombat extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        MetaManager.setup();
         configManager = new ConfigManager(this);
         combatManager = new CombatManager();
         PowerupsManager.setServerManager(ConfigManager.getServerManager());

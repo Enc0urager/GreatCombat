@@ -1,5 +1,6 @@
 package dev.enco.greatcombat.powerups;
 
+import com.google.common.collect.ImmutableSet;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.powerups.impl.CMI;
 import dev.enco.greatcombat.powerups.impl.EssentialsX;
@@ -58,7 +59,7 @@ public class PowerupsManager {
         }
     }
 
-    public boolean hasPowerups(Player player, List<PowerupType> checks) {
+    public boolean hasPowerups(Player player, ImmutableSet<PowerupType> checks) {
         for (PowerupType check : checks) {
             if (check.getPowerupChecker().hasPowerup(player)) {
                 return true;
@@ -67,7 +68,7 @@ public class PowerupsManager {
         return false;
     }
 
-    public void disablePowerups(Player player, List<PowerupType> checks) {
+    public void disablePowerups(Player player, ImmutableSet<PowerupType> checks) {
         for (PowerupType check : checks) {
             check.getPowerupDisabler().disablePowerup(player);
         }

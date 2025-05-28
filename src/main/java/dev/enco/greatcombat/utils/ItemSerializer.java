@@ -2,7 +2,6 @@ package dev.enco.greatcombat.utils;
 
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.Base64;
 
 @UtilityClass

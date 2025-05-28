@@ -6,7 +6,7 @@
 
   <groupId>dev.enco</groupId>
   <artifactId>GreatCombat</artifactId>
-  <version>1.5.1</version>
+  <version>1.6</version>
   <packaging>jar</packaging>
 
   <name>GreatCombat</name>
@@ -71,12 +71,6 @@
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**/*.java</include>
-        </includes>
       </resource>
     </resources>
   </build>

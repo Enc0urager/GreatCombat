@@ -8,17 +8,18 @@ import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
 import dev.enco.greatcombat.config.settings.Settings;
-import dev.enco.greatcombat.cooldowns.CooldownItem;
-import dev.enco.greatcombat.cooldowns.CooldownManager;
-import dev.enco.greatcombat.cooldowns.InteractionHandler;
+import dev.enco.greatcombat.restrictions.cooldowns.CooldownItem;
+import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
+import dev.enco.greatcombat.restrictions.InteractionHandler;
 import dev.enco.greatcombat.manager.CombatManager;
-import dev.enco.greatcombat.prevent.PreventableItem;
-import dev.enco.greatcombat.prevent.PreventionManager;
-import dev.enco.greatcombat.prevent.PreventionType;
+import dev.enco.greatcombat.restrictions.prevention.PreventableItem;
+import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
+import dev.enco.greatcombat.restrictions.prevention.PreventionType;
 import dev.enco.greatcombat.utils.Time;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -33,6 +34,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,9 +107,9 @@ public class PlayerListener implements Listener {
     public void onSend(PlayerCommandSendEvent e) {
         var player = e.getPlayer();
         if (player.hasPermission("greatcombat.commands.bypass")) return;
-        if (commands.changeComplete()) {
-            var uuid = player.getUniqueId();
-            if (combatManager.isInCombat(uuid)) {
+        var uuid = player.getUniqueId();
+        if (combatManager.isInCombat(uuid)) {
+            if (commands.changeComplete()) {
                 var cmds = commands.commands();
                 if (!cmds.isEmpty()) {
                     switch (commands.changeType()) {
@@ -171,7 +173,7 @@ public class PlayerListener implements Listener {
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             var is = player.getItemInHand();
-            if (is == null) return;
+            if (is == null || is.getType().equals(Material.AIR)) return;
             var item = CooldownManager.getCooldownItem(is);
             if (item != null) {
                 if (item.handlers().contains(InteractionHandler.BLOCK_BREAK)) {
@@ -244,7 +246,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    private boolean shouldBlockAction(Action action, List<InteractionHandler> handlers) {
+    private boolean shouldBlockAction(Action action, EnumSet<InteractionHandler> handlers) {
         switch (action) {
             case RIGHT_CLICK_AIR:
                 return handlers.contains(InteractionHandler.RIGHT_CLICK_AIR);

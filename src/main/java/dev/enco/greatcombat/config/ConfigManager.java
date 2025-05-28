@@ -1,12 +1,13 @@
 package dev.enco.greatcombat.config;
 
+import com.google.common.collect.ImmutableSet;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.actions.ActionRegistry;
 import dev.enco.greatcombat.config.settings.*;
-import dev.enco.greatcombat.cooldowns.CooldownManager;
+import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.listeners.CommandsType;
 import dev.enco.greatcombat.powerups.PowerupsManager;
-import dev.enco.greatcombat.prevent.PreventionManager;
+import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.Logger;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
@@ -15,7 +16,6 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,23 +110,23 @@ public class ConfigManager {
         settings = new Settings(
                 config.getInt("pvp-time"),
                 config.getBoolean("allow-teleport"),
-                config.getStringList("ignored-worlds"),
+                ImmutableSet.copyOf(config.getStringList("ignored-worlds")),
                 config.getBoolean("kill-on-leave"),
                 config.getBoolean("kill-on-kick"),
-                config.getStringList("kick-messages"),
+                ImmutableSet.copyOf(config.getStringList("kick-messages")),
                 config.getLong("tick-interval"),
                 config.getLong("time-to-stop"),
-                ignored
+                ImmutableSet.copyOf(ignored)
         );
     }
 
     private void setupPowerups(FileConfiguration config) {
         serverManager = config.getString("server-manager");
         powerups = new Powerups(
-                PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("prevent-start-if-damager"))),
-                PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("prevent-start-if-target"))),
-                PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("disable-for-damager"))),
-                PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("disable-for-target")))
+                ImmutableSet.copyOf(PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("prevent-start-if-damager")))),
+                ImmutableSet.copyOf(PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("prevent-start-if-target")))),
+                ImmutableSet.copyOf(PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("disable-for-damager")))),
+                ImmutableSet.copyOf(PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("disable-for-target"))))
         );
     }
 
@@ -135,7 +135,7 @@ public class ConfigManager {
         commands = new Commands(
                 CommandsType.valueOf(section.getString("type")),
                 section.getBoolean("change-tabcomplete"),
-                section.getStringList("commands")
+                ImmutableSet.copyOf(section.getStringList("commands"))
         );
     }
 

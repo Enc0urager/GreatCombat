@@ -1,17 +1,16 @@
 package dev.enco.greatcombat.config.settings;
 
+import com.google.common.collect.ImmutableSet;
 import org.bukkit.entity.EntityType;
-
-import java.util.List;
 
 public record Settings(
         int combatTime,
         boolean allowTeleport,
-        List<String> ignoredWorlds,
+        ImmutableSet<String> ignoredWorlds,
         boolean killOnLeave,
         boolean killOnKick,
-        List<String> kickMessages,
+        ImmutableSet<String> kickMessages,
         long tickInterval,
         long minTime,
-        List<EntityType> ignoredProjectile
+        ImmutableSet<EntityType> ignoredProjectile
 ) {}

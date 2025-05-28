@@ -64,6 +64,10 @@ items-cooldowns:
     translation: 'Хорус'
     handlers:
       - CONSUME
+    checked-meta:
+      - MATERIAL
+      - DISPLAY_NAME
+      - LORE
     #Чтобы получить предмет в виде base64 возьмите его в руку и пропишите /combat copy
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs7ILyotjk8rKs0sYWRgdc4vzQPSAGpDd/c8AAAA'
     time: 20
@@ -73,6 +77,10 @@ items-cooldowns:
     translation: 'Золотое яблоко'
     handlers:
       - CONSUME
+    checked-meta:
+      - MATERIAL
+      - DISPLAY_NAME
+      - LORE
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs/PSUnNi08sKMhJZWRgdc4vzSthZAAAKVnRWDwAAAA='
     time: 30
     set-material-cooldown: true
@@ -88,10 +96,15 @@ preventable-items:
     handlers:
       - RIGHT_CLICK_BLOCK
       - RIGHT_CLICK_AIR
+    checked-meta:
+      - MATERIAL
+      - DISPLAY_NAME
+      - LORE
     types:
       - INTERACTED_ITEM
     #Чтобы получить предмет в виде base64 возьмите его в руку и пропишите /combat copy
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDNzcxLTS5KTCuxSslMzM3PS4nPL0plZGB1zi/NK2FkAADqMtJCOwAAAA=='
+    set-material-cooldown: true
 # Will work only if ServerManager not Vanilla
 allow-teleport: false
 # Worlds where combat couldn't start

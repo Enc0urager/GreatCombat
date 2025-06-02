@@ -1,7 +1,6 @@
 package dev.enco.greatcombat.listeners;
 
 import dev.enco.greatcombat.actions.ActionExecutor;
-import dev.enco.greatcombat.api.CommandPreprocessInCombatEvent;
 import dev.enco.greatcombat.api.PlayerKickInCombatEvent;
 import dev.enco.greatcombat.api.PlayerLeaveInCombatEvent;
 import dev.enco.greatcombat.config.ConfigManager;
@@ -19,7 +18,6 @@ import dev.enco.greatcombat.utils.Time;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -27,15 +25,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityResurrectEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
-
 import java.util.EnumSet;
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -93,10 +87,26 @@ public class PlayerListener implements Listener {
         var player = e.getPlayer();
         if (player.hasPermission("greatcombat.commands.bypass")) return;
         var uuid = player.getUniqueId();
-        if (combatManager.isInCombat(uuid)) {
+        if (combatManager.isInCombat(uuid) && !commands.commands().isEmpty()) {
             var command = e.getMessage().split(" ")[0].replaceFirst("/", "");
-            if (!commands.commands().isEmpty()) {
-                pm.callEvent(new CommandPreprocessInCombatEvent(combatManager.getUser(uuid), command, e));
+            boolean cancel = true;
+            switch (commands.changeType()) {
+                case BLACKLIST: {
+                    if (commands.commands().contains(command)) {
+                        cancel = true;
+                    }
+                    break;
+                }
+                case WHITELIST: {
+                    if (!commands.commands().contains(command)) {
+                        cancel = true;
+                    }
+                    break;
+                }
+            }
+            if (cancel) {
+                ActionExecutor.execute(player, messages.onPvpCommand(), "", "");
+                e.setCancelled(true);
             }
         }
     }
@@ -146,14 +156,7 @@ public class PlayerListener implements Listener {
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             var is = e.getItem();
-            var item = CooldownManager.getCooldownItem(e.getItem());
-            if (item != null && item.handlers().contains(InteractionHandler.CONSUME)) {
-                handleCooldown(uuid, player, item, e);
-            }
-            var preventable = PreventionManager.getPreventableItem(is);
-            if (preventable != null && preventable.handlers().contains(InteractionHandler.CONSUME)) {
-                handlePreventable(preventable, player, e);
-            }
+            check(is, uuid, player, e, InteractionHandler.CONSUME);
         }
     }
 
@@ -173,17 +176,7 @@ public class PlayerListener implements Listener {
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             var is = player.getItemInHand();
-            if (is == null || is.getType().equals(Material.AIR)) return;
-            var item = CooldownManager.getCooldownItem(is);
-            if (item != null) {
-                if (item.handlers().contains(InteractionHandler.BLOCK_BREAK)) {
-                    handleCooldown(uuid, player, item, e);
-                }
-            }
-            var preventable = PreventionManager.getPreventableItem(is);
-            if (preventable != null && preventable.handlers().contains(InteractionHandler.BLOCK_BREAK)) {
-                handlePreventable(preventable, player, e);
-            }
+            check(is, uuid, player, e, InteractionHandler.BLOCK_BREAK);
         }
     }
 
@@ -195,22 +188,20 @@ public class PlayerListener implements Listener {
                 var equipment = player.getEquipment();
                 var itemInMain = equipment.getItemInMainHand();
                 var itemInOff = equipment.getItemInOffHand();
-                handleResurrect(e, player, equipment.getItemInMainHand(), InteractionHandler.RESURRECT_MAINHAND, uuid);
+                check(itemInMain, uuid, player, e, InteractionHandler.RESURRECT_MAINHAND);
                 if (!itemInOff.getType().equals(itemInMain.getType()))
-                    handleResurrect(e, player, equipment.getItemInOffHand(), InteractionHandler.RESURRECT_OFFHAND, uuid);
+                    check(itemInOff, uuid, player, e, InteractionHandler.RESURRECT_OFFHAND);
             }
         }
     }
 
-    private void handleResurrect(EntityResurrectEvent e, Player player, ItemStack item, InteractionHandler handler, UUID uuid) {
-        if (item != null) {
-            var preventableItem = PreventionManager.getPreventableItem(item);
-            if (preventableItem != null && preventableItem.handlers().contains(handler)) {
-                handlePreventable(preventableItem, player, e);
-            }
-            var cooldownItem = CooldownManager.getCooldownItem(item);
-            if (cooldownItem != null && cooldownItem.handlers().contains(handler)) {
-                handleCooldown(uuid, player, cooldownItem, e);
+    @EventHandler
+    public void onShoot(EntityShootBowEvent e) {
+        if (e.getEntity() instanceof Player player) {
+            var uuid = player.getUniqueId();
+            if (combatManager.isInCombat(uuid)) {
+                var is = e.getBow();
+                check(is, uuid, player, e, InteractionHandler.BOW_SHOOT);
             }
         }
     }
@@ -258,6 +249,18 @@ public class PlayerListener implements Listener {
                 return handlers.contains(InteractionHandler.LEFT_CLICK_BLOCK);
             default:
                 return false;
+        }
+    }
+
+    private void check(ItemStack itemStack, UUID uuid, Player player, Cancellable e, InteractionHandler handler) {
+        if (itemStack == null) return;
+        var item = CooldownManager.getCooldownItem(itemStack);
+        if (item != null && item.handlers().contains(handler)) {
+            handleCooldown(uuid, player, item, e);
+        }
+        var preventable = PreventionManager.getPreventableItem(itemStack);
+        if (preventable != null && preventable.handlers().contains(handler)) {
+            handlePreventable(preventable, player, e);
         }
     }
 

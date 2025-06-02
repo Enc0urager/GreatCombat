@@ -8,5 +8,6 @@ public enum InteractionHandler {
     LEFT_CLICK_BLOCK,
     BLOCK_BREAK,
     RESURRECT_MAINHAND,
-    RESURRECT_OFFHAND
+    RESURRECT_OFFHAND,
+    BOW_SHOOT
 }

@@ -1,4 +1,4 @@
-# Find bug/Any ideas for improvement? Write me in discord _encourager_
+# docs - https://encourager.gitbook.io/greatplugins
 # Plugin permissions:
 # greatcombat.teleports.bypass - teleports bypass permission
 # greatcombat.powerups.bypass - powerups disable bypass permission
@@ -19,20 +19,17 @@ use-papi: true
 # Time displaying
 time:
   seconds:
-    form1: 'second'
-    form3: 'seconds'
-    form5: 'seconds'
+    form1: 'секунду'
+    form3: 'секунды'
+    form5: 'секунд'
   minutes:
-    form1: 'minute'
-    form3: 'minutes'
-    form5: 'minutes'
+    form1: 'минуту'
+    form3: 'минуты'
+    form5: 'минут'
   hours:
-    form1: 'hour'
-    form3: 'hours'
-    form5: 'hours'
-# Plugin which will be used to disable powerups
-# Available CMI Essentials and Vanilla
-# If you need integrate to other plugins - write me
+    form1: 'час'
+    form3: 'часа'
+    form5: 'часов'
 server-manager: Essentials
 # Available TAB и FastBoard
 # FastBoard don't require other plugins
@@ -71,7 +68,6 @@ items-cooldowns:
     #Чтобы получить предмет в виде base64 возьмите его в руку и пропишите /combat copy
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs7ILyotjk8rKs0sYWRgdc4vzQPSAGpDd/c8AAAA'
     time: 20
-    #Для ванильных предметов рекомендую ставить true т.к проверка обходится банальным переименованием предмета
     set-material-cooldown: true
   GOLDEN_APPLE:
     translation: 'Золотое яблоко'

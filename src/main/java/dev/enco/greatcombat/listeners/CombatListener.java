@@ -4,7 +4,6 @@ import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.actions.ActionExecutor;
 import dev.enco.greatcombat.api.*;
 import dev.enco.greatcombat.config.ConfigManager;
-import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
 import dev.enco.greatcombat.config.settings.Settings;
 import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
@@ -18,7 +17,6 @@ import org.bukkit.event.Listener;
 public class CombatListener implements Listener {
     private final Messages messages = ConfigManager.getMessages();
     private final Settings settings = ConfigManager.getSettings();
-    private final Commands commands = ConfigManager.getCommands();
     private final CombatManager combatManager = GreatCombat.getInstance().getCombatManager();
 
     @EventHandler(
@@ -63,32 +61,6 @@ public class CombatListener implements Listener {
                 player.setHealth(0);
                 ActionExecutor.execute(player, messages.onPvpLeave(), player.getName(), "");
             }
-        }
-    }
-
-    @EventHandler(
-            priority = EventPriority.MONITOR
-    )
-    public void onCombatPreprocess(CommandPreprocessInCombatEvent e) {
-        var user = e.getUser();
-        boolean cancel = true;
-        switch (commands.changeType()) {
-            case BLACKLIST: {
-                if (commands.commands().contains(e.getCommand())) {
-                    cancel = true;
-                }
-                break;
-            }
-            case WHITELIST: {
-                if (!commands.commands().contains(e.getCommand())) {
-                    cancel = true;
-                }
-                break;
-            }
-        }
-        if (cancel) {
-            ActionExecutor.execute(user.toPlayer(), messages.onPvpCommand(), "", "");
-            e.setCancelled(true);
         }
     }
 

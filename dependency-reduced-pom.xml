@@ -4,18 +4,12 @@
   <groupId>dev.enco</groupId>
   <artifactId>GreatCombat</artifactId>
   <name>GreatCombat</name>
-  <version>1.6.1</version>
+  <version>1.6.2</version>
   <build>
     <resources>
       <resource>
         <filtering>true</filtering>
         <directory>src/main/resources</directory>
-      </resource>
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**/*.java</include>
-        </includes>
       </resource>
     </resources>
     <plugins>

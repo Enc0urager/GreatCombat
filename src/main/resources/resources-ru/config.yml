@@ -1,0 +1,148 @@
+# Документация - https://encourager.gitbook.io/greatplugins
+# Права плагина:
+# greatcombat.teleports.bypass - обход ограничений телепортации
+# greatcombat.powerups.bypass - обход отключения усилений
+# greatcombat.commands.bypass - обход ограничений команд
+# greatcombat.cooldowns.bypass - обход кулдаунов предметов
+# greatcombat.kill.bypass - обход убийства при выходе/кике
+# LEGACY - &#RRGGBB
+# MINIMESSAGE - <color>
+colorizer: LEGACY
+# Отправлять анонимную статистику
+metrics: true
+# Уведомлять об обновлениях в консоли
+update-checker: true
+# Заменять плейсхолдеры в скорбордах и сообщениях
+use-papi: false
+# Отображение времени
+time:
+  seconds:
+    form1: 'секунда'
+    form3: 'секунды'
+    form5: 'секунд'
+  minutes:
+    form1: 'минута'
+    form3: 'минуты'
+    form5: 'минут'
+  hours:
+    form1: 'час'
+    form3: 'часа'
+    form5: 'часов'
+# Какой плагин управляет усилениями
+# Доступно: Essentials, CMI, Vanilla (по умолчанию)
+server-manager: Vanilla
+# Доступно TAB и FastBoard
+# FastBoard не требует других плагинов (по умолчанию)
+scoreboard-manager: FastBoard
+# Длительность боя в секундах
+pvp-time: 30
+# Интервал тика юзера (как часто обновляются скорборд и bossbar)
+# Малое значение может вызывать лаги
+tick-interval: 20
+# Если оставшееся время меньше этого значения, бой останавливается (в мс)
+# Измените, если у вас проблемы с отрицательным прогрессом bossbar
+time-to-stop: 1
+# Снаряды, которые не могут начать бой
+ignored-projectile:
+  - EGG
+  - SNOWBALL
+# Доступные обработчики:
+# CONSUME - при употреблении предмета
+# RIGHT_CLICK_AIR - ПКМ по воздуху
+# RIGHT_CLICK_BLOCK - ПКМ по блоку
+# LEFT_CLICK_AIR - ЛКМ по воздуху
+# LEFT_CLICK_BLOCK - ЛКМ по блоку
+# BLOCK_BREAK - при разрушении блока
+# RESURRECT_MAINHAND - при использовании тотема к предмету в основной руке
+# RESURRECT_OFFHAND - при использовании тотема к предмету в дополнительной руке
+items-cooldowns:
+  # Может быть любым
+  CHORUS_FRUIT:
+    translation: 'Плод хоруса'
+    handlers:
+      - CONSUME
+    checked-meta:
+      - MATERIAL
+      - DISPLAY_NAME
+      - LORE
+    # Для получения base64 предмета используйте /combat copy
+    base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs7ILyotjk8rKs0sYWRgdc4vzQPSAGpDd/c8AAAA'
+    time: 20
+    set-material-cooldown: true
+  GOLDEN_APPLE:
+    translation: 'Золотое яблоко'
+    handlers:
+      - CONSUME
+    checked-meta:
+      - MATERIAL
+      - DISPLAY_NAME
+      - LORE
+    base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs/PSUnNi08sKMhJZWRgdc4vzSthZAAAKVnRWDwAAAA='
+    time: 30
+    set-material-cooldown: true
+# Предметы, взаимодействие с которыми будет заблокировано в бою
+# обработчики аналогичны кулдаунам
+# типы блокировки:
+# INTERACTED_ITEM - предмет в руке
+# INTERACTED_BLOCK - блок, с которым взаимодействовали
+preventable-items:
+  DIAMOND_ORE:
+    translation: 'Регион'
+    handlers:
+      - RIGHT_CLICK_BLOCK
+      - RIGHT_CLICK_AIR
+    checked-meta:
+      - MATERIAL
+      - DISPLAY_NAME
+      - LORE
+    types:
+      - INTERACTED_ITEM
+    base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDNzcxLTS5KTCuxSslMzM3PS4nPL0plZGB1zi/NK2FkAADqMtJCOwAAAA=='
+    set-material-cooldown: true
+# Работает только если ServerManager не Vanilla
+allow-teleport: false
+# Миры, где бой не может начаться
+ignored-worlds: []
+# Бой не начнется, если атакующий имеет эти усиления
+# Доступные усиления:
+# GAMEMODE - любой режим кроме выживания
+# VANISH - включен vanish
+# FLY - включен полет
+# GOD - включен god-режим
+# WALKSPEED - повышенная скорость ходьбы
+prevent-start-if-damager:
+  - GAMEMODE
+  - VANISH
+# Бой не начнется, если цель имеет эти усиления
+prevent-start-if-target:
+  - GAMEMODE
+  - VANISH
+  - GOD
+# Какие усиления будут отключены для атакующего
+disable-for-damager:
+  - GOD
+  - GAMEMODE
+  - FLY
+  - VANISH
+# Какие усиления будут отключены для цели
+disable-for-target:
+  - WALKSPEED
+  - FLY
+# Убивать ли игрока при выходе во время боя
+kill-on-leave: true
+# Убивать ли игрока при кике во время боя
+kill-on-kick: true
+# Список причин, по которым игрок будет убит
+# Если пусто - игрок всегда будет убит
+kick-messages: []
+commands:
+  # Если тип WHITELIST - только команды из списка будут доступны
+  # Если BLACKLIST - все команды кроме указанных будут доступны
+  type: WHITELIST
+  # Заменять ли таб комплит на доступные команды?
+  change-tabcomplete: true
+  # Если пусто - все команды будут доступны
+  commands:
+    - tell
+    - msg
+    - check

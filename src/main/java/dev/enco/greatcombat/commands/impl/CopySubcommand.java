@@ -1,6 +1,8 @@
 package dev.enco.greatcombat.commands.impl;
 
 import dev.enco.greatcombat.commands.Subcommand;
+import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.utils.ItemSerializer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -14,11 +16,12 @@ public class CopySubcommand implements Subcommand {
         if (sender instanceof Player pl) {
             if (!pl.hasPermission("greatcombat.admin")) return true;
             var item = pl.getInventory().getItemInMainHand();
+            final Locale locale = ConfigManager.getLocale();
             if (item == null) {
-                pl.sendMessage("You must put item in main hand");
+                pl.sendMessage(locale.emptyItem());
                 return true;
             }
-            Component component = Component.text("Click to copy").clickEvent(ClickEvent.copyToClipboard(ItemSerializer.encode(item)));
+            Component component = Component.text(locale.click2Copy()).clickEvent(ClickEvent.copyToClipboard(ItemSerializer.encode(item)));
             pl.sendMessage(component);
         }
         return true;

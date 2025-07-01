@@ -2,15 +2,18 @@ package dev.enco.greatcombat.powerups;
 
 import com.google.common.collect.ImmutableSet;
 import dev.enco.greatcombat.GreatCombat;
+import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.powerups.impl.CMI;
 import dev.enco.greatcombat.powerups.impl.EssentialsX;
 import dev.enco.greatcombat.powerups.impl.Vanilla;
-import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +22,13 @@ public class PowerupsManager {
     private ServerManager serverManager;
 
     public List<PowerupType> transform(List<String> pw) {
+        final Locale locale = ConfigManager.getLocale();
         List<PowerupType> pws = new ArrayList<>();
         for (var str : pw) {
             try {
                 pws.add(PowerupType.valueOf(str));
             } catch (IllegalArgumentException e) {
-                Logger.warn("Powerup type " + str + " is unavailable");
+                Logger.warn(MessageFormat.format(locale.powerupTypeDoesNotExist(), str));
             }
         }
         return pws;

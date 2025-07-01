@@ -1,9 +1,11 @@
-package dev.enco.greatcombat.utils.colorizer;
+package dev.enco.greatcombat.utils.colorizer.impl;
+
+import dev.enco.greatcombat.utils.colorizer.IColorizer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LegacyColorizer implements ColorizerType {
+public class LegacyIColorizer implements IColorizer {
     private static final Pattern HEX_PATTERN = Pattern.compile("&#([a-fA-F\\d]{6})");
     private static final char COLOR_CHAR = '§';
 

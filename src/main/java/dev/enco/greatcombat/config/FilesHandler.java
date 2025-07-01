@@ -13,12 +13,6 @@ public class FilesHandler {
         configFiles.add(configFile);
     }
 
-    public void reloadAll() {
-        configFiles.forEach((configFile) -> {
-            configFile.reload();
-        });
-    }
-
     public ConfigFile getConfigFile(String name) {
         return configFiles.stream()
                 .filter(configFile -> configFile.getName().equalsIgnoreCase(name))

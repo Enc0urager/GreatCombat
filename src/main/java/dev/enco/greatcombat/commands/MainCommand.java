@@ -1,6 +1,7 @@
 package dev.enco.greatcombat.commands;
 
-import org.bukkit.ChatColor;
+import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.config.settings.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,10 +27,7 @@ public class MainCommand implements CommandExecutor {
     }
 
     private void sendHelpMessage(CommandSender sender) {
-        sender.sendMessage(ChatColor.GREEN + "GreatCombat помощь по командам");
-        sender.sendMessage("/combat stop (Игрок) - Остановить бой игроку");
-        sender.sendMessage("/combat stopall - Остановить все активные бои");
-        sender.sendMessage("/combat give (Игрок1) (Игрок2) - Начать поединок между игроками");
-        sender.sendMessage("/combat copy - Получить base64 предмета в руке");
+        final Locale locale = ConfigManager.getLocale();
+        for (var s : locale.commandHelp()) sender.sendMessage(s);
     }
 }

@@ -1,0 +1,10 @@
+# Available: ru, en
+# Доступны ru, en
+# Перезапустите сервер после выбора языка
+# Restart your server after restart
+locale: en
+# Если вы выставите на true и вы уже запускали плагин - вам снесёт конфиги и поставит дефолтные с выбранным языком
+# Не забудьте отключить перед повторным запуска после сноса
+# If you set it to true, and you have configs - they must be deleted and set to default with your language
+# Don't forget to disable before next usage.
+replace: false

@@ -1,0 +1,45 @@
+on-enable: 'Плагин успешно включен'
+author-ver: 'Автор - Encourager, Версия - '
+on-disable: 'Плагин успешно выключен'
+config-loaded: 'Конфиг успешно загружен за '
+updates-found:
+  - "Вы используете §cустаревшую §fверсию плагина"
+  - "Скачайте новую версию здесь - §ehttps://spigotmc.ru/resources/greatcombat.3495/"
+updates-not-found: "Вы используете последнюю версию плагина"
+updates-error: 'Не удалось проверить обновления - '
+outdated-core:
+  - "ВНИМАНИЕ! Вы используете устаревшее ядро §6(CraftBukkit/Spigot)"
+  - "Для этого плагина требуется §6Paper §cили его форк §6(например Purpur)"
+  - "Скачайте здесь - §6https://papermc.io/downloads/all"
+tab-discarded-instance: 'Экземпляр TabAPI был сброшен из-за перезагрузки плагина. Изменяем экземпляр...'
+scoreboard-provider: 'Используем {0} для управления скорбордами'
+handler-does-not-exist: "Обработчик {0} не существует"
+meta-does-not-exist: "Проверка {0} не возможна"
+blocker-does-not-exist: "Тип блокировки {0} не существует"
+powerup-does-not-exist: "Тип усиления {0} не существует"
+server-manager-loading: 'Подключаемся к {0} для управления усилениями'
+server-manager-loaded: 'Успешно подключено к {0} за '
+server-manager-error: 'Не удалось подключиться к '
+bar-color-error: "Цвет BossBar {0} не существует"
+bar-style-error: "Стиль BossBar {0} не существует"
+projectile-error: "Тип снаряда {0} не существует"
+command-help:
+  - 'Список команд GreatCombat'
+  - '/combat stop (Игрок) - Остановить бой для игрока'
+  - '/combat stopall - Остановить все активные бои'
+  - '/combat give (Игрок1) (Игрок2) - Начать бой между 2 игроками'
+  - '/combat copy - Копировать предмет в основной руке'
+player-not-found: 'Игрок {0} не найден'
+specify-player: 'Необходимо указать игрока'
+not-in-combat: "Игрок не в бою"
+stop-success: 'Бой успешно остановлен'
+stopall-success: 'Все активные бои успешно остановлены'
+empty-item: "В основной руке нет предмета"
+click-to-copy: '§6(Нажмите здесь чтобы скопировать)'
+specify-2-players: 'Укажите 2 игроков'
+combat-started: 'Бой начат'
+illegal-action-pattern: 'Некорректный шаблон действия '
+action-does-not-exist: "Тип действия {0} не существует"
+sound-does-not-exist: "Звук {0} не существует"
+volume-and-pitch-error: "Громкость и высота звука должны быть числом"
+null-sound: "Звук не может быть пустым"

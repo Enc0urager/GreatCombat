@@ -1,10 +1,12 @@
 package dev.enco.greatcombat.scoreboard;
 
+import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.manager.User;
-import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.logger.Logger;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.scoreboard.Scoreboard;
 import me.neznamy.tab.api.scoreboard.ScoreboardManager;
+
 import java.util.List;
 
 public class TABProvider implements ScoreboardProvider {
@@ -33,7 +35,7 @@ public class TABProvider implements ScoreboardProvider {
     }
 
     private void changeInstance() {
-        Logger.warn("TabAPI instance got discarded because plugin was reloaded. Changing instance...");
+        Logger.warn(ConfigManager.getLocale().tabDiscardedInstance());
         this.tabAPI = TabAPI.getInstance();
         this.scoreboardManager = tabAPI.getScoreboardManager();
     }

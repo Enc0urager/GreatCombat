@@ -5,7 +5,6 @@
 # greatcombat.commands.bypass - commands send bypass permission
 # greatcombat.cooldowns.bypass - items cooldowns bypass permission
 # greatcombat.kill.bypass - kill on quit and kick bypass permission
-
 # LEGACY - &#RRGGBB
 # MINIMESSAGE - <color>
 colorizer: LEGACY
@@ -15,22 +14,24 @@ metrics: true
 update-checker: true
 #Will placeholders be filled in scoreboards and messages
 #In messages, placeholders are filled in for the player who receives them
-use-papi: true
+use-papi: false
 # Time displaying
 time:
   seconds:
-    form1: 'секунду'
-    form3: 'секунды'
-    form5: 'секунд'
+    form1: 'second'
+    form3: 'seconds'
+    form5: 'seconds'
   minutes:
-    form1: 'минуту'
-    form3: 'минуты'
-    form5: 'минут'
+    form1: 'minute'
+    form3: 'minutes'
+    form5: 'minutes'
   hours:
-    form1: 'час'
-    form3: 'часа'
-    form5: 'часов'
-server-manager: Essentials
+    form1: 'hour'
+    form3: 'hours'
+    form5: 'hours'
+# Which plugin must manage powerups
+# Available: Essentials, CMI, Vanilla (def)
+server-manager: Vanilla
 # Available TAB и FastBoard
 # FastBoard don't require other plugins
 scoreboard-manager: FastBoard
@@ -56,21 +57,21 @@ ignored-projectile:
 # RESURRECT_MAINHAND - while player resurrect with item in main hand
 # RESURRECT_OFFHAND - while player resurrect with item in off hand
 items-cooldowns:
-  #Название может быть любым
+  # Can be random
   CHORUS_FRUIT:
-    translation: 'Хорус'
+    translation: 'Chorus Fruit'
     handlers:
       - CONSUME
     checked-meta:
       - MATERIAL
       - DISPLAY_NAME
       - LORE
-    #Чтобы получить предмет в виде base64 возьмите его в руку и пропишите /combat copy
+    # 2 get item in base64 use /combat copy
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs7ILyotjk8rKs0sYWRgdc4vzQPSAGpDd/c8AAAA'
     time: 20
     set-material-cooldown: true
   GOLDEN_APPLE:
-    translation: 'Золотое яблоко'
+    translation: 'Golden Apple'
     handlers:
       - CONSUME
     checked-meta:
@@ -88,7 +89,7 @@ items-cooldowns:
 # If RESURRECT player will die
 preventable-items:
   DIAMOND_ORE:
-    translation: 'регион'
+    translation: 'Region'
     handlers:
       - RIGHT_CLICK_BLOCK
       - RIGHT_CLICK_AIR
@@ -98,7 +99,6 @@ preventable-items:
       - LORE
     types:
       - INTERACTED_ITEM
-    #Чтобы получить предмет в виде base64 возьмите его в руку и пропишите /combat copy
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDNzcxLTS5KTCuxSslMzM3PS4nPL0plZGB1zi/NK2FkAADqMtJCOwAAAA=='
     set-material-cooldown: true
 # Will work only if ServerManager not Vanilla

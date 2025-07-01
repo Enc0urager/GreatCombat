@@ -4,18 +4,22 @@ import com.google.common.collect.ImmutableSet;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.actions.ActionRegistry;
 import dev.enco.greatcombat.config.settings.*;
-import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.listeners.CommandsType;
 import dev.enco.greatcombat.powerups.PowerupsManager;
+import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
-import dev.enco.greatcombat.utils.Logger;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
+import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+
+import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,24 +54,28 @@ public class ConfigManager {
     private static String serverManager;
     @Getter
     private static boolean usingPapi;
+    @Getter
+    private static Locale locale;
 
     public ConfigManager(GreatCombat plugin) {
         this.plugin = plugin;
-        setupConfigFiles();
+        checkAndCreateLangFiles();
         load();
     }
 
     public void load() {
         long start = System.currentTimeMillis();
         var mainConfig = FilesHandler.getConfigFile("config").get();
+        metricsEnable = mainConfig.getBoolean("metrics");
+        Logger.info(String.valueOf(metricsEnable));
+        setupLogger();
         var colorizerSection = mainConfig.getConfigurationSection("colorizer");
         if (colorizerSection == null) mainConfig.createSection("colorizer");
         Colorizer.setColorizer(mainConfig.getString("colorizer", "LEGACY"));
         setupScoreboard();
         var messagesConfig = FilesHandler.getConfigFile("messages").get();
-        setupBossbar(messagesConfig);
         setupActions(messagesConfig);
-        metricsEnable = mainConfig.getBoolean("metrics");
+        setupBossbar(messagesConfig);
         CooldownManager.setupCooldownItems(mainConfig);
         setupTimeFormats(mainConfig);
         setupPowerups(mainConfig);
@@ -78,13 +86,67 @@ public class ConfigManager {
         PreventionManager.load(mainConfig.getConfigurationSection("preventable-items"));
         usingPapi = mainConfig.getBoolean("use-papi");
         teleportEnable = mainConfig.getBoolean("allow-teleport");
-        Logger.info("Конфиг загружен за " + (System.currentTimeMillis() - start) + " ms.");
+        Logger.info(locale.configLoaded() + (System.currentTimeMillis() - start) + " ms.");
     }
 
-    private void setupConfigFiles() {
-        FilesHandler.addConfigFile2List(new ConfigFile("messages", plugin.getDataFolder()));
-        FilesHandler.addConfigFile2List(new ConfigFile("config", plugin.getDataFolder()));
-        FilesHandler.addConfigFile2List(new ConfigFile("scoreboard", plugin.getDataFolder()));
+    private void checkAndCreateLangFiles() {
+        File languageFile = new File(plugin.getDataFolder(), "locale.yml");
+        if (!languageFile.exists()) {
+            plugin.saveResource("locale.yml", false);
+            Logger.error("Выберите язык в файле locale.yml и перезапустите сервер");
+            Logger.error("Change language in file locale.yml and reboot server");
+            plugin.getServer().getPluginManager().disablePlugin(plugin);
+        } else {
+            FileConfiguration landConfig = YamlConfiguration.loadConfiguration(languageFile);
+            String lang = landConfig.getString("locale");
+            boolean safe = landConfig.getBoolean("replace");
+            final var folder = plugin.getDataFolder();
+            FilesHandler.addConfigFile2List(new ConfigFile("messages", folder, lang, safe));
+            FilesHandler.addConfigFile2List(new ConfigFile("config", folder, lang, safe));
+            FilesHandler.addConfigFile2List(new ConfigFile("scoreboard", folder, lang, safe));
+            FilesHandler.addConfigFile2List(new ConfigFile("logger", folder, lang, safe));
+        }
+    }
+
+    private void setupLogger() {
+        var lang = FilesHandler.getConfigFile("logger").get();
+        locale = new Locale(
+                lang.getString("on-enable"),
+                lang.getString("on-disable"),
+                lang.getString("author-ver"),
+                lang.getString("config-loaded"),
+                lang.getStringList("updates-found"),
+                lang.getString("updates-not-found"),
+                lang.getString("updates-error"),
+                lang.getStringList("outdated-core"),
+                lang.getString("tab-discarded-instance"),
+                lang.getString("scoreboard-provider"),
+                lang.getString("handler-does-not-exist"),
+                lang.getString("meta-does-not-exist"),
+                lang.getString("blocker-does-not-exist"),
+                lang.getString("powerup-does-not-exist"),
+                lang.getString("server-manager-loading"),
+                lang.getString("server-manager-loaded"),
+                lang.getString("server-manager-error"),
+                lang.getString("bar-color-error"),
+                lang.getString("bar-style-error"),
+                lang.getString("projectile-error"),
+                lang.getStringList("command-help"),
+                lang.getString("player-not-found"),
+                lang.getString("specify-player"),
+                lang.getString("not-in-combat"),
+                lang.getString("stop-success"),
+                lang.getString("stopall-success"),
+                lang.getString("empty-item"),
+                lang.getString("click-to-copy"),
+                lang.getString("specify-2-players"),
+                lang.getString("combat-started"),
+                lang.getString("illegal-action-pattern"),
+                lang.getString("action-does-not-exist"),
+                lang.getString("sound-does-not-exist"),
+                lang.getString("volume-and-pitch-error"),
+                lang.getString("null-sound")
+        );
     }
 
     private void setupScoreboard() {
@@ -104,7 +166,7 @@ public class ConfigManager {
             try {
                 ignored.add(EntityType.valueOf(type));
             } catch (IllegalArgumentException e) {
-                Logger.warn("Projectile " + type + " is not available");
+                Logger.warn(MessageFormat.format(locale.projectileError(), type));
             }
         }
         settings = new Settings(
@@ -146,14 +208,14 @@ public class ConfigManager {
         try {
             style = BarStyle.valueOf(st);
         } catch (IllegalArgumentException e) {
-            Logger.warn("Bar style " + st + " is not available, using SOLID");
+            Logger.warn(MessageFormat.format(locale.barStyleError(), st));
         }
         var color = BarColor.RED;
         String c = section.getString("color");
         try {
             color = BarColor.valueOf(c);
         } catch (IllegalArgumentException e) {
-            Logger.warn("Bar color " + c + " is not available, using RED");
+            Logger.warn(MessageFormat.format(locale.barColorError(), c));
         }
         this.bossbar = new Bossbar(
                 style,

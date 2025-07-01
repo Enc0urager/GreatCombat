@@ -1,6 +1,8 @@
 package dev.enco.greatcombat.utils;
 
 import dev.enco.greatcombat.GreatCombat;
+import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.utils.logger.Logger;
 import org.bukkit.Bukkit;
 
 import java.io.BufferedReader;
@@ -17,7 +19,7 @@ public class UpdateChecker {
                              .openStream()))) {
                  consumer.accept(reader.readLine().trim());
              } catch (IOException e) {
-                 Logger.warn("An error occurred while checking updates: " + e);
+                 Logger.warn(ConfigManager.getLocale().errorUpdates() + e);
              }
          }, 30L);
      }

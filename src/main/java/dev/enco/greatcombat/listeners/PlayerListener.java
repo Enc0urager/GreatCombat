@@ -7,10 +7,10 @@ import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
 import dev.enco.greatcombat.config.settings.Settings;
+import dev.enco.greatcombat.manager.CombatManager;
+import dev.enco.greatcombat.restrictions.InteractionHandler;
 import dev.enco.greatcombat.restrictions.cooldowns.CooldownItem;
 import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
-import dev.enco.greatcombat.restrictions.InteractionHandler;
-import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventableItem;
 import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventionType;
@@ -25,10 +25,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityResurrectEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
+
 import java.util.EnumSet;
 import java.util.UUID;
 

@@ -8,5 +8,5 @@ lines:
   - '&cOpponents:'
   - '{opponents}'
   - ''
-opponent: '%luckperms_prefix% &f{player} &c{health}❤ &9{ping}⇄'
+opponent: '&f{player} &c{health}❤ &9{ping}⇄'
 empty: '&7Empty'

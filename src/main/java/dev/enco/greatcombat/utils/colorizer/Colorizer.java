@@ -1,5 +1,7 @@
 package dev.enco.greatcombat.utils.colorizer;
 
+import dev.enco.greatcombat.utils.colorizer.impl.LegacyIColorizer;
+import dev.enco.greatcombat.utils.colorizer.impl.MinimessageIColorizer;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
@@ -7,12 +9,12 @@ import java.util.List;
 
 @UtilityClass
 public class Colorizer {
-    private ColorizerType colorizer;
+    private IColorizer colorizer;
 
     public void setColorizer(String type) {
         switch (type) {
-            case "MINIMESSAGE" -> colorizer = new MinimessageColorizer();
-            default -> colorizer = new LegacyColorizer();
+            case "MINIMESSAGE" -> colorizer = new MinimessageIColorizer();
+            default -> colorizer = new LegacyIColorizer();
         }
     }
 

@@ -1,15 +1,16 @@
 package dev.enco.greatcombat.powerups.impl;
 
+import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.powerups.PowerupChecker;
 import dev.enco.greatcombat.powerups.PowerupDisabler;
 import dev.enco.greatcombat.powerups.ServerManager;
-import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.logger.Logger;
 import org.bukkit.GameMode;
 
 public class Vanilla implements ServerManager {
     @Override
     public void setup() {
-        Logger.info("Используем Vanilla для управления поверапами");
+        Logger.info(ConfigManager.getLocale().serverManagerLoading().replace("{0}", "Vanilla"));
         setupFlyDisabler();
         setupFlyChecker();
         setupGodDisabler();

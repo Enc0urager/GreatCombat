@@ -3,21 +3,24 @@ package dev.enco.greatcombat.restrictions.cooldowns;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import dev.enco.greatcombat.GreatCombat;
+import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.restrictions.CheckedMeta;
 import dev.enco.greatcombat.restrictions.InteractionHandler;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.utils.EnumUtils;
 import dev.enco.greatcombat.utils.ItemSerializer;
-import dev.enco.greatcombat.utils.Logger;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
+import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @UtilityClass
@@ -32,6 +35,7 @@ public class CooldownManager {
     }
 
     public void setupCooldownItems(FileConfiguration config) {
+        final var locale = ConfigManager.getLocale();
         var section = config.getConfigurationSection("items-cooldowns");
         for (var key : section.getKeys(false)) {
             var itemSection = section.getConfigurationSection(key);
@@ -39,13 +43,13 @@ public class CooldownManager {
             var handlers = EnumUtils.toEnumSet(
                     itemSection.getStringList("handlers"),
                     InteractionHandler.class,
-                    handler -> Logger.warn("Обработчик " + handler + " не существует")
+                    handler -> Logger.warn(MessageFormat.format(locale.handlerDoesNotExist(), handler))
             );
 
             var metas = EnumUtils.toEnumSet(
                     itemSection.getStringList("checked-meta"),
                     CheckedMeta.class,
-                    meta -> Logger.warn("У предметов нельзя проверять " + meta)
+                    meta -> Logger.warn(MessageFormat.format(locale.metaDoesNotExist(), meta))
             );
 
             int time = itemSection.getInt("time");

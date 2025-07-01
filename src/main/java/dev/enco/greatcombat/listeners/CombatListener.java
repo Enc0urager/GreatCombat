@@ -2,12 +2,15 @@ package dev.enco.greatcombat.listeners;
 
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.actions.ActionExecutor;
-import dev.enco.greatcombat.api.*;
+import dev.enco.greatcombat.api.CombatEndEvent;
+import dev.enco.greatcombat.api.CombatTickEvent;
+import dev.enco.greatcombat.api.PlayerKickInCombatEvent;
+import dev.enco.greatcombat.api.PlayerLeaveInCombatEvent;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Messages;
 import dev.enco.greatcombat.config.settings.Settings;
-import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.manager.CombatManager;
+import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.Time;
 import org.bukkit.event.EventHandler;

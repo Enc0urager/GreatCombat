@@ -1,0 +1,41 @@
+package dev.enco.greatcombat.config.settings;
+
+import java.util.List;
+
+public record Locale(
+        String onEnable,
+        String onDisable,
+        String authorVersion,
+        String configLoaded,
+        List<String> updatesFound,
+        String updatesNotFound,
+        String errorUpdates,
+        List<String> outdatedCore,
+        String tabDiscardedInstance,
+        String sbProvider,
+        String handlerDoesNotExist,
+        String metaDoesNotExist,
+        String blockerDoesNotExist,
+        String powerupTypeDoesNotExist,
+        String serverManagerLoading,
+        String serverManagerLoaded,
+        String serverManagerError,
+        String barColorError,
+        String barStyleError,
+        String projectileError,
+        List<String> commandHelp,
+        String playerNotFound,
+        String notSpecifiedPlayer,
+        String playerNotInCombat,
+        String stopSuccess,
+        String stopAllSuccess,
+        String emptyItem,
+        String click2Copy,
+        String specify2Players,
+        String combatStarted,
+        String illegalActionPattern,
+        String actionDoesNotExist,
+        String soundDoesNotExist,
+        String volumeAndPitchError,
+        String nullSound
+) {}

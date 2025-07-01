@@ -1,10 +1,11 @@
 package dev.enco.greatcombat.scoreboard;
 
 import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.config.settings.Scoreboard;
 import dev.enco.greatcombat.manager.User;
-import dev.enco.greatcombat.utils.Logger;
 import dev.enco.greatcombat.utils.Placeholders;
+import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
@@ -16,15 +17,15 @@ public class ScoreboardManager {
     private ScoreboardProvider provider;
 
     public void setProvider(String s) {
+        Locale locale = ConfigManager.getLocale();
+        Logger.info(locale.sbProvider().replace("{0}", s));
         switch (s) {
             case "TAB": {
                 provider = new TABProvider();
-                Logger.info("Используем TAB для управления скорбордами");
                 return;
             }
             default: {
                 provider = new FastBoardProvider();
-                Logger.info("Используем FastBoard для управления скорбордами");
             }
         }
     }
@@ -44,7 +45,7 @@ public class ScoreboardManager {
     private List<String> getLines(User user, String time) {
         List<String> replaced = new ArrayList<>();
         for (var line : boardSettings.lines()) {
-            if (line.equals("{opponents}")) replaced.addAll(getOpponents(user));
+            if (line.contains("{opponents}")) replaced.addAll(getOpponents(user));
             else {
                 replaced.add(Placeholders.replace(user.toPlayer(), line.replace("{time}", time)));
             }

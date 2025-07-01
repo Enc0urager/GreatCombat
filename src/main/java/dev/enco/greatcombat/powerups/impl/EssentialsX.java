@@ -3,11 +3,12 @@ package dev.enco.greatcombat.powerups.impl;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.powerups.PowerupChecker;
 import dev.enco.greatcombat.powerups.PowerupDisabler;
 import dev.enco.greatcombat.powerups.ServerManager;
-import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
 import net.ess3.api.events.teleport.PreTeleportEvent;
 import org.bukkit.Bukkit;
@@ -16,6 +17,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.text.MessageFormat;
+
 @RequiredArgsConstructor
 public class EssentialsX implements ServerManager, Listener {
     private Essentials essentials;
@@ -23,8 +26,9 @@ public class EssentialsX implements ServerManager, Listener {
 
     @Override
     public void setup() {
+        final Locale locale = ConfigManager.getLocale();
         long start = System.currentTimeMillis();
-        Logger.info("Подключаемся к Essentials");
+        Logger.info(MessageFormat.format(locale.serverManagerLoading(), "EssentialsX"));
         try {
             essentials = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
             setupFlyDisabler();
@@ -37,9 +41,9 @@ public class EssentialsX implements ServerManager, Listener {
             setupVanishDisabler();
             setupWalkspeedChecker();
             setupWalkspeedDisabler();
-            Logger.info("Essentials подключен за " + (System.currentTimeMillis() - start) + " ms.");
+            Logger.info(MessageFormat.format(locale.serverManagerLoading(), "EssentialsX") + (System.currentTimeMillis() - start) + " ms.");
         } catch (Exception e) {
-            Logger.error("Unable to load EssentialsX " + e);
+            Logger.error(locale.serverManagerError() + " EssentialsX " + e);
         }
     }
 

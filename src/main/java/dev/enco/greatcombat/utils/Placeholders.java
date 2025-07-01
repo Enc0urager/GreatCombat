@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.MessageFormat;
 import java.util.Locale;
 
 @UtilityClass
@@ -22,8 +23,8 @@ public class Placeholders {
         return replace(player, s);
     }
 
-    public String replaceInMessage(Player player, String s, String first, String second) {
-        s = s.replace("{0}", first).replace("{1}", second);
+    public String replaceInMessage(Player player, String s, String... replacement) {
+        s = MessageFormat.format(s, replacement);
         return replace(player, s);
     }
 

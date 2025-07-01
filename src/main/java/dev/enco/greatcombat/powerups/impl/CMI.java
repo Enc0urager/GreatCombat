@@ -4,16 +4,19 @@ import com.Zrips.CMI.Containers.CMIUser;
 import com.Zrips.CMI.PlayerManager;
 import com.Zrips.CMI.events.CMIAsyncPlayerTeleportEvent;
 import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.powerups.PowerupChecker;
 import dev.enco.greatcombat.powerups.PowerupDisabler;
 import dev.enco.greatcombat.powerups.ServerManager;
-import dev.enco.greatcombat.utils.Logger;
+import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.text.MessageFormat;
 
 @RequiredArgsConstructor
 public class CMI implements ServerManager, Listener {
@@ -23,7 +26,8 @@ public class CMI implements ServerManager, Listener {
 
     @Override
     public void setup() {
-        Logger.info("Подключаемся к CMI");
+        final Locale locale = ConfigManager.getLocale();
+        Logger.info(MessageFormat.format(locale.serverManagerLoading(), "CMI"));
         long start = System.currentTimeMillis();
         try {
             cmi = com.Zrips.CMI.CMI.getInstance();
@@ -38,9 +42,9 @@ public class CMI implements ServerManager, Listener {
             setupVanishDisabler();
             setupWalkspeedChecker();
             setupWalkspeedDisabler();
-            Logger.info("CMI подключен за " + (System.currentTimeMillis() - start) + " ms.");
+            Logger.info(MessageFormat.format(locale.serverManagerLoading(), "CMI") + (System.currentTimeMillis() - start) + " ms.");
         } catch (Exception e) {
-            Logger.error("Unable to load CMI " + e);
+            Logger.error(locale.serverManagerError() + " CMI " + e);
         }
     }
 

@@ -1,0 +1,45 @@
+on-enable: 'Plugin successfully enabled'
+author-ver: 'Author - Encourager, Version - '
+on-disable: 'Plugin successfully disabled'
+config-loaded: 'Config successfully loaded in '
+updates-found:
+  - "You're using §coutdated §fversion of plugin"
+  - "Download it here - §ehttps://www.spigotmc.org/resources/greatcombat.124029/"
+updates-not-found: "You're using latest version of plugin"
+updates-error: 'Unable to check updates - '
+outdated-core:
+  - "ATTENTION! You're running an outdated server §6(CraftBukkit/Spigot)"
+  - "This plugin requires §6Paper §cor a fork §6(e.g. Purpur)"
+  - "Download it here - §6https://papermc.io/downloads/all"
+tab-discarded-instance: 'TabAPI instance got discarded because plugin was reloaded. Changing instance...'
+scoreboard-provider: 'Using {0} for scoreboard manage'
+handler-does-not-exist: "Handler {0} doesn't exist"
+meta-does-not-exist: "Meta {0} doesn't exist"
+blocker-does-not-exist: "Prevention type {0} doesn't exist"
+powerup-does-not-exist: "Powerup type {0} doesn't exist"
+server-manager-loading: 'Hooking into {0} for powerup manage'
+server-manager-loaded: 'Successfully hooked into {0} in '
+server-manager-error: 'Unable to hook into '
+bar-color-error: "BossBar color {0} doesn't exist"
+bar-style-error: "BossBar style {0} doesn't exist"
+projectile-error: "Projectile type {0} doesn't exist"
+command-help:
+  - 'GreatCombat commands help'
+  - '/combat stop (Player) - Stop combat for player'
+  - '/combat stopall - Stop all active combats'
+  - '/combat give (Player1) (Player2) - Start combat for 2 players'
+  - '/combat copy - Copy item in main hand'
+player-not-found: 'Player {0} not found'
+specify-player: 'You need to specify player'
+not-in-combat: "Player isn't in combat"
+stop-success: 'Combat successfully stoped'
+stopall-success: 'All active combats successfully stoped'
+empty-item: "You don't have item in main hand"
+click-to-copy: '§6(Click here to copy)'
+specify-2-players: 'Specify 2 players'
+combat-started: 'Combat was started'
+illegal-action-pattern: 'Illegal action pattern '
+action-does-not-exist: "Action type {0} doesn't exist"
+sound-does-not-exist: "Sound {0} doesn't exist"
+volume-and-pitch-error: "Volume and pitch must be a number"
+null-sound: "Sound can't be null"

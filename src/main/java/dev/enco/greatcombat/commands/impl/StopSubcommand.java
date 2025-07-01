@@ -1,12 +1,15 @@
 package dev.enco.greatcombat.commands.impl;
 
 import dev.enco.greatcombat.commands.Subcommand;
+import dev.enco.greatcombat.config.ConfigManager;
+import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.manager.CombatManager;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+
+import java.text.MessageFormat;
 
 @RequiredArgsConstructor
 public class StopSubcommand implements Subcommand {
@@ -14,22 +17,23 @@ public class StopSubcommand implements Subcommand {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        final Locale locale = ConfigManager.getLocale();
         if (args.length < 1) {
-            sender.sendMessage(ChatColor.RED + "Укажите ник игрока");
+            sender.sendMessage(locale.notSpecifiedPlayer());
             return true;
         }
         var player = Bukkit.getPlayer(args[0]);
         if (player == null) {
-            sender.sendMessage(ChatColor.RED + "Игрок не найден!");
+            sender.sendMessage(MessageFormat.format(locale.playerNotFound(), args[0]));
             return true;
         }
         var user = combatManager.getUser(player.getUniqueId());
         if (user == null) {
-            sender.sendMessage(ChatColor.RED + "Игрок не в режиме боя");
+            sender.sendMessage(locale.playerNotInCombat());
             return true;
         }
         combatManager.stopCombat(user);
-        sender.sendMessage(ChatColor.GREEN + "Игрок больше не в режиме боя!");
+        sender.sendMessage(locale.stopSuccess());
         return true;
     }
 }

@@ -12,6 +12,7 @@ import dev.enco.greatcombat.utils.UpdateChecker;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
@@ -24,9 +25,10 @@ public final class GreatCombat extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        for (var player : Bukkit.getOnlinePlayers()) player.setInvisible(false);
         Logger.setup();
-        configManager = new ConfigManager(this);
         MetaManager.setup();
+        configManager = new ConfigManager(this);
         combatManager = new CombatManager();
         PowerupsManager.setServerManager(ConfigManager.getServerManager());
         var playerListener = new PlayerListener(combatManager);

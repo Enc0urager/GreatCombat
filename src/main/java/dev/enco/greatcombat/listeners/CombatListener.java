@@ -34,7 +34,7 @@ public class CombatListener implements Listener {
         ScoreboardManager.resetScoreboard(user);
         combatManager.removeFromCombatMap(user);
         var player = user.toPlayer();
-        ActionExecutor.execute(player, messages.onStop(), "", "");
+        ActionExecutor.execute(player, messages.onStop());
         CooldownManager.clearPlayerCooldowns(player);
     }
 
@@ -47,7 +47,7 @@ public class CombatListener implements Listener {
         var player = user.toPlayer();
         if (settings.killOnLeave() && !player.hasPermission("greatcombat.kill.bypass")) {
             player.setHealth(0);
-            ActionExecutor.execute(player, messages.onPvpLeave(), player.getName(), "");
+            ActionExecutor.execute(player, messages.onPvpLeave(), player.getName());
         }
     }
 
@@ -62,7 +62,7 @@ public class CombatListener implements Listener {
             var kickmessages = settings.kickMessages();
             if (kickmessages.isEmpty() || kickmessages.contains(e.getReason())) {
                 player.setHealth(0);
-                ActionExecutor.execute(player, messages.onPvpLeave(), player.getName(), "");
+                ActionExecutor.execute(player, messages.onPvpLeave(), player.getName());
             }
         }
     }
@@ -75,7 +75,7 @@ public class CombatListener implements Listener {
         long remainingTime = user.getRemaining();
         if (remainingTime < settings.minTime()) combatManager.stopCombat(user);
         else {
-            ActionExecutor.execute(user.toPlayer(), messages.onTick(), Time.format((int) (remainingTime / 1000L)), "");
+            ActionExecutor.execute(user.toPlayer(), messages.onTick(), Time.format((int) (remainingTime / 1000L)));
             user.updateBoardAndBar(remainingTime);
         }
     }

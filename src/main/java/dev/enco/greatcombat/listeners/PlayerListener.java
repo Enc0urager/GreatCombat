@@ -109,7 +109,7 @@ public class PlayerListener implements Listener {
                 }
             }
             if (cancel) {
-                ActionExecutor.execute(player, messages.onPvpCommand(), "", "");
+                ActionExecutor.execute(player, messages.onPvpCommand());
                 e.setCancelled(true);
             }
         }
@@ -270,7 +270,7 @@ public class PlayerListener implements Listener {
 
     private void handlePreventable(PreventableItem preventable, Player player, Cancellable e) {
         if (player.hasPermission("greatcombat.prevention.bypass")) return;
-        ActionExecutor.execute(player, messages.onInteract(), preventable.translation(), "");
+        ActionExecutor.execute(player, messages.onInteract(), preventable.translation());
         e.setCancelled(true);
     }
 

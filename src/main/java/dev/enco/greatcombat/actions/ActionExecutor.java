@@ -9,12 +9,12 @@ import java.util.List;
 
 @UtilityClass
 public class ActionExecutor {
-    public void execute(Player player, ImmutableMap<ActionType, List<Context>> actions, String first, String second) {
+    public void execute(Player player, ImmutableMap<ActionType, List<Context>> actions, String... replacement) {
         for (var type : actions.keySet()) {
             var contexts = actions.get(type);
             var action = type.getAction();
             for (Context context : contexts) {
-                action.execute(player, context);
+                action.execute(player, context, replacement);
             }
         }
     }

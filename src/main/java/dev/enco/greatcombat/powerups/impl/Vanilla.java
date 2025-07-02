@@ -51,7 +51,7 @@ public class Vanilla implements ServerManager {
     private PowerupDisabler vanishDisabler;
 
     private void setupVanishDisabler() {
-        this.vanishDisabler = player -> player.setInvisible(true);
+        this.vanishDisabler = player -> player.setInvisible(false);
     }
 
     @Override

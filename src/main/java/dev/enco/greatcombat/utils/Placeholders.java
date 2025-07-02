@@ -24,8 +24,7 @@ public class Placeholders {
     }
 
     public String replaceInMessage(Player player, String s, String... replacement) {
-        s = MessageFormat.format(s, replacement);
-        return replace(player, s);
+        return replace(player, MessageFormat.format(s, replacement));
     }
 
     public String replace(Player player, String s) {

@@ -76,7 +76,7 @@ public class CombatManager {
         else {
             if (!damager.hasPermission("greatcombat.powerups.bypass"))
                 PowerupsManager.disablePowerups(damager, powerups.disablingDamagerPowerups());
-            ActionExecutor.execute(damager, messages.onStartDamager(), target.getName(), "");
+            ActionExecutor.execute(damager, messages.onStartDamager(), target.getName());
             damagerUser.setStartPvpTime(start);
             damagerUser.startTimer();
             this.playersInCombat.add(damagerUser);
@@ -86,7 +86,7 @@ public class CombatManager {
         else {
             if (!target.hasPermission("greatcombat.powerups.bypass"))
                 PowerupsManager.disablePowerups(target, powerups.disablingTargetPowerups());
-            ActionExecutor.execute(target, messages.onStartDamager(), damager.getName(), "");
+            ActionExecutor.execute(target, messages.onStartTarget(), damager.getName());
             targetUser.setStartPvpTime(start);
             targetUser.startTimer();
             this.playersInCombat.add(targetUser);

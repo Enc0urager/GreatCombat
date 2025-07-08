@@ -212,7 +212,7 @@ public class PlayerListener implements Listener {
 
     private void handleBlockInteraction(PlayerInteractEvent e, Player player) {
         var blockMaterial = e.getClickedBlock() != null ? e.getClickedBlock().getType() : null;
-        if (blockMaterial != null) {
+        if (blockMaterial != null && blockMaterial.isItem()) {
             var preventable = PreventionManager.getPreventableItem(new ItemStack(blockMaterial));
             if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_BLOCK)) {
                 var action = e.getAction();

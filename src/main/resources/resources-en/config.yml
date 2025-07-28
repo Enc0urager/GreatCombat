@@ -37,6 +37,13 @@ server-manager: Vanilla
 scoreboard-manager: FastBoard
 # Combat duration in seconds
 pvp-time: 30
+# This function is responsible for continuing combat in a region if both players are in combat
+# Supports WorldGuard and Towny (if you want to disable - put anything here)
+region-manager: WorldGuard
+# List of worlds where PvP continuation in regions will work
+region-worlds:
+  - rtp
+  - world1
 # Player tick delay (How often will scoreboard and bossbar update)
 # Small value may produse a lags if you have plugins that handle tickevent
 tick-interval: 20
@@ -148,4 +155,14 @@ commands:
     - tell
     - msg
     - check
+  # Settings for blocking commands targeting other players
+  # Only the beginning is checked, you need to write all command arguments up to the player's nickname
+  # For example, if you want to block the command /fix all {player} - write /fix all
+  # If empty - commands will not be filtered
+  player-commands:
+    - /heal
+    - /fix
+    - /fix all
+    - /tpa
+    - /feed
 

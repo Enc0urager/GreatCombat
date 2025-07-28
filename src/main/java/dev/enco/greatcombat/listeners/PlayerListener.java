@@ -15,6 +15,7 @@ import dev.enco.greatcombat.restrictions.prevention.PreventableItem;
 import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventionType;
 import dev.enco.greatcombat.utils.Time;
+import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -90,6 +91,7 @@ public class PlayerListener implements Listener {
     public void onPreprocess(PlayerCommandPreprocessEvent e) {
         var player = e.getPlayer();
         if (player.hasPermission("greatcombat.commands.bypass")) return;
+        handlePlayerCommand(player, e.getMessage(), e);
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid) && !commands.commands().isEmpty()) {
             var command = e.getMessage().split(" ")[0].replaceFirst("/", "");
@@ -111,6 +113,20 @@ public class PlayerListener implements Listener {
             if (cancel) {
                 ActionExecutor.execute(player, messages.onPvpCommand());
                 e.setCancelled(true);
+            }
+        }
+    }
+
+    private void handlePlayerCommand(Player sender, String command, Cancellable e) {
+        for (var s : commands.playerCommands()) {
+            if (command.startsWith(s)) {
+                String targetName = command.replace(s, "").split(" ")[1];
+                Player player = Bukkit.getPlayer(targetName);
+                if (player != null && combatManager.isInCombat(player.getUniqueId())) {
+                    e.setCancelled(true);
+                    ActionExecutor.execute(sender, messages.onPlayerCommand(), targetName);
+                    break;
+                }
             }
         }
     }

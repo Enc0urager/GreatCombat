@@ -7,6 +7,8 @@ softdepend:
   - CMI
   - Essentials
   - PlaceholderAPI
+  - WorldGuard
+  - Towny
 commands:
   greatcombat:
     aliases: combat

@@ -6,5 +6,6 @@ import dev.enco.greatcombat.listeners.CommandsType;
 public record Commands(
         CommandsType changeType,
         boolean changeComplete,
-        ImmutableSet<String> commands
+        ImmutableSet<String> commands,
+        ImmutableSet<String> playerCommands
 ) {}

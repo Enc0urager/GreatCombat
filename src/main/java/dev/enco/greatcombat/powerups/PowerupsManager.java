@@ -9,6 +9,7 @@ import dev.enco.greatcombat.powerups.impl.EssentialsX;
 import dev.enco.greatcombat.powerups.impl.Vanilla;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -32,6 +33,10 @@ public class PowerupsManager {
             }
         }
         return pws;
+    }
+
+    public void setServerManager(ServerManager manager) {
+        serverManager = manager;
     }
 
     public void setServerManager(String manager) {

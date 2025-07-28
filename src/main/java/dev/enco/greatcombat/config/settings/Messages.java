@@ -14,5 +14,6 @@ public record Messages(
         ImmutableMap<ActionType, List<Context>> onPvpLeave,
         ImmutableMap<ActionType, List<Context>> onPvpCommand,
         ImmutableMap<ActionType, List<Context>> onInteract,
-        ImmutableMap<ActionType, List<Context>> onTick
+        ImmutableMap<ActionType, List<Context>> onTick,
+        ImmutableMap<ActionType, List<Context>> onPlayerCommand
 ) {}

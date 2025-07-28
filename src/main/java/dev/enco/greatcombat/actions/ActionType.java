@@ -7,32 +7,29 @@ import dev.enco.greatcombat.actions.context.TitleContext;
 import dev.enco.greatcombat.actions.impl.*;
 import lombok.Getter;
 
-import java.util.function.Supplier;
-
 @Getter
 public enum ActionType {
-    ACTIONBAR(ActionBarAction::new, StringContext.class),
-    BROADCASTACTIONBAR(BroadcastActionBarAction::new, StringContext.class),
-    BROADCASTMESSAGE(BroadcastMessageAction::new, StringContext.class),
-    BROADCASTSOUND(BroadcastSoundAction::new, SoundContext.class),
-    BROADCASTTITLE(BroadcastTitleAction::new, TitleContext.class),
-    CONSOLE(ConsoleAction::new, StringContext.class),
-    MESSAGE(MessageAction::new, StringContext.class),
-    PLAYER(PlayerAction::new, StringContext.class),
-    SOUND(SoundAction::new, SoundContext.class),
-    TITLE(TitleAction::new, TitleContext.class);
+    ACTIONBAR(new ActionBarAction(), StringContext.class),
+    BROADCASTACTIONBAR(new BroadcastActionBarAction(), StringContext.class),
+    BROADCASTMESSAGE(new BroadcastMessageAction(), StringContext.class),
+    BROADCASTSOUND(new BroadcastSoundAction(), SoundContext.class),
+    BROADCASTTITLE(new BroadcastTitleAction(), TitleContext.class),
+    CONSOLE(new ConsoleAction(), StringContext.class),
+    MESSAGE(new MessageAction(), StringContext.class),
+    PLAYER(new PlayerAction(), StringContext.class),
+    SOUND(new SoundAction(), SoundContext.class),
+    TITLE(new TitleAction(), TitleContext.class);
 
-    private final Supplier<Action<?>> actionSupplier;
+    private final Action<?> action;
     private final Class<? extends Context> contextType;
 
-    ActionType(Supplier<Action<?>> actionSupplier, Class<? extends Context> contextType) {
-        this.actionSupplier = actionSupplier;
+    ActionType(Action<?> action, Class<? extends Context> contextType) {
+        this.action = action;
         this.contextType = contextType;
     }
 
-    @SuppressWarnings("unchecked")
     public <C extends Context> Action<C> getAction() {
-        return (Action<C>) actionSupplier.get();
+        return (Action<C>) action;
     }
 }
 

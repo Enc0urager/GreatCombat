@@ -39,3 +39,5 @@ actions:
     - '[MESSAGE] &cYou cant use {0} in combat'
   on-tick:
     - '[ACTIONBAR] &cCombat &7| &fWait: &6{0}'
+  on-player-command:
+    - "[MESSAGE] You can't use command for {0} cause player is in combat"

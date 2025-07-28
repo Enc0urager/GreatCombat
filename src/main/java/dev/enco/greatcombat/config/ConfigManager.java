@@ -56,6 +56,8 @@ public class ConfigManager {
     private static boolean usingPapi;
     @Getter
     private static Locale locale;
+    @Getter
+    private static FileConfiguration mainConfig;
 
     public ConfigManager(GreatCombat plugin) {
         this.plugin = plugin;
@@ -65,7 +67,7 @@ public class ConfigManager {
 
     public void load() {
         long start = System.currentTimeMillis();
-        var mainConfig = FilesHandler.getConfigFile("config").get();
+        mainConfig = FilesHandler.getConfigFile("config").get();
         metricsEnable = mainConfig.getBoolean("metrics");
         Logger.info(String.valueOf(metricsEnable));
         setupLogger();
@@ -197,7 +199,8 @@ public class ConfigManager {
         commands = new Commands(
                 CommandsType.valueOf(section.getString("type")),
                 section.getBoolean("change-tabcomplete"),
-                ImmutableSet.copyOf(section.getStringList("commands"))
+                ImmutableSet.copyOf(section.getStringList("commands")),
+                ImmutableSet.copyOf(section.getStringList("player-commands"))
         );
     }
 
@@ -236,7 +239,8 @@ public class ConfigManager {
                 ActionRegistry.transform(section.getStringList("on-pvp-leave")),
                 ActionRegistry.transform(section.getStringList("on-pvp-command")),
                 ActionRegistry.transform(section.getStringList("on-interact-prevention")),
-                ActionRegistry.transform(section.getStringList("on-tick"))
+                ActionRegistry.transform(section.getStringList("on-tick")),
+                ActionRegistry.transform(section.getStringList("on-player-command"))
         );
     }
 

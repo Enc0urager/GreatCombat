@@ -16,6 +16,7 @@ public enum CheckedMeta {
     PDC(MetaManager.getPdcChecker(), true),
     UNBREAKABLE(MetaManager.getUnbreakableChecker(), true),
     POTION_EFFECTS(MetaManager.getPotionChecker(), true),
+    POTION_BASE(MetaManager.getBasePotionChecker(), false),
     COLOR(MetaManager.getColorChecker(), true),
     CUSTOM_MODEL_DATA(MetaManager.getModelChecker(), true),
     SKULL(MetaManager.getSkullChecker(), true);

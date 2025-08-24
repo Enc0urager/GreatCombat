@@ -12,12 +12,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.EnumSet;
 
-@UtilityClass
+@UtilityClass @SuppressWarnings("removal")
 public class MetaManager {
     @Getter
     private MetaChecker similarChecker, metaChecker, flagsChecker, materialChecker,
             nameChecker, enchantsChecker, attributesChecker,
-            pdcChecker, unbreakableChecker, potionChecker,
+            pdcChecker, unbreakableChecker, potionChecker, basePotionChecker,
             colorChecker, modelChecker, loreChecker, skullChecker;
 
     public void setup() {
@@ -55,6 +55,28 @@ public class MetaManager {
             return firstMeta.getCustomEffects().equals(secondMeta.getCustomEffects());
         };
 
+        boolean IS_OLD = false;
+        try {
+            Class.forName("org.bukkit.potion.PotionData");
+            IS_OLD = true;
+        } catch (ClassNotFoundException e) {}
+
+        if (IS_OLD) {
+            basePotionChecker = (first, second) -> {
+                if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
+                        !(second.itemMeta() instanceof PotionMeta secondMeta))
+                    return false;
+                return firstMeta.getBasePotionData().equals(secondMeta.getBasePotionData());
+            };
+        } else {
+            basePotionChecker = (first, second) -> {
+                if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
+                        !(second.itemMeta() instanceof PotionMeta secondMeta))
+                    return false;
+                return firstMeta.getBasePotionType().equals(secondMeta.getBasePotionType());
+            };
+        }
+
         colorChecker = (first, second) -> {
             if (!(first.itemMeta() instanceof LeatherArmorMeta firstMeta) ||
                     !(second.itemMeta() instanceof LeatherArmorMeta secondMeta))
@@ -88,7 +110,7 @@ public class MetaManager {
         for (var meta : checkedMetas) {
             if (meta.isCheckMeta()) {
                 if (f.hasMeta() && !s.hasMeta() || !f.hasMeta() && s.hasMeta()) return false;
-                if (!f.hasMeta() && !s.hasMeta()) return true;
+                if (!f.hasMeta() && !s.hasMeta()) continue;
             }
             if (!meta.getChecker().hasMeta(f, s)) return false;
         }

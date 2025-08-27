@@ -15,10 +15,20 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class for managing item interaction prevention during combat.
+ * Provides functionality to prevent specific item interactions based on configuration.
+ */
 @UtilityClass
 public class PreventionManager {
     private final List<PreventableItem> preventableItems = new ArrayList<>();
 
+    /**
+     * Retrieves the PreventableItem associated with the given ItemStack.
+     *
+     * @param itemStack The ItemStack to check for prevention
+     * @return PreventableItem if found, null otherwise
+     */
     public PreventableItem getPreventableItem(ItemStack itemStack) {
         return preventableItems.stream()
                 .filter(item -> MetaManager.isSimilar(item.itemStack(), itemStack, item.checkedMetas()))
@@ -26,6 +36,11 @@ public class PreventionManager {
                 .orElse(null);
     }
 
+    /**
+     * Loads preventable items from the configuration section.
+     *
+     * @param section The configuration section containing preventable item definitions
+     */
     public void load(ConfigurationSection section) {
         final var locale = ConfigManager.getLocale();
         for (var key : section.getKeys(false)) {

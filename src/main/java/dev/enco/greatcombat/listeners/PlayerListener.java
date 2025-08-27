@@ -41,9 +41,6 @@ import java.util.UUID;
 public class PlayerListener implements Listener {
     private final CombatManager combatManager;
     private final PluginManager pm = Bukkit.getPluginManager();
-    private final Commands commands = ConfigManager.getCommands();
-    private final Messages messages = ConfigManager.getMessages();
-    private final Settings settings = ConfigManager.getSettings();
 
     @EventHandler(
                 priority = EventPriority.MONITOR
@@ -53,12 +50,13 @@ public class PlayerListener implements Listener {
         if (e.getEntity() instanceof Player target) {
             var damager = getDamager(e.getDamager());
             if (damager != null) {
-                combatManager.startCombat(damager, target, e);
+                combatManager.startCombat(damager, target);
             }
         }
     }
 
     private Player getDamager(Entity damager) {
+        Settings settings = ConfigManager.getSettings();
         if (damager instanceof Player pl) return pl;
         if (damager instanceof Projectile pr && pr.getShooter() instanceof Player pl)
             if (!settings.ignoredProjectile().contains(damager.getType())) return pl;
@@ -93,9 +91,11 @@ public class PlayerListener implements Listener {
         if (player.hasPermission("greatcombat.commands.bypass")) return;
         handlePlayerCommand(player, e.getMessage(), e);
         var uuid = player.getUniqueId();
+        Commands commands = ConfigManager.getCommands();
+        Messages messages = ConfigManager.getMessages();
         if (combatManager.isInCombat(uuid) && !commands.commands().isEmpty()) {
             var command = e.getMessage().split(" ")[0].replaceFirst("/", "");
-            boolean cancel = true;
+            boolean cancel = false;
             switch (commands.changeType()) {
                 case BLACKLIST: {
                     if (commands.commands().contains(command)) {
@@ -118,6 +118,8 @@ public class PlayerListener implements Listener {
     }
 
     private void handlePlayerCommand(Player sender, String command, Cancellable e) {
+        Commands commands = ConfigManager.getCommands();
+        Messages messages = ConfigManager.getMessages();
         for (var s : commands.playerCommands()) {
             if (command.startsWith(s)) {
                 String targetName = command.replace(s, "").split(" ")[1];
@@ -139,6 +141,7 @@ public class PlayerListener implements Listener {
         if (player.hasPermission("greatcombat.commands.bypass")) return;
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
+            Commands commands = ConfigManager.getCommands();
             if (commands.changeComplete()) {
                 var cmds = commands.commands();
                 if (!cmds.isEmpty()) {
@@ -285,6 +288,7 @@ public class PlayerListener implements Listener {
     }
 
     private void handlePreventable(PreventableItem preventable, Player player, Cancellable e) {
+        Messages messages = ConfigManager.getMessages();
         if (player.hasPermission("greatcombat.prevention.bypass")) return;
         ActionExecutor.execute(player, messages.onInteract(), preventable.translation());
         e.setCancelled(true);
@@ -294,6 +298,7 @@ public class PlayerListener implements Listener {
         if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
         if (CooldownManager.hasCooldown(uuid, item)) {
             int time = CooldownManager.getCooldownTime(uuid, item);
+            Messages messages = ConfigManager.getMessages();
             ActionExecutor.execute(player, messages.onItemCooldown(), Time.format(time), item.translation());
             e.setCancelled(true);
         } else CooldownManager.putCooldown(uuid, player, item);

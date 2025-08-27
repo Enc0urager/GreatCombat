@@ -9,8 +9,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 @SuppressWarnings("removal")
 public class CombatSubcommand implements Subcommand {
@@ -36,5 +38,10 @@ public class CombatSubcommand implements Subcommand {
         pm.callEvent(new EntityDamageByEntityEvent(player1, player2, EntityDamageEvent.DamageCause.ENTITY_ATTACK, 0.0D));
         sender.sendMessage(locale.combatStarted());
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTab() {
+        return null;
     }
 }

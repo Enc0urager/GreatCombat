@@ -9,11 +9,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class StopAllSubcommand implements Subcommand {
+public class ReloadSubcommand implements Subcommand {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        GreatCombat.getInstance().getCombatManager().stop();
-        sender.sendMessage(ConfigManager.getLocale().stopAllSuccess());
+        GreatCombat.getInstance().getConfigManager().reload();
+        sender.sendMessage(ConfigManager.getLocale().reload());
         return true;
     }
 

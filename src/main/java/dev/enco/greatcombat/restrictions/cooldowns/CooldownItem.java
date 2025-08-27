@@ -6,7 +6,16 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
 
-
+/**
+ * Record representing an item that can have cooldowns during combat.
+ *
+ * @param itemStack The base ItemStack to match against
+ * @param translation The display name translation key
+ * @param checkedMetas The item metadata to check for matching
+ * @param handlers The interaction handlers that trigger cooldown
+ * @param time The cooldown time in seconds
+ * @param setMaterialCooldown Whether to set material cooldown visually
+ */
 public record CooldownItem(
        ItemStack itemStack,
        String translation,

@@ -39,7 +39,7 @@ scoreboard-manager: FastBoard
 pvp-time: 30
 # This function is responsible for continuing combat in a region if both players are in combat
 # Supports WorldGuard and Towny (if you want to disable - put anything here)
-region-manager: WorldGuard
+region-manager: none
 # List of worlds where PvP continuation in regions will work
 region-worlds:
   - rtp

@@ -42,6 +42,8 @@ public final class GreatCombat extends JavaPlugin {
         Logger.setup();
         MetaManager.setup();
         configManager = new ConfigManager(this);
+        if (!configManager.checkAndCreateLangFiles()) return;
+        configManager.load();
         combatManager = new CombatManager();
         PowerupsManager.setServerManager(ConfigManager.getServerManager());
         var playerListener = new PlayerListener(combatManager);
@@ -52,7 +54,10 @@ public final class GreatCombat extends JavaPlugin {
         FileConfiguration config = ConfigManager.getMainConfig();
         setupRegionProvider(pm, config.getString("region-manager"));
         worlds.addAll(config.getStringList("region-worlds"));
-        getCommand("greatcombat").setExecutor(new MainCommand());
+        var command = getCommand("greatcombat");
+        var cmd = new MainCommand();
+        command.setExecutor(cmd);
+        command.setTabCompleter(cmd);
         if (ConfigManager.isMetricsEnable()) {
             new Metrics(this, 25444);
         }

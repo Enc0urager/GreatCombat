@@ -41,3 +41,6 @@ actions:
     - '[ACTIONBAR] &cCombat &7| &fWait: &6{0}'
   on-player-command:
     - "[MESSAGE] You can't use command for {0} cause player is in combat"
+  on-join:
+    - "[MESSAGE] You joined combat with {0}"
+  on-merge: []

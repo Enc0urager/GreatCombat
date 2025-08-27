@@ -2,6 +2,16 @@ package dev.enco.greatcombat.actions.context;
 
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 
+/**
+ * Context implementation for title display actions.
+ * Contains all parameters required to display a title and subtitle.
+ *
+ * @param title The main title text
+ * @param subtitle The subtitle text
+ * @param fadeIn The fade-in time in ticks
+ * @param stayIn The stay time in ticks
+ * @param fadeOut The fade-out time in ticks
+ */
 public record TitleContext(
         String title,
         String subtitle,
@@ -9,6 +19,15 @@ public record TitleContext(
         int stayIn,
         int fadeOut
 ) implements Context {
+    /**
+     * Validates and parses a TitleContext from a formatted string.
+     * Expected format: "title;subtitle;fadeIn;stayIn;fadeOut"
+     * All parts are optional except the title. Missing parts use default values.
+     * Applies colorization to title and subtitle texts.
+     *
+     * @param s The formatted string to parse
+     * @return New TitleContext with parsed parameters
+     */
     public static TitleContext validate(String s) {
         s = Colorizer.colorize(s);
         var args = s.split(";");

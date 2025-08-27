@@ -9,6 +9,10 @@ import java.util.List;
 public class FilesHandler {
     private final List<ConfigFile> configFiles = new ArrayList();
 
+    public void reloadAll() {
+        for (var file : configFiles) file.reload();
+    }
+
     public void addConfigFile2List(ConfigFile configFile) {
         configFiles.add(configFile);
     }

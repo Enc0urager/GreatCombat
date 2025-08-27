@@ -12,6 +12,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.EnumSet;
 
+/**
+ * Utility class for managing item metadata comparisons.
+ * Provides various MetaChecker implementations for different types of item metadata.
+ */
 @UtilityClass @SuppressWarnings("removal")
 public class MetaManager {
     @Getter
@@ -20,6 +24,9 @@ public class MetaManager {
             pdcChecker, unbreakableChecker, potionChecker, basePotionChecker,
             colorChecker, modelChecker, loreChecker, skullChecker;
 
+    /**
+     * * Sets up all MetaChecker implementations.
+     */
     public void setup() {
         metaChecker = (first, second) ->
                 first.itemMeta().equals(second.itemMeta());
@@ -104,6 +111,14 @@ public class MetaManager {
         };
     }
 
+    /**
+     * Checks if two items are similar based on the specified metadata checks.
+     *
+     * @param first The first ItemStack to compare
+     * @param second The second ItemStack to compare
+     * @param checkedMetas The set of metadata types to check
+     * @return true if items match all specified metadata checks, false otherwise
+     */
     public boolean isSimilar(ItemStack first, ItemStack second, EnumSet<CheckedMeta> checkedMetas) {
         WrappedItem f = WrappedItem.of(first);
         WrappedItem s = WrappedItem.of(second);

@@ -12,6 +12,7 @@ import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,7 +24,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Getter @RequiredArgsConstructor
 public class ConfigManager {
     private final GreatCombat plugin;
     @Getter
@@ -59,9 +60,8 @@ public class ConfigManager {
     @Getter
     private static FileConfiguration mainConfig;
 
-    public ConfigManager(GreatCombat plugin) {
-        this.plugin = plugin;
-        checkAndCreateLangFiles();
+    public void reload() {
+        FilesHandler.reloadAll();
         load();
     }
 
@@ -91,23 +91,24 @@ public class ConfigManager {
         Logger.info(locale.configLoaded() + (System.currentTimeMillis() - start) + " ms.");
     }
 
-    private void checkAndCreateLangFiles() {
+    public boolean checkAndCreateLangFiles() {
         File languageFile = new File(plugin.getDataFolder(), "locale.yml");
         if (!languageFile.exists()) {
             plugin.saveResource("locale.yml", false);
             Logger.error("Выберите язык в файле locale.yml и перезапустите сервер");
             Logger.error("Change language in file locale.yml and reboot server");
             plugin.getServer().getPluginManager().disablePlugin(plugin);
-        } else {
-            FileConfiguration landConfig = YamlConfiguration.loadConfiguration(languageFile);
-            String lang = landConfig.getString("locale");
-            boolean safe = landConfig.getBoolean("replace");
-            final var folder = plugin.getDataFolder();
-            FilesHandler.addConfigFile2List(new ConfigFile("messages", folder, lang, safe));
-            FilesHandler.addConfigFile2List(new ConfigFile("config", folder, lang, safe));
-            FilesHandler.addConfigFile2List(new ConfigFile("scoreboard", folder, lang, safe));
-            FilesHandler.addConfigFile2List(new ConfigFile("logger", folder, lang, safe));
+            return false;
         }
+        FileConfiguration landConfig = YamlConfiguration.loadConfiguration(languageFile);
+        String lang = landConfig.getString("locale");
+        boolean safe = landConfig.getBoolean("replace");
+        final var folder = plugin.getDataFolder();
+        FilesHandler.addConfigFile2List(new ConfigFile("messages", folder, lang, safe));
+        FilesHandler.addConfigFile2List(new ConfigFile("config", folder, lang, safe));
+        FilesHandler.addConfigFile2List(new ConfigFile("scoreboard", folder, lang, safe));
+        FilesHandler.addConfigFile2List(new ConfigFile("logger", folder, lang, safe));
+        return true;
     }
 
     private void setupLogger() {
@@ -147,7 +148,8 @@ public class ConfigManager {
                 lang.getString("action-does-not-exist"),
                 lang.getString("sound-does-not-exist"),
                 lang.getString("volume-and-pitch-error"),
-                lang.getString("null-sound")
+                lang.getString("null-sound"),
+                lang.getString("reload")
         );
     }
 
@@ -240,7 +242,9 @@ public class ConfigManager {
                 ActionRegistry.transform(section.getStringList("on-pvp-command")),
                 ActionRegistry.transform(section.getStringList("on-interact-prevention")),
                 ActionRegistry.transform(section.getStringList("on-tick")),
-                ActionRegistry.transform(section.getStringList("on-player-command"))
+                ActionRegistry.transform(section.getStringList("on-player-command")),
+                ActionRegistry.transform(section.getStringList("on-join")),
+                ActionRegistry.transform(section.getStringList("on-merge"))
         );
     }
 

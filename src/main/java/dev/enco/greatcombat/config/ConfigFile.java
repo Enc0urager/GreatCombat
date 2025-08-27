@@ -8,6 +8,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -35,6 +37,16 @@ public class ConfigFile {
             }
         }
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
+    }
+
+    public void reload() {
+        if (this.fileConfiguration == null) {
+            this.file = new File(this.folder, this.name + ".yml");
+        }
+        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
+        var inputStreamReader = new InputStreamReader(plugin.getResource(filePath), StandardCharsets.UTF_8);
+        var configuration = YamlConfiguration.loadConfiguration(inputStreamReader);
+        this.fileConfiguration.setDefaults(configuration);
     }
 
     public FileConfiguration get() {

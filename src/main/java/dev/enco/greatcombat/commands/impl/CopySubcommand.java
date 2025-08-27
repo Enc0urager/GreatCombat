@@ -9,12 +9,14 @@ import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class CopySubcommand implements Subcommand {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (sender instanceof Player pl) {
-            if (!pl.hasPermission("greatcombat.admin")) return true;
             var item = pl.getInventory().getItemInMainHand();
             final Locale locale = ConfigManager.getLocale();
             if (item == null) {
@@ -25,5 +27,10 @@ public class CopySubcommand implements Subcommand {
             pl.sendMessage(component);
         }
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTab() {
+        return List.of();
     }
 }

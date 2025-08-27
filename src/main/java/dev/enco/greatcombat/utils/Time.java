@@ -6,11 +6,9 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class Time {
-    private static final TimeFormats secondsForms = ConfigManager.getSecondsFormats();
-    private static final TimeFormats minutesForms = ConfigManager.getMinutesFormats();
-    private static final TimeFormats hoursForms = ConfigManager.getHoursFormats();
 
     public String format(int sec) {
+        TimeFormats secondsForms = ConfigManager.getSecondsFormats();
         if (sec <= 0) return "1 " + secondsForms.form1();
         int h = sec / 3600;
         int min = (sec % 3600) / 60;
@@ -18,6 +16,8 @@ public class Time {
 
         var sb = new StringBuilder();
 
+        TimeFormats minutesForms = ConfigManager.getMinutesFormats();
+        TimeFormats hoursForms = ConfigManager.getHoursFormats();
         appendTimeUnit(sb, h, hoursForms.form1(), hoursForms.form3(), hoursForms.form5());
         appendTimeUnit(sb, min, minutesForms.form1(), minutesForms.form3(), minutesForms.form5());
         appendTimeUnit(sb, s, secondsForms.form1(), secondsForms.form3(), secondsForms.form5());

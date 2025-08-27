@@ -38,7 +38,7 @@ scoreboard-manager: FastBoard
 pvp-time: 30
 # Данная функция отвечает за продолжение боя в регионе, если оба игрока находятся в бою
 # Доступны WorldGuard и Towny (если хотите отключить - поставьте что тут что угодно)
-region-manager: WorldGuard
+region-manager: none
 # Список миров в которых будет работать продолжение пвп в регионах
 region-worlds:
   - rtp

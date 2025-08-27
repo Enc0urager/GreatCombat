@@ -7,6 +7,10 @@ import dev.enco.greatcombat.actions.context.TitleContext;
 import dev.enco.greatcombat.actions.impl.*;
 import lombok.Getter;
 
+/**
+ * Enum representing different types of executable actions.
+ * Each action type has an associated Action implementation and Context type.
+ */
 @Getter
 public enum ActionType {
     ACTIONBAR(new ActionBarAction(), StringContext.class),
@@ -28,6 +32,12 @@ public enum ActionType {
         this.contextType = contextType;
     }
 
+    /**
+     * Gets the typed action instance.
+     *
+     * @param <C> The context type
+     * @return The typed action instance
+     */
     public <C extends Context> Action<C> getAction() {
         return (Action<C>) action;
     }

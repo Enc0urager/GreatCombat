@@ -18,6 +18,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for parsing and validating action configurations.
+ * Transforms string-based action configurations into executable action maps.
+ */
 @UtilityClass
 public class ActionRegistry {
     private static final Pattern ACTION_PATTERN = Pattern.compile("\\[(\\S+)] ?(.*)");
@@ -27,6 +31,13 @@ public class ActionRegistry {
             SoundContext.class, SoundContext::validate
     );
 
+    /**
+     * Transforms a list of action configuration strings into an executable action map.
+     * Parses action types and their contexts, validates them, and logs errors for invalid entries.
+     *
+     * @param settings List of action configuration strings in format "[ACTION_TYPE] context"
+     * @return Immutable map of ActionType to list of validated Contexts
+     */
     public ImmutableMap<ActionType, List<Context>> transform(List<String> settings) {
         Locale locale = ConfigManager.getLocale();
         Map<ActionType, List<Context>> actions = new HashMap<>();

@@ -1,16 +1,14 @@
 package dev.enco.greatcombat.commands;
 
 import dev.enco.greatcombat.GreatCombat;
-import dev.enco.greatcombat.commands.impl.CombatSubcommand;
-import dev.enco.greatcombat.commands.impl.CopySubcommand;
-import dev.enco.greatcombat.commands.impl.StopAllSubcommand;
-import dev.enco.greatcombat.commands.impl.StopSubcommand;
+import dev.enco.greatcombat.commands.impl.*;
 import lombok.Getter;
 
 @Getter
 public enum CommandArg {
-    STOP(new StopSubcommand(GreatCombat.getInstance().getCombatManager())),
-    STOPALL(new StopAllSubcommand(GreatCombat.getInstance().getCombatManager())),
+    RELOAD(new ReloadSubcommand()),
+    STOP(new StopSubcommand()),
+    STOPALL(new StopAllSubcommand()),
     GIVE(new CombatSubcommand()),
     COPY(new CopySubcommand());
 

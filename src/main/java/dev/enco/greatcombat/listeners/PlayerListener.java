@@ -121,7 +121,7 @@ public class PlayerListener implements Listener {
         Commands commands = ConfigManager.getCommands();
         Messages messages = ConfigManager.getMessages();
         for (var s : commands.playerCommands()) {
-            if (command.startsWith(s)) {
+            if (command.startsWith(s)) try {
                 String targetName = command.replace(s, "").split(" ")[1];
                 Player player = Bukkit.getPlayer(targetName);
                 if (player != null && combatManager.isInCombat(player.getUniqueId())) {
@@ -129,7 +129,7 @@ public class PlayerListener implements Listener {
                     ActionExecutor.execute(sender, messages.onPlayerCommand(), targetName);
                     break;
                 }
-            }
+            } catch (IndexOutOfBoundsException ignored) {}
         }
     }
 

@@ -2,17 +2,16 @@ package dev.enco.greatcombat.restrictions.cooldowns;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.restrictions.CheckedMeta;
 import dev.enco.greatcombat.restrictions.InteractionHandler;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
+import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.utils.EnumUtils;
 import dev.enco.greatcombat.utils.ItemSerializer;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -118,8 +117,11 @@ public class CooldownManager {
     public void putCooldown(UUID playerUUID, Player player, CooldownItem item) {
         itemsCooldowns.get(item).put(playerUUID, System.currentTimeMillis());
         if (item.setMaterialCooldown())
-            Bukkit.getScheduler().runTaskLater(GreatCombat.getInstance(), () -> {
-                player.setCooldown(item.itemStack().getType(), item.time() * 20);}, 1L);
+            TaskManager.getGlobalScheduler().runLater(() ->
+                player.setCooldown(
+                        item.itemStack().getType(), item.time() * 20
+                ),1L
+            );
     }
 
     /**

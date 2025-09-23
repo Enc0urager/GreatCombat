@@ -9,11 +9,12 @@ import dev.enco.greatcombat.listeners.PlayerListener;
 import dev.enco.greatcombat.manager.CombatManager;
 import dev.enco.greatcombat.powerups.PowerupsManager;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
-import dev.enco.greatcombat.utils.UpdateChecker;
+import dev.enco.greatcombat.scheduler.TaskManager;
+import dev.enco.greatcombat.utils.UpdateUtils;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -24,6 +25,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.event.WrappedDisallowedPVPEvent;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,8 +41,8 @@ public final class GreatCombat extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        for (var player : Bukkit.getOnlinePlayers()) player.setInvisible(false);
         Logger.setup();
+        TaskManager.setup();
         MetaManager.setup();
         configManager = new ConfigManager(this);
         if (!configManager.checkAndCreateLangFiles()) return;
@@ -65,7 +68,7 @@ public final class GreatCombat extends JavaPlugin {
         Logger.info(locale.onEnable());
         Logger.info(locale.authorVersion() + this.getDescription().getVersion());
         if (ConfigManager.isCheckUpdates()) {
-            new UpdateChecker(this, version -> {
+            UpdateUtils.check(version -> {
                 if (getDescription().getVersion().equals(version)) {
                     Logger.info(locale.updatesNotFound());
                 } else {

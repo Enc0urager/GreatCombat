@@ -1,138 +1,127 @@
 package dev.enco.greatcombat.powerups.impl;
 
 import dev.enco.greatcombat.config.ConfigManager;
-import dev.enco.greatcombat.powerups.PowerupChecker;
-import dev.enco.greatcombat.powerups.PowerupDisabler;
+import dev.enco.greatcombat.powerups.Powerup;
 import dev.enco.greatcombat.powerups.ServerManager;
 import dev.enco.greatcombat.utils.logger.Logger;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class Vanilla implements ServerManager {
     @Override
     public void setup() {
         Logger.info(ConfigManager.getLocale().serverManagerLoading().replace("{0}", "Vanilla"));
-        setupFlyDisabler();
-        setupFlyChecker();
-        setupGodDisabler();
-        setupGodChecker();
-        setupGamemodeChecker();
-        setupGamemodeDisabler();
-        setupVanishChecker();
-        setupVanishDisabler();
-        setupWalkspeedChecker();
-        setupWalkspeedDisabler();
+        setupFlyPowerup();
+        setupGodPowerup();
+        setupGamemodePowerup();
+        setupVanishPowerup();
+        setupWalkspeedPowerup();
     }
 
-    private PowerupDisabler flyDisabler;
+    private Powerup flyPowerup;
 
-    private void setupFlyDisabler() {
-        this.flyDisabler = player -> {
-            player.setFlying(false);
-            player.setAllowFlight(false);
+    private void setupFlyPowerup() {
+        this.flyPowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                return player.isFlying();
+            }
+
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                player.setFlying(false);
+                player.setAllowFlight(false);
+            }
         };
     }
 
     @Override
-    public PowerupDisabler flyDisabler() {
-        return this.flyDisabler;
+    public Powerup flyPowerup() {
+        return this.flyPowerup;
     }
 
-    private PowerupDisabler godDisabler;
+    private Powerup godPowerup;
 
-    private void setupGodDisabler() {
-        this.godDisabler = player -> player.setInvulnerable(false);
-    }
+    private void setupGodPowerup() {
+        this.godPowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                return player.isInvulnerable();
+            }
 
-    @Override
-    public PowerupDisabler godDisabler() {
-        return this.godDisabler;
-    }
-
-    private PowerupDisabler vanishDisabler;
-
-    private void setupVanishDisabler() {
-        this.vanishDisabler = player -> player.setInvisible(false);
-    }
-
-    @Override
-    public PowerupDisabler vanishDisabler() {
-        return this.vanishDisabler;
-    }
-
-    private PowerupDisabler gamemodeDisabler;
-
-    private void setupGamemodeDisabler() {
-        this.gamemodeDisabler = player -> player.setGameMode(GameMode.SURVIVAL);
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                player.setInvulnerable(false);
+            }
+        };
     }
 
     @Override
-    public PowerupDisabler gamemodeDisabler() {
-        return this.gamemodeDisabler;
+    public Powerup godPowerup() {
+        return this.godPowerup;
     }
 
-    private PowerupDisabler walkspeedDisabler;
+    private Powerup vanishPowerup;
 
-    private void setupWalkspeedDisabler() {
-        this.walkspeedDisabler = player -> player.setWalkSpeed(0.2F);
-    }
+    private void setupVanishPowerup() {
+        this.vanishPowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                return player.isInvisible();
+            }
 
-    @Override
-    public PowerupDisabler walkspeedDisabler() {
-        return this.walkspeedDisabler;
-    }
-
-    private PowerupChecker flyChecker;
-
-    private void setupFlyChecker() {
-        this.flyChecker = player -> player.isFlying();
-    }
-
-    @Override
-    public PowerupChecker flyChecker() {
-        return this.flyChecker;
-    }
-
-    private PowerupChecker godChecker;
-
-    private void setupGodChecker() {
-        this.godChecker = player -> player.isInvulnerable();
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                player.setInvisible(false);
+            }
+        };
     }
 
     @Override
-    public PowerupChecker godChecker() {
-        return this.godChecker;
+    public Powerup vanishPowerup() {
+        return this.vanishPowerup;
     }
 
-    private PowerupChecker vanishChecker;
+    private Powerup gamemodePowerup;
 
-    private void setupVanishChecker() {
-        this.vanishChecker = player -> player.isInvisible();
-    }
+    private void setupGamemodePowerup() {
+        this.gamemodePowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                return !player.getGameMode().equals(GameMode.SURVIVAL);
+            }
 
-    @Override
-    public PowerupChecker vanishChecker() {
-        return this.vanishChecker;
-    }
-
-    private PowerupChecker gamemodeChecker;
-
-    private void setupGamemodeChecker() {
-        this.gamemodeChecker = player -> !player.getGameMode().equals(GameMode.SURVIVAL);
-    }
-
-    @Override
-    public PowerupChecker gamemodeChecker() {
-        return this.gamemodeChecker;
-    }
-
-    private PowerupChecker walkspeedChecker;
-
-    private void setupWalkspeedChecker() {
-        this.walkspeedChecker = player -> player.getWalkSpeed() != 0.2F;
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                player.setGameMode(GameMode.SURVIVAL);
+            }
+        };
     }
 
     @Override
-    public PowerupChecker walkspeedChecker() {
-        return walkspeedChecker;
+    public Powerup gamemodePowerup() {
+        return this.gamemodePowerup;
+    }
+
+    private Powerup walkspeedPowerup;
+
+    private void setupWalkspeedPowerup() {
+        this.walkspeedPowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                return player.getWalkSpeed() != 0.2F;
+            }
+
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                player.setWalkSpeed(0.2F);
+            }
+        };
+    }
+
+    @Override
+    public Powerup walkspeedPowerup() {
+        return walkspeedPowerup;
     }
 }

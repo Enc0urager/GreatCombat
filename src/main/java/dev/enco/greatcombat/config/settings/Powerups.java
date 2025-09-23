@@ -1,11 +1,11 @@
 package dev.enco.greatcombat.config.settings;
 
-import com.google.common.collect.ImmutableSet;
 import dev.enco.greatcombat.powerups.PowerupType;
+import java.util.EnumSet;
 
 public record Powerups(
-        ImmutableSet<PowerupType> preventableDamagerPowerups,
-        ImmutableSet<PowerupType> preventableTargetPowerups,
-        ImmutableSet<PowerupType> disablingDamagerPowerups,
-        ImmutableSet<PowerupType> disablingTargetPowerups
+        EnumSet<PowerupType> preventableDamagerPowerups,
+        EnumSet<PowerupType> preventableTargetPowerups,
+        EnumSet<PowerupType> disablingDamagerPowerups,
+        EnumSet<PowerupType> disablingTargetPowerups
 ) {}

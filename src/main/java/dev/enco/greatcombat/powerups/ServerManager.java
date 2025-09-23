@@ -4,8 +4,7 @@ package dev.enco.greatcombat.powerups;
  * Interface defining the contract for server management systems that handle powerup operations.
  * Provides methods for setup and access to powerup checkers and disablers for various powerup types.
  *
- * @see PowerupChecker
- * @see PowerupDisabler
+ * @see Powerup
  */
 public interface ServerManager {
     /**
@@ -14,63 +13,33 @@ public interface ServerManager {
      */
     void setup();
     /**
-     * Gets the fly powerup disabler implementation.
+     * Gets the fly powerup implementation.
      *
-     * @return PowerupDisabler for handling flight disabling operations
+     * @return Powerup for handling flight operations
      */
-    PowerupDisabler flyDisabler();
+    Powerup flyPowerup();
     /**
-     * Gets the god powerup disabler implementation.
+     * Gets the god powerup implementation.
      *
-     * @return PowerupDisabler for handling god disabling operations
+     * @return Powerup for handling god operations
      */
-    PowerupDisabler godDisabler();
+    Powerup godPowerup();
     /**
-     * Gets the vanish powerup disabler implementation.
+     * Gets the vanish powerup implementation.
      *
-     * @return PowerupDisabler for handling vanish disabling operations
+     * @return Powerup for handling vanish operations
      */
-    PowerupDisabler vanishDisabler();
+    Powerup vanishPowerup();
     /**
-     * Gets the gamemode powerup disabler implementation.
+     * Gets the gamemode powerup implementation.
      *
-     * @return PowerupDisabler for handling gamemode disabling operations
+     * @return Powerup for handling gamemode operations
      */
-    PowerupDisabler gamemodeDisabler();
+    Powerup gamemodePowerup();
     /**
-     * Gets the walkspeed powerup disabler implementation.
+     * Gets the walkspeed powerup implementation.
      *
-     * @return PowerupDisabler for handling walkspeed disabling operations
+     * @return Powerup for handling walkspeed operations
      */
-    PowerupDisabler walkspeedDisabler();
-    /**
-     * Gets the fly powerup checker implementation.
-     *
-     * @return PowerupChecker for checking flight status
-     */
-    PowerupChecker flyChecker();
-    /**
-     * Gets the god powerup checker implementation.
-     *
-     * @return PowerupChecker for checking god status
-     */
-    PowerupChecker godChecker();
-    /**
-     * Gets the vanish powerup checker implementation.
-     *
-     * @return PowerupChecker for checking vanish status
-     */
-    PowerupChecker vanishChecker();
-    /**
-     * Gets the gamemode powerup checker implementation.
-     *
-     * @return PowerupChecker for checking gamemode status
-     */
-    PowerupChecker gamemodeChecker();
-    /**
-     * Gets the walkspeed powerup checker implementation.
-     *
-     * @return PowerupChecker for checking walkspeed status
-     */
-    PowerupChecker walkspeedChecker();
+    Powerup walkspeedPowerup();
 }

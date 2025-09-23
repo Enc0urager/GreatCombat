@@ -4,12 +4,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Interface for check specific powerups for players.
- *
- * @deprecated This interface is deprecated and will be removed in version 1.8
+ * Interface for check and disable specific powerups for players.
  */
-@Deprecated(since = "1.7.4")
-public interface PowerupChecker {
+public interface Powerup {
     /**
      * Checks if the specified player currently has the powerup active.
      * This method should verify the presence of the powerup effect without modifying
@@ -18,4 +15,11 @@ public interface PowerupChecker {
      * @return true if the player has active powerup, false otherwise
      */
     boolean hasPowerup(@NotNull Player player);
+    /**
+     * Disables a specific powerup for the given player.
+     * This method should handle the logic to disable the powerup effect
+     *
+     * @param player the player whose powerup should be disabled
+     */
+    void disablePowerup(@NotNull Player player);
 }

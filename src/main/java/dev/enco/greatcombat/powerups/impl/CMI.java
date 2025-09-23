@@ -6,8 +6,7 @@ import com.Zrips.CMI.events.CMIAsyncPlayerTeleportEvent;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.manager.CombatManager;
-import dev.enco.greatcombat.powerups.PowerupChecker;
-import dev.enco.greatcombat.powerups.PowerupDisabler;
+import dev.enco.greatcombat.powerups.Powerup;
 import dev.enco.greatcombat.powerups.ServerManager;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 
@@ -32,154 +32,129 @@ public class CMI implements ServerManager, Listener {
         try {
             cmi = com.Zrips.CMI.CMI.getInstance();
             playerManager = cmi.getPlayerManager();
-            setupFlyDisabler();
-            setupFlyChecker();
-            setupGodDisabler();
-            setupGodChecker();
-            setupGamemodeChecker();
-            setupGamemodeDisabler();
-            setupVanishChecker();
-            setupVanishDisabler();
-            setupWalkspeedChecker();
-            setupWalkspeedDisabler();
-            Logger.info(MessageFormat.format(locale.serverManagerLoading(), "CMI") + (System.currentTimeMillis() - start) + " ms.");
+            setupFlyPowerup();
+            setupGodPowerup();
+            setupGamemodePowerup();
+            setupVanishPowerup();
+            setupWalkspeedPowerup();
+            Logger.info(MessageFormat.format(locale.serverManagerLoaded(), "CMI") + (System.currentTimeMillis() - start) + " ms.");
         } catch (Exception e) {
             Logger.error(locale.serverManagerError() + " CMI " + e);
         }
     }
 
-    private PowerupDisabler flyDisabler;
+    private Powerup flyPowerup;
 
-    private void setupFlyDisabler() {
-        this.flyDisabler = player -> {
-            CMIUser user = playerManager.getUser(player);
-            user.setFlying(false);
-            user.setAllowFlight(false);
+    private void setupFlyPowerup() {
+        this.flyPowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                CMIUser user = playerManager.getUser(player);
+                return user.isFlying();
+            }
+
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                CMIUser user = playerManager.getUser(player);
+                user.setFlying(false);
+            }
         };
     }
 
     @Override
-    public PowerupDisabler flyDisabler() {
-        return this.flyDisabler;
+    public Powerup flyPowerup() {
+        return this.flyPowerup;
     }
 
-    private PowerupDisabler godDisabler;
+    private Powerup godPowerup;
 
-    private void setupGodDisabler() {
-        this.godDisabler = player -> {
-            CMIUser user = playerManager.getUser(player);
-            cmi.getNMS().changeGodMode(player, false);
-            user.setTgod(0L);
+    private void setupGodPowerup() {
+        this.godPowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                CMIUser user = playerManager.getUser(player);
+                return user.isGod();
+            }
+
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                CMIUser user = playerManager.getUser(player);
+                cmi.getNMS().changeGodMode(player, false);
+                user.setTgod(0L);
+            }
         };
     }
 
     @Override
-    public PowerupDisabler godDisabler() {
-        return this.godDisabler;
+    public Powerup godPowerup() {
+        return this.godPowerup;
     }
 
-    private PowerupDisabler vanishDisabler;
+    private Powerup vanishPowerup;
 
-    private void setupVanishDisabler() {
-        this.vanishDisabler = player -> {
-            CMIUser user = playerManager.getUser(player);
-            user.setVanished(false);
+    private void setupVanishPowerup() {
+        this.vanishPowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                CMIUser user = playerManager.getUser(player);
+                return user.isVanished();
+            }
+
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                CMIUser user = playerManager.getUser(player);
+                user.setVanished(false);
+            }
         };
     }
 
 
     @Override
-    public PowerupDisabler vanishDisabler() {
-        return this.vanishDisabler;
+    public Powerup vanishPowerup() {
+        return this.vanishPowerup;
     }
 
-    private PowerupDisabler gamemodeDisabler;
+    private Powerup gamemodePowerup;
 
-    private void setupGamemodeDisabler() {
-        this.gamemodeDisabler = player -> {
-            CMIUser user = playerManager.getUser(player);
-            user.setGameMode(GameMode.SURVIVAL);
+    private void setupGamemodePowerup() {
+        this.gamemodePowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                return !player.getGameMode().equals(GameMode.SURVIVAL);
+            }
+
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                CMIUser user = playerManager.getUser(player);
+                user.setGameMode(GameMode.SURVIVAL);
+            }
         };
     }
 
     @Override
-    public PowerupDisabler gamemodeDisabler() {
-        return this.gamemodeDisabler;
+    public Powerup gamemodePowerup() {
+        return this.gamemodePowerup;
     }
 
-    private PowerupDisabler walkspeedDisabler;
+    private Powerup walkspeedPowerup;
 
-    private void setupWalkspeedDisabler() {
-        this.walkspeedDisabler = player -> player.setWalkSpeed(0.2F);
-    }
+    private void setupWalkspeedPowerup() {
+        this.walkspeedPowerup = new Powerup() {
+            @Override
+            public boolean hasPowerup(@NotNull Player player) {
+                return player.getWalkSpeed() != 0.2F;
+            }
 
-    @Override
-    public PowerupDisabler walkspeedDisabler() {
-        return this.walkspeedDisabler;
-    }
-
-    private PowerupChecker flyChecker;
-
-    private void setupFlyChecker() {
-        this.flyChecker = player -> {
-            CMIUser user = playerManager.getUser(player);
-            return user.isFlying();
+            @Override
+            public void disablePowerup(@NotNull Player player) {
+                player.setWalkSpeed(0.2F);
+            }
         };
     }
 
     @Override
-    public PowerupChecker flyChecker() {
-        return this.flyChecker;
-    }
-
-    private PowerupChecker godChecker;
-
-    private void setupGodChecker() {
-        this.godChecker = player -> {
-            CMIUser user = playerManager.getUser(player);
-            return user.isGod();
-        };
-    }
-
-    @Override
-    public PowerupChecker godChecker() {
-        return this.godChecker;
-    }
-
-    private PowerupChecker vanishChecker;
-
-    private void setupVanishChecker() {
-        this.vanishChecker = player -> {
-            CMIUser user = playerManager.getUser(player);
-            return user.isVanished();
-        };
-    }
-
-    @Override
-    public PowerupChecker vanishChecker() {
-        return this.vanishChecker;
-    }
-
-    private PowerupChecker gamemodeChecker;
-
-    private void setupGamemodeChecker() {
-        this.gamemodeChecker = player -> !player.getGameMode().equals(GameMode.SURVIVAL);
-    }
-
-    @Override
-    public PowerupChecker gamemodeChecker() {
-        return this.gamemodeChecker;
-    }
-
-    private PowerupChecker walkspeedChecker;
-
-    private void setupWalkspeedChecker() {
-        this.walkspeedChecker = player -> player.getWalkSpeed() != 0.2F;
-    }
-
-    @Override
-    public PowerupChecker walkspeedChecker() {
-        return walkspeedChecker;
+    public Powerup walkspeedPowerup() {
+        return walkspeedPowerup;
     }
 
     @EventHandler

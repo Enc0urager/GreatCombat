@@ -4,7 +4,10 @@ import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.api.CombatTickEvent;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Bossbar;
+import dev.enco.greatcombat.config.settings.Scoreboard;
 import dev.enco.greatcombat.config.settings.Settings;
+import dev.enco.greatcombat.scheduler.IScheduler;
+import dev.enco.greatcombat.scheduler.WrappedTask;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.Time;
 import lombok.Data;
@@ -12,7 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitRunnable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,8 +30,9 @@ public class User {
     private final UUID playerUUID;
     private BossBar bossBar;
     private static final CombatManager combatManager = GreatCombat.getInstance().getCombatManager();
-    private BukkitRunnable runnable;
+    private WrappedTask<?> runnable;
     private static final PluginManager pm = Bukkit.getPluginManager();
+    private final IScheduler scheduler;
 
     /**
      * Converts the user's UUID to a Player
@@ -53,15 +57,11 @@ public class User {
     public void startTimer() {
         createBossbar();
         Settings settings = ConfigManager.getSettings();
-        this.runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                pm.callEvent(new CombatTickEvent(User.this));
-            }
-        };
-        this.runnable.runTaskTimer(GreatCombat.getInstance(),
-                0L,
-                settings.tickInterval());
+        this.runnable = scheduler.runRepeating(() ->
+            pm.callEvent(new CombatTickEvent(User.this)),
+                20L,
+                    settings.tickInterval()
+        );
     }
 
     /**
@@ -110,10 +110,12 @@ public class User {
      */
     public void createBossbar() {
         Bossbar barSettings = ConfigManager.getBossbar();
+        Settings settings = ConfigManager.getSettings();
+        String time = Time.format(settings.combatTime());
+        ScoreboardManager.setScoreboard(this, time);
         if (bossBar == null && barSettings.enable()) {
-            Settings settings = ConfigManager.getSettings();
             bossBar = Bukkit.createBossBar(
-                    barSettings.title().replace("{time}", Time.format(settings.combatTime())),
+                    barSettings.title().replace("{time}", time),
                     barSettings.color(),
                     barSettings.style()
             );
@@ -162,6 +164,12 @@ public class User {
                 bossBar.setProgress(progress);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof User user)) return false;
+        return user.getPlayerUUID().equals(this.getPlayerUUID());
     }
 
     /**

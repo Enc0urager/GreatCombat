@@ -4,7 +4,7 @@
   <groupId>dev.enco</groupId>
   <artifactId>GreatCombat</artifactId>
   <name>GreatCombat</name>
-  <version>1.7.4</version>
+  <version>1.8</version>
   <build>
     <resources>
       <resource>

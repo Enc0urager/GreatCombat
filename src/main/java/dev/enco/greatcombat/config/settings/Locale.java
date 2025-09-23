@@ -38,5 +38,6 @@ public record Locale(
         String soundDoesNotExist,
         String volumeAndPitchError,
         String nullSound,
-        String reload
+        String reload,
+        String updated
 ) {}

@@ -44,3 +44,5 @@ actions:
   on-join:
     - "[MESSAGE] You joined combat with {0}"
   on-merge: []
+# Don't change it !!!
+config-version: 1

@@ -162,3 +162,5 @@ commands:
     - /fix all
     - /tpa
     - /feed
+# Не менять !!!
+config-version: 1

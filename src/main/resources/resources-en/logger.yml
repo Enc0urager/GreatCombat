@@ -5,6 +5,7 @@ config-loaded: 'Config successfully loaded in '
 updates-found:
   - "You're using §coutdated §fversion of plugin"
   - "Download it here - §ehttps://www.spigotmc.org/resources/greatcombat.124029/"
+  - "Or use /combat update"
 updates-not-found: "You're using latest version of plugin"
 updates-error: 'Unable to check updates - '
 outdated-core:
@@ -29,6 +30,7 @@ command-help:
   - '/combat stopall - Stop all active combats'
   - '/combat give (Player1) (Player2) - Start combat for 2 players'
   - '/combat copy - Copy item in main hand'
+  - '/combat update - Updates plugin'
 player-not-found: 'Player {0} not found'
 specify-player: 'You need to specify player'
 not-in-combat: "Player isn't in combat"
@@ -44,3 +46,8 @@ sound-does-not-exist: "Sound {0} doesn't exist"
 volume-and-pitch-error: "Volume and pitch must be a number"
 null-sound: "Sound can't be null"
 reload: "Config successfully reloaded"
+config-update: "Found newer version of {0}, updating..."
+config-add: "Adding value {1} {2} to {0}.yml"
+updated: "Plugin updated, restart server to apply update"
+# Don't change it !!!
+config-version: 1

@@ -8,8 +8,7 @@ import lombok.Getter;
  * Powerups are abilities or states that can give players advantages in combat and may be
  * disabled or checked during combat sessions.
  *
- * @see PowerupChecker
- * @see PowerupDisabler
+ * @see Powerup
  * @see ServerManager
  */
 @Getter
@@ -20,8 +19,7 @@ public enum PowerupType {
     GAMEMODE,
     WALKSPEED;
 
-    private PowerupChecker powerupChecker;
-    private PowerupDisabler powerupDisabler;
+    private Powerup powerup;
 
     /**
      * Initializes the powerup type with specific checker and disabler implementations
@@ -31,31 +29,23 @@ public enum PowerupType {
      * @param serverManager The server manager implementation to provide checker and disabler instances.
      *
      * @see ServerManager
-     *
-     * @deprecated This method is deprecated and will be removed in version 1.8
      */
-    @Deprecated(since = "1.7.4")
     public void initialize(ServerManager serverManager) {
         switch (this) {
             case FLY:
-                this.powerupDisabler = serverManager.flyDisabler();
-                this.powerupChecker = serverManager.flyChecker();
+                this.powerup = serverManager.flyPowerup();
                 break;
             case GOD:
-                this.powerupDisabler = serverManager.godDisabler();
-                this.powerupChecker = serverManager.godChecker();
+                this.powerup = serverManager.godPowerup();
                 break;
             case VANISH:
-                this.powerupDisabler = serverManager.vanishDisabler();
-                this.powerupChecker = serverManager.vanishChecker();
+                this.powerup = serverManager.vanishPowerup();
                 break;
             case GAMEMODE:
-                this.powerupDisabler = serverManager.gamemodeDisabler();
-                this.powerupChecker = serverManager.gamemodeChecker();
+                this.powerup = serverManager.gamemodePowerup();
                 break;
             case WALKSPEED:
-                this.powerupDisabler = serverManager.walkspeedDisabler();
-                this.powerupChecker = serverManager.walkspeedChecker();
+                this.powerup = serverManager.walkspeedPowerup();
                 break;
         }
     }

@@ -1,10 +1,12 @@
 package dev.enco.greatcombat.manager;
 
 import dev.enco.greatcombat.api.*;
+import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -117,7 +119,7 @@ public class CombatManager {
     public User getOrCreateUser(UUID uuid) {
         var user = getUser(uuid);
         if (user != null) return user;
-        User u = new User(uuid);
+        User u = new User(uuid, TaskManager.getEntityScheduler(Bukkit.getPlayer(uuid)));
         playersInCombat.add(u);
         return u;
     }

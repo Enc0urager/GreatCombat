@@ -10,3 +10,5 @@ lines:
   - ''
 opponent: '&f{player} &c{health}❤ &9{ping}⇄'
 empty: '&7Отсутствуют'
+# Не менять !!!
+config-version: 1

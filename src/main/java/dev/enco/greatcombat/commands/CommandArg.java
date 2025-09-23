@@ -1,6 +1,5 @@
 package dev.enco.greatcombat.commands;
 
-import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.commands.impl.*;
 import lombok.Getter;
 
@@ -10,6 +9,7 @@ public enum CommandArg {
     STOP(new StopSubcommand()),
     STOPALL(new StopAllSubcommand()),
     GIVE(new CombatSubcommand()),
+    UPDATE(new UpdateSubcommand()),
     COPY(new CopySubcommand());
 
     private Subcommand subcommand;

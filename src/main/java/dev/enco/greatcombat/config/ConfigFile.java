@@ -3,6 +3,7 @@ package dev.enco.greatcombat.config;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,6 +13,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
+import java.util.Set;
 
 @Getter
 public class ConfigFile {
@@ -37,6 +40,7 @@ public class ConfigFile {
             }
         }
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
+        update();
     }
 
     public void reload() {
@@ -47,6 +51,38 @@ public class ConfigFile {
         var inputStreamReader = new InputStreamReader(plugin.getResource(filePath), StandardCharsets.UTF_8);
         var configuration = YamlConfiguration.loadConfiguration(inputStreamReader);
         this.fileConfiguration.setDefaults(configuration);
+    }
+
+    private static final Map<String, Integer> versions = Map.of(
+            "config", 1,
+            "logger", 1,
+            "messages", 1,
+            "scoreboard", 1
+    );
+    private static final Set<String> IGNORED = Set.of("preventable-items", "items-cooldowns");
+
+    @SneakyThrows
+    public void update() {
+        Integer ver = fileConfiguration.getInt("config-version");
+        int latest = versions.get(name);
+        if (ver == null || ver < latest) {
+            InputStream def = plugin.getResource(filePath);
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(
+                    new InputStreamReader(def, StandardCharsets.UTF_8));
+
+            for (String key : defConfig.getKeys(true)) {
+                if (IGNORED.contains(key.split("\\.")[0])) continue;
+                if (!fileConfiguration.contains(key)) {
+                    Object val = defConfig.get(key);
+                    fileConfiguration.set(key, val);
+                }
+            }
+
+            fileConfiguration.set("config-version", latest);
+            fileConfiguration.save(file);
+            reload();
+            def.close();
+        }
     }
 
     public FileConfiguration get() {

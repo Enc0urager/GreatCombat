@@ -5,10 +5,12 @@ import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.actions.ActionRegistry;
 import dev.enco.greatcombat.config.settings.*;
 import dev.enco.greatcombat.listeners.CommandsType;
+import dev.enco.greatcombat.powerups.PowerupType;
 import dev.enco.greatcombat.powerups.PowerupsManager;
 import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
+import dev.enco.greatcombat.utils.EnumUtils;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
@@ -149,7 +151,8 @@ public class ConfigManager {
                 lang.getString("sound-does-not-exist"),
                 lang.getString("volume-and-pitch-error"),
                 lang.getString("null-sound"),
-                lang.getString("reload")
+                lang.getString("reload"),
+                lang.getString("updated")
         );
     }
 
@@ -189,10 +192,14 @@ public class ConfigManager {
     private void setupPowerups(FileConfiguration config) {
         serverManager = config.getString("server-manager");
         powerups = new Powerups(
-                ImmutableSet.copyOf(PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("prevent-start-if-damager")))),
-                ImmutableSet.copyOf(PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("prevent-start-if-target")))),
-                ImmutableSet.copyOf(PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("disable-for-damager")))),
-                ImmutableSet.copyOf(PowerupsManager.transform(Colorizer.colorizeAll(config.getStringList("disable-for-target"))))
+                EnumUtils.toEnumSet(config.getStringList("prevent-start-if-damager"), PowerupType.class, s ->
+                        Logger.warn(locale.powerupTypeDoesNotExist())),
+                EnumUtils.toEnumSet(config.getStringList("prevent-start-if-target"), PowerupType.class, s ->
+                        Logger.warn(locale.powerupTypeDoesNotExist())),
+                EnumUtils.toEnumSet(config.getStringList("disable-for-damager"), PowerupType.class, s ->
+                        Logger.warn(locale.powerupTypeDoesNotExist())),
+                EnumUtils.toEnumSet(config.getStringList("disable-for-target"), PowerupType.class, s ->
+                        Logger.warn(locale.powerupTypeDoesNotExist()))
         );
     }
 

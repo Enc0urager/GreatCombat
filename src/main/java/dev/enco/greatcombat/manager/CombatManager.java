@@ -111,6 +111,18 @@ public class CombatManager {
     }
 
     /**
+     * Starts combat for single player without precombat checks and events calls
+     *
+     * @param player player to start combat for
+     * @apiNote This method don't call any events, use {@link #startCombat(Player, Player)} for 2 players instead
+     */
+    public void startSingle(Player player) {
+        UUID playerUUID = player.getUniqueId();
+        User user = getOrCreateUser(playerUUID);
+        user.refresh(System.currentTimeMillis());
+    }
+
+    /**
      * Gets existing user or creates new one if not found
      *
      * @param uuid player UUID

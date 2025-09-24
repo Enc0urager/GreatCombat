@@ -66,7 +66,7 @@ public class MetaManager {
         try {
             Class.forName("org.bukkit.potion.PotionData");
             IS_OLD = true;
-        } catch (ClassNotFoundException e) {}
+        } catch (ClassNotFoundException ignored) {}
 
         if (IS_OLD) {
             basePotionChecker = (first, second) -> {

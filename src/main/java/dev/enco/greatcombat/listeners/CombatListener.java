@@ -30,8 +30,11 @@ public class CombatListener implements Listener {
         Player target = e.getTarget();
 
         Settings settings = ConfigManager.getSettings();
+
         if (settings.ignoredWorlds().contains(damager.getWorld().getName())) {
-            e.setCancelled(true); return; }
+            e.setCancelled(true);
+            return;
+        }
 
         Powerups powerups = ConfigManager.getPowerups();
         if (PowerupsManager.hasPowerups(damager, powerups.preventableDamagerPowerups())

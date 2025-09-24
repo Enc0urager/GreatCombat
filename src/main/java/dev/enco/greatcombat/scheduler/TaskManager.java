@@ -3,7 +3,6 @@ package dev.enco.greatcombat.scheduler;
 import dev.enco.greatcombat.scheduler.impl.BukkitScheduler;
 import dev.enco.greatcombat.scheduler.impl.EntityScheduler;
 import dev.enco.greatcombat.scheduler.impl.FoliaScheduler;
-import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;

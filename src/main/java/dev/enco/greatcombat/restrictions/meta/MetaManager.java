@@ -62,13 +62,7 @@ public class MetaManager {
             return firstMeta.getCustomEffects().equals(secondMeta.getCustomEffects());
         };
 
-        boolean IS_OLD = false;
-        try {
-            Class.forName("org.bukkit.potion.PotionData");
-            IS_OLD = true;
-        } catch (ClassNotFoundException ignored) {}
-
-        if (IS_OLD) {
+        if (isLegacyPotionAPI()) {
             basePotionChecker = (first, second) -> {
                 if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
                         !(second.itemMeta() instanceof PotionMeta secondMeta))
@@ -109,6 +103,20 @@ public class MetaManager {
                 return false;
             return firstMeta.getOwningPlayer().equals(secondMeta.getOwningPlayer());
         };
+    }
+
+    /**
+     * Checks whether the server is using the legacy Potion API.
+     *
+     * @return true if legacy Potion API is available, false for modern API
+     */
+    private boolean isLegacyPotionAPI() {
+        try {
+            Class.forName("org.bukkit.potion.PotionData");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
     /**

@@ -29,6 +29,7 @@ public class MetaManager {
      */
     public void setup() {
         createSimple();
+        createPotion();
         createComplex();
     }
 
@@ -64,7 +65,7 @@ public class MetaManager {
     }
 
     // Splitting for codefactor
-    private void createComplex() {
+    private void createPotion() {
         if (isLegacyPotionAPI()) {
             basePotionChecker = (first, second) -> {
                 if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
@@ -80,7 +81,12 @@ public class MetaManager {
                 return firstMeta.getBasePotionType().equals(secondMeta.getBasePotionType());
             };
         }
+    }
 
+
+
+    // Splitting for codefactor
+    private void createComplex() {
         colorChecker = (first, second) -> {
             if (!(first.itemMeta() instanceof LeatherArmorMeta firstMeta) ||
                     !(second.itemMeta() instanceof LeatherArmorMeta secondMeta))

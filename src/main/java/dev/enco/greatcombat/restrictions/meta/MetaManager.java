@@ -28,11 +28,18 @@ public class MetaManager {
      * * Sets up all MetaChecker implementations.
      */
     public void setup() {
+        createSimple();
+        createComplex();
+    }
+
+
+    // Splitting for codefactor
+    private void createSimple() {
         metaChecker = (first, second) ->
                 first.itemMeta().equals(second.itemMeta());
 
         similarChecker = (first, second) ->
-            first.itemStack().isSimilar(second.itemStack());
+                first.itemStack().isSimilar(second.itemStack());
 
         materialChecker = (first, second) ->
                 first.itemStack().getType().equals(second.itemStack().getType());
@@ -54,14 +61,10 @@ public class MetaManager {
 
         unbreakableChecker = (first, second) ->
                 first.itemMeta().isUnbreakable() && second.itemMeta().isUnbreakable();
+    }
 
-        potionChecker = (first, second) -> {
-            if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
-                    !(second.itemMeta() instanceof PotionMeta secondMeta))
-                return false;
-            return firstMeta.getCustomEffects().equals(secondMeta.getCustomEffects());
-        };
-
+    // Splitting for codefactor
+    private void createComplex() {
         if (isLegacyPotionAPI()) {
             basePotionChecker = (first, second) -> {
                 if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
@@ -87,7 +90,7 @@ public class MetaManager {
 
         modelChecker = (first, second) ->
                 first.itemMeta().hasCustomModelData() == second.itemMeta().hasCustomModelData() &&
-                first.itemMeta().getCustomModelData() == second.itemMeta().getCustomModelData();
+                        first.itemMeta().getCustomModelData() == second.itemMeta().getCustomModelData();
 
         loreChecker = (first, second) -> {
             var firstLore = first.itemMeta().getLore();

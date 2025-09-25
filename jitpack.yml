@@ -2,5 +2,5 @@ jdk:
   - openjdk16
 before_install:
   - sdk update
-  - sdk install java 16.0.2-tem
-  - sdk use java 16.0.2-tem
+  - sdk install java 21.0.5-zulu
+  - sdk use java 21.0.5-zulu

@@ -2,6 +2,20 @@
 
 Функциональный менеджер режима боя. Задержки, скорборд, запреты и многое другое.
 
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+
+<dependency>
+<groupId>com.github.Enc0urager</groupId>
+<artifactId>GreatCombat</artifactId>
+<version>1.8-beta3</version>
+<scope>provided</scope>
+</dependency>
+```
+
 ![image](https://github.com/user-attachments/assets/65076725-cfe8-4de9-8014-a9fd4c6a9582)
 ![image](https://github.com/user-attachments/assets/b3e2c468-5bff-4829-bf40-2eb2bd028023)
 

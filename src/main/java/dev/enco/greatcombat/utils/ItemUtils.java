@@ -77,7 +77,7 @@ public class ItemUtils {
      * Gives multiple items to the player, dropping leftovers.
      *
      * @param player player to give items to
-     * @param items Collection of items to give
+     * @param items Array of items to give
      */
     public void giveOrDrop(Player player, ItemStack[] items) {
         var over = player.getInventory().addItem(items);

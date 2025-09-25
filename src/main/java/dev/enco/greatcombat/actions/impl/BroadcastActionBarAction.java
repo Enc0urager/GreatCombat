@@ -12,7 +12,7 @@ public class BroadcastActionBarAction implements Action<StringContext> {
     public void execute(@NotNull Player player, StringContext context, String... replacement) {
         String message = Placeholders.replaceInMessage(player, context.string(), replacement);
         for (var p : Bukkit.getOnlinePlayers()) {
-            p.sendActionBar(context.string());
+            p.sendActionBar(message);
         }
     }
 }

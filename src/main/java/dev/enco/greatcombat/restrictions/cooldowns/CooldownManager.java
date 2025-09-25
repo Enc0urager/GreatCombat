@@ -8,7 +8,7 @@ import dev.enco.greatcombat.restrictions.InteractionHandler;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.utils.EnumUtils;
-import dev.enco.greatcombat.utils.ItemSerializer;
+import dev.enco.greatcombat.utils.ItemUtils;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
@@ -69,7 +69,7 @@ public class CooldownManager {
             int time = itemSection.getInt("time");
 
             var item = new CooldownItem(
-                    ItemSerializer.decode(itemSection.getString("base64")),
+                    ItemUtils.decode(itemSection.getString("base64")),
                     Colorizer.colorize(itemSection.getString("translation")),
                     metas,
                     handlers,

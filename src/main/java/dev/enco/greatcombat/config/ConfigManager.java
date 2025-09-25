@@ -152,7 +152,9 @@ public class ConfigManager {
                 lang.getString("volume-and-pitch-error"),
                 lang.getString("null-sound"),
                 lang.getString("reload"),
-                lang.getString("updated")
+                lang.getString("updated"),
+                lang.getString("material-null"),
+                lang.getString("material-error")
         );
     }
 

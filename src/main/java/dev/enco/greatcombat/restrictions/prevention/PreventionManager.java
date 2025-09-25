@@ -5,7 +5,7 @@ import dev.enco.greatcombat.restrictions.CheckedMeta;
 import dev.enco.greatcombat.restrictions.InteractionHandler;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.utils.EnumUtils;
-import dev.enco.greatcombat.utils.ItemSerializer;
+import dev.enco.greatcombat.utils.ItemUtils;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
 import org.bukkit.configuration.ConfigurationSection;
@@ -65,7 +65,7 @@ public class PreventionManager {
             );
 
             preventableItems.add(new PreventableItem(
-                    ItemSerializer.decode(itemSection.getString("base64")),
+                    ItemUtils.decode(itemSection.getString("base64")),
                     itemSection.getString("translation"),
                     types,
                     handlers,

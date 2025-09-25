@@ -23,6 +23,8 @@ server-manager-loaded: 'Успешно подключено к {0} за '
 server-manager-error: 'Не удалось подключиться к '
 bar-color-error: "Цвет BossBar {0} не существует"
 bar-style-error: "Стиль BossBar {0} не существует"
+material-null: 'Материал не указан в {0}'
+material-error: "Материал {0} не существует"
 projectile-error: "Тип снаряда {0} не существует"
 command-help:
   - 'Список команд GreatCombat'

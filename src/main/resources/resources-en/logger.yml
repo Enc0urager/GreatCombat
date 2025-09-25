@@ -23,6 +23,8 @@ server-manager-loaded: 'Successfully hooked into {0} in '
 server-manager-error: 'Unable to hook into '
 bar-color-error: "BossBar color {0} doesn't exist"
 bar-style-error: "BossBar style {0} doesn't exist"
+material-null: 'Material is null at context {0}'
+material-error: "Material {0} doesn't exist"
 projectile-error: "Projectile type {0} doesn't exist"
 command-help:
   - 'GreatCombat commands help'

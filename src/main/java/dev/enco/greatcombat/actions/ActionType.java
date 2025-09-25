@@ -1,9 +1,6 @@
 package dev.enco.greatcombat.actions;
 
-import dev.enco.greatcombat.actions.context.Context;
-import dev.enco.greatcombat.actions.context.SoundContext;
-import dev.enco.greatcombat.actions.context.StringContext;
-import dev.enco.greatcombat.actions.context.TitleContext;
+import dev.enco.greatcombat.actions.context.*;
 import dev.enco.greatcombat.actions.impl.*;
 import lombok.Getter;
 
@@ -22,7 +19,9 @@ public enum ActionType {
     MESSAGE(new MessageAction(), StringContext.class),
     PLAYER(new PlayerAction(), StringContext.class),
     SOUND(new SoundAction(), SoundContext.class),
-    TITLE(new TitleAction(), TitleContext.class);
+    TITLE(new TitleAction(), TitleContext.class),
+    REMOVE_ITEMS(new RemoveItemAction(), MaterialContext.class),
+    BACK_ITEMS(new BackItemsAction(), StringContext.class);
 
     private final Action<?> action;
     private final Class<? extends Context> contextType;

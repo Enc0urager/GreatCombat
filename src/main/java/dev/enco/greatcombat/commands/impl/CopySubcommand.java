@@ -3,7 +3,7 @@ package dev.enco.greatcombat.commands.impl;
 import dev.enco.greatcombat.commands.Subcommand;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Locale;
-import dev.enco.greatcombat.utils.ItemSerializer;
+import dev.enco.greatcombat.utils.ItemUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.command.CommandSender;
@@ -23,7 +23,7 @@ public class CopySubcommand implements Subcommand {
                 pl.sendMessage(locale.emptyItem());
                 return true;
             }
-            Component component = Component.text(locale.click2Copy()).clickEvent(ClickEvent.copyToClipboard(ItemSerializer.encode(item)));
+            Component component = Component.text(locale.click2Copy()).clickEvent(ClickEvent.copyToClipboard(ItemUtils.encode(item)));
             pl.sendMessage(component);
         }
         return true;

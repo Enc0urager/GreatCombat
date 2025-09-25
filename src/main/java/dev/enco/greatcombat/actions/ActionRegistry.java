@@ -1,10 +1,7 @@
 package dev.enco.greatcombat.actions;
 
 import com.google.common.collect.ImmutableMap;
-import dev.enco.greatcombat.actions.context.Context;
-import dev.enco.greatcombat.actions.context.SoundContext;
-import dev.enco.greatcombat.actions.context.StringContext;
-import dev.enco.greatcombat.actions.context.TitleContext;
+import dev.enco.greatcombat.actions.context.*;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.utils.logger.Logger;
@@ -28,7 +25,8 @@ public class ActionRegistry {
     private static final ImmutableMap<Class<? extends Context>, Function<String, ? extends Context>> VALIDATORS = ImmutableMap.of(
             StringContext.class, StringContext::validate,
             TitleContext.class, TitleContext::validate,
-            SoundContext.class, SoundContext::validate
+            SoundContext.class, SoundContext::validate,
+            MaterialContext.class, MaterialContext::validate
     );
 
     /**

@@ -9,10 +9,10 @@
 </repository>
 
 <dependency>
-<groupId>com.github.Enc0urager</groupId>
-<artifactId>GreatCombat</artifactId>
-<version>1.8-beta3</version>
-<scope>provided</scope>
+    <groupId>com.github.Enc0urager</groupId>
+    <artifactId>GreatCombat</artifactId>
+    <version>1.8-beta3</version>
+    <scope>provided</scope>
 </dependency>
 ```
 

@@ -1,4 +1,4 @@
-# GreatCombat [![CodeFactor](https://www.codefactor.io/repository/github/enc0urager/greatcombat/badge)](https://www.codefactor.io/repository/github/enc0urager/greatcombat)
+# GreatCombat [![CodeFactor](https://www.codefactor.io/repository/github/enc0urager/greatcombat/badge)](https://www.codefactor.io/repository/github/enc0urager/greatcombat) [![](https://jitpack.io/v/Enc0urager/GreatCombat.svg)](https://jitpack.io/#Enc0urager/GreatCombat)
 
 Функциональный менеджер режима боя. Задержки, скорборд, запреты и многое другое.
 

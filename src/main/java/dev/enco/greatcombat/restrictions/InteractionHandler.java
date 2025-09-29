@@ -47,5 +47,10 @@ public enum InteractionHandler {
     /**
      * Bow shooting
      */
-    BOW_SHOOT
+    BOW_SHOOT,
+
+    /**
+     * Projectile lauch
+     */
+    PROJECTILE_LAUNCH
 }

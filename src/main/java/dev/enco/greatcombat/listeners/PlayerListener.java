@@ -15,6 +15,7 @@ import dev.enco.greatcombat.restrictions.prevention.PreventableItem;
 import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventionType;
 import dev.enco.greatcombat.utils.Time;
+import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -25,10 +26,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityResurrectEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -224,6 +222,21 @@ public class PlayerListener implements Listener {
             if (combatManager.isInCombat(uuid)) {
                 var is = e.getBow();
                 check(is, uuid, player, e, InteractionHandler.BOW_SHOOT);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onProjectileLaunch(ProjectileLaunchEvent e) {
+        if (e.getEntity().getShooter() instanceof Player player) {
+            var uuid = player.getUniqueId();
+            if (combatManager.isInCombat(uuid)) {
+                var equipment = player.getEquipment();
+                var itemInMain = equipment.getItemInMainHand();
+                var itemInOff = equipment.getItemInOffHand();
+                check(itemInMain, uuid, player, e, InteractionHandler.PROJECTILE_LAUNCH);
+                if (!itemInOff.getType().equals(itemInMain.getType()))
+                    check(itemInOff, uuid, player, e, InteractionHandler.PROJECTILE_LAUNCH);
             }
         }
     }

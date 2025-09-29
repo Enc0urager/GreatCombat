@@ -6,7 +6,6 @@ import dev.enco.greatcombat.actions.ActionRegistry;
 import dev.enco.greatcombat.config.settings.*;
 import dev.enco.greatcombat.listeners.CommandsType;
 import dev.enco.greatcombat.powerups.PowerupType;
-import dev.enco.greatcombat.powerups.PowerupsManager;
 import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;

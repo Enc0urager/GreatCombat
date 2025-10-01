@@ -4,7 +4,7 @@
   <groupId>dev.enco</groupId>
   <artifactId>GreatCombat</artifactId>
   <name>GreatCombat</name>
-  <version>1.8</version>
+  <version>1.8.1</version>
   <build>
     <resources>
       <resource>
@@ -149,6 +149,12 @@
       <groupId>com.palmergames.bukkit.towny</groupId>
       <artifactId>towny</artifactId>
       <version>0.101.2.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>it.unimi.dsi</groupId>
+      <artifactId>fastutil</artifactId>
+      <version>8.5.17</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

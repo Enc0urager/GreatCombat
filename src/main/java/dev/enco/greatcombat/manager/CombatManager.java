@@ -3,26 +3,26 @@ package dev.enco.greatcombat.manager;
 import dev.enco.greatcombat.api.*;
 import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 /**
  * Manager responsible for managing players combat state
  */
 public class CombatManager {
-    private final Set<User> playersInCombat = new HashSet<>();
+    private final Object2ObjectMap<UUID, User> playersInCombat = new Object2ObjectOpenHashMap<>();
     private final PluginManager pm = Bukkit.getPluginManager();
 
     /**
      * Stops all active combat modes
      */
     public void stop() {
-        for (var user : playersInCombat) {
+        for (var user : playersInCombat.values()) {
             user.deleteBossbar();
             ScoreboardManager.resetScoreboard(user);
             var runnable = user.getRunnable();
@@ -37,8 +37,7 @@ public class CombatManager {
      * @return true if player in combat, false otherwise
      */
     public boolean isInCombat(UUID uuid) {
-        return playersInCombat.stream()
-                .anyMatch(user -> user.getPlayerUUID().equals(uuid));
+        return playersInCombat.containsKey(uuid);
     }
 
     /**
@@ -47,7 +46,7 @@ public class CombatManager {
      * @param user User that will be removed
      */
     public void removeFromCombatMap(User user) {
-        this.playersInCombat.remove(user);
+        this.playersInCombat.remove(user.getPlayerUUID());
     }
 
     /**
@@ -57,10 +56,7 @@ public class CombatManager {
      * @return User or null if not in combat
      */
     public User getUser(UUID uuid) {
-        return playersInCombat.stream()
-                .filter(user -> user.getPlayerUUID().equals(uuid))
-                .findFirst()
-                .orElse(null);
+        return playersInCombat.get(uuid);
     }
 
     /**
@@ -132,7 +128,7 @@ public class CombatManager {
         var user = getUser(uuid);
         if (user != null) return user;
         User u = new User(uuid, TaskManager.getEntityScheduler(Bukkit.getPlayer(uuid)));
-        playersInCombat.add(u);
+        playersInCombat.put(uuid, u);
         return u;
     }
 

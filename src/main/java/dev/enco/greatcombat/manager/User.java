@@ -4,20 +4,19 @@ import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.api.CombatTickEvent;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Bossbar;
-import dev.enco.greatcombat.config.settings.Scoreboard;
 import dev.enco.greatcombat.config.settings.Settings;
 import dev.enco.greatcombat.scheduler.IScheduler;
 import dev.enco.greatcombat.scheduler.WrappedTask;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.Time;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -25,7 +24,7 @@ import java.util.UUID;
  */
 @Data
 public class User {
-    private List<User> opponents = new ArrayList<>();
+    private ObjectSet<User> opponents = new ObjectOpenHashSet<>();
     private long startPvpTime;
     private final UUID playerUUID;
     private BossBar bossBar;
@@ -82,7 +81,7 @@ public class User {
      */
     public void deleteBossbar() {
         if (bossBar != null) {
-            bossBar.removePlayer(Bukkit.getPlayer(getPlayerUUID()));
+            bossBar.removePlayer(toPlayer());
             this.bossBar = null;
         }
     }
@@ -120,7 +119,7 @@ public class User {
                     barSettings.style()
             );
             bossBar.setProgress(1.0);
-            bossBar.addPlayer(Bukkit.getPlayer(playerUUID));
+            bossBar.addPlayer(toPlayer());
             bossBar.setVisible(true);
         }
     }

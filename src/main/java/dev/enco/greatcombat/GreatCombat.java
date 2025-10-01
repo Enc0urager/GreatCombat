@@ -13,7 +13,6 @@ import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.utils.UpdateUtils;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Event;
@@ -25,8 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.event.WrappedDisallowedPVPEvent;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 

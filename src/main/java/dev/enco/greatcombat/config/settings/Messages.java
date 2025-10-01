@@ -1,21 +1,20 @@
 package dev.enco.greatcombat.config.settings;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dev.enco.greatcombat.actions.ActionType;
 import dev.enco.greatcombat.actions.context.Context;
 
-import java.util.List;
-
 public record Messages(
-        ImmutableMap<ActionType, List<Context>> onStartDamager,
-        ImmutableMap<ActionType, List<Context>> onStartTarget,
-        ImmutableMap<ActionType, List<Context>> onStop,
-        ImmutableMap<ActionType, List<Context>> onItemCooldown,
-        ImmutableMap<ActionType, List<Context>> onPvpLeave,
-        ImmutableMap<ActionType, List<Context>> onPvpCommand,
-        ImmutableMap<ActionType, List<Context>> onInteract,
-        ImmutableMap<ActionType, List<Context>> onTick,
-        ImmutableMap<ActionType, List<Context>> onPlayerCommand,
-        ImmutableMap<ActionType, List<Context>> onJoin,
-        ImmutableMap<ActionType, List<Context>> onMerge
+        ImmutableMap<ActionType, ImmutableList<Context>> onStartDamager,
+        ImmutableMap<ActionType, ImmutableList<Context>> onStartTarget,
+        ImmutableMap<ActionType, ImmutableList<Context>> onStop,
+        ImmutableMap<ActionType, ImmutableList<Context>> onItemCooldown,
+        ImmutableMap<ActionType, ImmutableList<Context>> onPvpLeave,
+        ImmutableMap<ActionType, ImmutableList<Context>> onPvpCommand,
+        ImmutableMap<ActionType, ImmutableList<Context>> onInteract,
+        ImmutableMap<ActionType, ImmutableList<Context>> onTick,
+        ImmutableMap<ActionType, ImmutableList<Context>> onPlayerCommand,
+        ImmutableMap<ActionType, ImmutableList<Context>> onJoin,
+        ImmutableMap<ActionType, ImmutableList<Context>> onMerge
 ) {}

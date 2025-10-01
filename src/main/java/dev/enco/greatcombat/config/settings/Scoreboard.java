@@ -1,10 +1,10 @@
 package dev.enco.greatcombat.config.settings;
 
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 public record Scoreboard(
         String title,
-        List<String> lines,
+        ImmutableList<String> lines,
         String opponent,
         String empty,
         boolean enable

@@ -15,7 +15,6 @@ import dev.enco.greatcombat.restrictions.prevention.PreventableItem;
 import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventionType;
 import dev.enco.greatcombat.utils.Time;
-import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;

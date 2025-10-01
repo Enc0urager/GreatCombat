@@ -1,5 +1,6 @@
 package dev.enco.greatcombat.config;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.actions.ActionRegistry;
@@ -159,9 +160,9 @@ public class ConfigManager {
 
     private void setupScoreboard() {
         var scoreboardConfig = FilesHandler.getConfigFile("scoreboard").get();
-        this.scoreboard = new Scoreboard(
+        scoreboard = new Scoreboard(
                 Colorizer.colorize(scoreboardConfig.getString("title")),
-                Colorizer.colorizeAll(scoreboardConfig.getStringList("lines")),
+                ImmutableList.copyOf(Colorizer.colorizeAll(scoreboardConfig.getStringList("lines"))),
                 Colorizer.colorize(scoreboardConfig.getString("opponent")),
                 Colorizer.colorize(scoreboardConfig.getString("empty")),
                 scoreboardConfig.getBoolean("enable")

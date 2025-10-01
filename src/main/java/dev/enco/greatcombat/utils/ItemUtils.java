@@ -1,11 +1,8 @@
 package dev.enco.greatcombat.utils;
 
 import dev.enco.greatcombat.GreatCombat;
-import dev.enco.greatcombat.actions.context.MaterialContext;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.utils.logger.Logger;
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,9 +10,10 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 /**
  * Utility class for serializing and deserializing ItemStacks to/from Base64 strings.

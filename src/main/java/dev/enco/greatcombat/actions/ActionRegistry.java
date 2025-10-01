@@ -1,5 +1,6 @@
 package dev.enco.greatcombat.actions;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dev.enco.greatcombat.actions.context.*;
 import dev.enco.greatcombat.config.ConfigManager;
@@ -8,7 +9,6 @@ import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +36,9 @@ public class ActionRegistry {
      * @param settings List of action configuration strings in format "[ACTION_TYPE] context"
      * @return Immutable map of ActionType to list of validated Contexts
      */
-    public ImmutableMap<ActionType, List<Context>> transform(List<String> settings) {
+    public ImmutableMap<ActionType, ImmutableList<Context>> transform(List<String> settings) {
         Locale locale = ConfigManager.getLocale();
-        Map<ActionType, List<Context>> actions = new HashMap<>();
+        Map<ActionType, ImmutableList.Builder<Context>> actions = new HashMap<>();
         for (var s : settings) {
             var matcher = ACTION_PATTERN.matcher(s);
             if (!matcher.matches()) {
@@ -55,15 +55,22 @@ public class ActionRegistry {
             }
 
             var contextStr = matcher.group(2).trim();
-            actions.putIfAbsent(type, new ArrayList<>());
+            ImmutableList.Builder<Context> contextBuilder = actions.computeIfAbsent(
+                    type, k -> ImmutableList.builder()
+            );
 
             Function<String, ? extends Context> validator = VALIDATORS.get(type.getContextType());
             Context context = validator.apply(contextStr);
             if (context != null) {
-                actions.get(type).add(context);
+                contextBuilder.add(context);
             }
         }
-        return ImmutableMap.copyOf(actions);
+        ImmutableMap.Builder<ActionType, ImmutableList<Context>> result = ImmutableMap.builder();
+
+        for (var entry : actions.entrySet())
+            result.put(entry.getKey(), entry.getValue().build());
+
+        return result.build();
     }
 }
 

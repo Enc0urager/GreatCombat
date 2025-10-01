@@ -6,7 +6,7 @@
 
   <groupId>dev.enco</groupId>
   <artifactId>GreatCombat</artifactId>
-  <version>1.8-release</version>
+  <version>1.8.1</version>
   <packaging>jar</packaging>
 
   <name>GreatCombat</name>
@@ -183,6 +183,12 @@
       <artifactId>worldguardwrapper</artifactId>
       <version>1.2.1-SNAPSHOT</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>it.unimi.dsi</groupId>
+      <artifactId>fastutil</artifactId>
+      <version>8.5.17</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>

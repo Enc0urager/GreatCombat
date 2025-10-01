@@ -16,11 +16,11 @@ Functional combat mode manager.
 </dependency>
 ```
 
-##How to use api?
-see javadoc or https://encourager.gitbook.io/greatplugins/ispolzovanie-api
+## How to use api?
+see javadoc or [`docs`](https://encourager.gitbook.io/greatplugins)
 
-##How to use plugin?
-see docs https://encourager.gitbook.io/greatplugins
+## How to use plugin?
+see [`docs`](https://encourager.gitbook.io/greatplugins)
 
-##How to report bugs?
-You can use github issues or dm me on discord ```_encourager_```
+## How to report bugs?
+You can use [`issues`](https://github.com/Enc0urager/GreatCombat/issues) or dm me on discord `_encourager_`

@@ -2,6 +2,7 @@ package dev.enco.greatcombat.restrictions.cooldowns;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.google.common.collect.ImmutableMap;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.restrictions.CheckedMeta;
 import dev.enco.greatcombat.restrictions.InteractionHandler;
@@ -15,7 +16,6 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 @UtilityClass
 public class CooldownManager {
-    private final Map<CooldownItem, Cache<UUID, Long>> itemsCooldowns = new HashMap<>();
+    private ImmutableMap<CooldownItem, Cache<UUID, Long>> itemsCooldowns;
 
     /**
      * Retrieves the CooldownItem associated with the given ItemStack.
@@ -37,10 +37,10 @@ public class CooldownManager {
      * @return CooldownItem if found, null otherwise
      */
     public CooldownItem getCooldownItem(ItemStack i) {
-        return itemsCooldowns.keySet().stream()
-                .filter(item -> MetaManager.isSimilar(item.itemStack(),i, item.checkedMetas()))
-                .findFirst()
-                .orElse(null);
+        for (var item : itemsCooldowns.keySet())
+            if (MetaManager.isSimilar(item.itemStack(), i, item.checkedMetas()))
+                return item;
+        return null;
     }
 
     /**
@@ -51,6 +51,7 @@ public class CooldownManager {
     public void setupCooldownItems(FileConfiguration config) {
         final var locale = ConfigManager.getLocale();
         var section = config.getConfigurationSection("items-cooldowns");
+        Map<CooldownItem, Cache<UUID, Long>> temp = new HashMap<>();
         for (var key : section.getKeys(false)) {
             var itemSection = section.getConfigurationSection(key);
 
@@ -76,10 +77,11 @@ public class CooldownManager {
                     time,
                     itemSection.getBoolean("set-material-cooldown")
             );
-            itemsCooldowns.put(item, Caffeine.newBuilder()
+            temp.put(item, Caffeine.newBuilder()
                     .expireAfterWrite(time, TimeUnit.SECONDS)
                     .build());
         }
+        itemsCooldowns = ImmutableMap.copyOf(temp);
     }
 
     /**

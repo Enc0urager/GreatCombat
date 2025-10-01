@@ -21,7 +21,7 @@ import java.util.List;
  */
 @UtilityClass
 public class PreventionManager {
-    private final List<PreventableItem> preventableItems = new ArrayList<>();
+    private PreventableItem[] preventableItems = new PreventableItem[0];
 
     /**
      * Retrieves the PreventableItem associated with the given ItemStack.
@@ -30,10 +30,11 @@ public class PreventionManager {
      * @return PreventableItem if found, null otherwise
      */
     public PreventableItem getPreventableItem(ItemStack itemStack) {
-        return preventableItems.stream()
-                .filter(item -> MetaManager.isSimilar(item.itemStack(), itemStack, item.checkedMetas()))
-                .findFirst()
-                .orElse(null);
+        for (PreventableItem item : preventableItems)
+            if (MetaManager.isSimilar(item.itemStack(), itemStack, item.checkedMetas()))
+                return item;
+
+        return null;
     }
 
     /**
@@ -43,6 +44,7 @@ public class PreventionManager {
      */
     public void load(ConfigurationSection section) {
         final var locale = ConfigManager.getLocale();
+        List<PreventableItem> itemsList = new ArrayList<>();
         for (var key : section.getKeys(false)) {
             var itemSection = section.getConfigurationSection(key);
 
@@ -64,7 +66,7 @@ public class PreventionManager {
                     type -> Logger.warn(MessageFormat.format(locale.blockerDoesNotExist(), type))
             );
 
-            preventableItems.add(new PreventableItem(
+            itemsList.add(new PreventableItem(
                     ItemUtils.decode(itemSection.getString("base64")),
                     itemSection.getString("translation"),
                     types,
@@ -73,5 +75,6 @@ public class PreventionManager {
                     itemSection.getBoolean("set-material-cooldown")
             ));
         }
+        preventableItems = itemsList.toArray(new PreventableItem[0]);
     }
 }

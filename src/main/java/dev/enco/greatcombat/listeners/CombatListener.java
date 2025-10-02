@@ -1,7 +1,6 @@
 package dev.enco.greatcombat.listeners;
 
 import dev.enco.greatcombat.GreatCombat;
-import dev.enco.greatcombat.actions.ActionExecutor;
 import dev.enco.greatcombat.api.*;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Messages;
@@ -64,7 +63,7 @@ public class CombatListener implements Listener {
         long now = System.currentTimeMillis();
         user.refresh(now);
         Messages messages = ConfigManager.getMessages();
-        ActionExecutor.execute(joiner.toPlayer(), messages.onJoin(), userPlayer.getName());
+        messages.onJoin().execute(joiner.toPlayer(), userPlayer.getName());
         Powerups powerups = ConfigManager.getPowerups();
         processStart(joiner, powerups, now, e.getDamager().getPlayerUUID().equals(joiner.getPlayerUUID()));
     }
@@ -86,8 +85,8 @@ public class CombatListener implements Listener {
         Messages messages = ConfigManager.getMessages();
         Player damagerPlayer = damager.toPlayer();
         Player targetPlayer = target.toPlayer();
-        ActionExecutor.execute(damagerPlayer, messages.onStartDamager(), targetPlayer.getName());
-        ActionExecutor.execute(targetPlayer, messages.onStartTarget(), damagerPlayer.getName());
+        messages.onStartDamager().execute(damagerPlayer, targetPlayer.getName());
+        messages.onStartTarget().execute(targetPlayer, damagerPlayer.getName());
     }
 
     @EventHandler(
@@ -104,8 +103,8 @@ public class CombatListener implements Listener {
         Player damagerPlayer = damager.toPlayer();
         Player targetPlayer = target.toPlayer();
         Messages messages = ConfigManager.getMessages();
-        ActionExecutor.execute(damagerPlayer, messages.onMerge(), targetPlayer.getName());
-        ActionExecutor.execute(targetPlayer, messages.onMerge(), damagerPlayer.getName());
+        messages.onMerge().execute(damagerPlayer, targetPlayer.getName());
+        messages.onMerge().execute(targetPlayer, damagerPlayer.getName());
     }
 
     private void processStart(User user, Powerups powerups, long now, boolean damager) {
@@ -133,7 +132,7 @@ public class CombatListener implements Listener {
         combatManager.removeFromCombatMap(user);
         var player = user.toPlayer();
         Messages messages = ConfigManager.getMessages();
-        ActionExecutor.execute(player, messages.onStop());
+        messages.onStop().execute(player);
         CooldownManager.clearPlayerCooldowns(player);
     }
 
@@ -148,7 +147,7 @@ public class CombatListener implements Listener {
         Settings settings = ConfigManager.getSettings();
         if (settings.killOnLeave() && !player.hasPermission("greatcombat.kill.bypass")) {
             player.setHealth(0);
-            ActionExecutor.execute(player, messages.onPvpLeave(), player.getName());
+            messages.onPvpLeave().execute(player, player.getName());
         }
     }
 
@@ -165,7 +164,7 @@ public class CombatListener implements Listener {
             var kickmessages = settings.kickMessages();
             if (kickmessages.isEmpty() || kickmessages.contains(e.getReason())) {
                 player.setHealth(0);
-                ActionExecutor.execute(player, messages.onPvpLeave(), player.getName());
+                messages.onPvpLeave().execute(player, player.getName());
             }
         }
     }
@@ -180,7 +179,7 @@ public class CombatListener implements Listener {
         Settings settings = ConfigManager.getSettings();
         if (remainingTime < settings.minTime()) combatManager.stopCombat(user);
         else {
-            ActionExecutor.execute(user.toPlayer(), messages.onTick(), Time.format((int) (remainingTime / 1000L)));
+            messages.onTick().execute(user.toPlayer(), Time.format((int) (remainingTime / 1000L)));
             user.updateBoardAndBar(remainingTime);
         }
     }

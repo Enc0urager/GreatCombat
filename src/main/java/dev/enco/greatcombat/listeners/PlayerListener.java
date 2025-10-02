@@ -1,6 +1,5 @@
 package dev.enco.greatcombat.listeners;
 
-import dev.enco.greatcombat.actions.ActionExecutor;
 import dev.enco.greatcombat.api.PlayerKickInCombatEvent;
 import dev.enco.greatcombat.api.PlayerLeaveInCombatEvent;
 import dev.enco.greatcombat.config.ConfigManager;
@@ -107,7 +106,7 @@ public class PlayerListener implements Listener {
                 }
             }
             if (cancel) {
-                ActionExecutor.execute(player, messages.onPvpCommand());
+                messages.onPvpCommand().execute(player);
                 e.setCancelled(true);
             }
         }
@@ -122,7 +121,7 @@ public class PlayerListener implements Listener {
                 Player player = Bukkit.getPlayer(targetName);
                 if (player != null && combatManager.isInCombat(player.getUniqueId())) {
                     e.setCancelled(true);
-                    ActionExecutor.execute(sender, messages.onPlayerCommand(), targetName);
+                    messages.onPlayerCommand().execute(sender, targetName);
                     break;
                 }
             } catch (IndexOutOfBoundsException ignored) {}
@@ -301,7 +300,7 @@ public class PlayerListener implements Listener {
     private void handlePreventable(PreventableItem preventable, Player player, Cancellable e) {
         Messages messages = ConfigManager.getMessages();
         if (player.hasPermission("greatcombat.prevention.bypass")) return;
-        ActionExecutor.execute(player, messages.onInteract(), preventable.translation());
+        messages.onInteract().execute(player, preventable.translation());
         e.setCancelled(true);
     }
 
@@ -310,7 +309,7 @@ public class PlayerListener implements Listener {
         if (CooldownManager.hasCooldown(uuid, item)) {
             int time = CooldownManager.getCooldownTime(uuid, item);
             Messages messages = ConfigManager.getMessages();
-            ActionExecutor.execute(player, messages.onItemCooldown(), Time.format(time), item.translation());
+            messages.onItemCooldown().execute(player, Time.format(time), item.translation());
             e.setCancelled(true);
         } else CooldownManager.putCooldown(uuid, player, item);
     }

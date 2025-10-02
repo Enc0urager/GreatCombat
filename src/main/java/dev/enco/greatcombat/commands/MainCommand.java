@@ -8,6 +8,7 @@ import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,10 +37,11 @@ public class MainCommand implements TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!sender.hasPermission("greatcombat.admin")) return null;
-        if (args.length == 1) return
-                Arrays.stream(CommandArg.values())
-                        .map(arg -> arg.name().toLowerCase())
-                        .toList();
+        if (args.length == 1) {
+            List<String> result = new ArrayList<>();
+            for (var cmd : CommandArg.values()) result.add(cmd.name().toLowerCase());
+            return result;
+        }
         try {
             var arg = CommandArg.valueOf(args[0].toUpperCase());
             return arg.getSubcommand().onTab();

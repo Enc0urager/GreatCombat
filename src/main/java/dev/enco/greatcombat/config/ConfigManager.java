@@ -3,7 +3,7 @@ package dev.enco.greatcombat.config;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import dev.enco.greatcombat.GreatCombat;
-import dev.enco.greatcombat.actions.ActionRegistry;
+import dev.enco.greatcombat.actions.ActionFactory;
 import dev.enco.greatcombat.config.settings.*;
 import dev.enco.greatcombat.listeners.CommandsType;
 import dev.enco.greatcombat.powerups.PowerupType;
@@ -71,7 +71,6 @@ public class ConfigManager {
         long start = System.currentTimeMillis();
         mainConfig = FilesHandler.getConfigFile("config").get();
         metricsEnable = mainConfig.getBoolean("metrics");
-        Logger.info(String.valueOf(metricsEnable));
         setupLogger();
         var colorizerSection = mainConfig.getConfigurationSection("colorizer");
         if (colorizerSection == null) mainConfig.createSection("colorizer");
@@ -243,17 +242,17 @@ public class ConfigManager {
     private void setupActions(FileConfiguration config) {
         var section = config.getConfigurationSection("actions");
         this.messages = new Messages(
-                ActionRegistry.transform(section.getStringList("on-start-damager")),
-                ActionRegistry.transform(section.getStringList("on-start-target")),
-                ActionRegistry.transform(section.getStringList("on-stop")),
-                ActionRegistry.transform(section.getStringList("on-item-cooldown")),
-                ActionRegistry.transform(section.getStringList("on-pvp-leave")),
-                ActionRegistry.transform(section.getStringList("on-pvp-command")),
-                ActionRegistry.transform(section.getStringList("on-interact-prevention")),
-                ActionRegistry.transform(section.getStringList("on-tick")),
-                ActionRegistry.transform(section.getStringList("on-player-command")),
-                ActionRegistry.transform(section.getStringList("on-join")),
-                ActionRegistry.transform(section.getStringList("on-merge"))
+                ActionFactory.from(section.getStringList("on-start-damager")),
+                ActionFactory.from(section.getStringList("on-start-target")),
+                ActionFactory.from(section.getStringList("on-stop")),
+                ActionFactory.from(section.getStringList("on-item-cooldown")),
+                ActionFactory.from(section.getStringList("on-pvp-leave")),
+                ActionFactory.from(section.getStringList("on-pvp-command")),
+                ActionFactory.from(section.getStringList("on-interact-prevention")),
+                ActionFactory.from(section.getStringList("on-tick")),
+                ActionFactory.from(section.getStringList("on-player-command")),
+                ActionFactory.from(section.getStringList("on-join")),
+                ActionFactory.from(section.getStringList("on-merge"))
         );
     }
 

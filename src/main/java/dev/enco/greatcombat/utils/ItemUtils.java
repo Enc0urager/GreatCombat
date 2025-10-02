@@ -60,7 +60,9 @@ public class ItemUtils {
     public ItemStack[] findAndRemove(Inventory inventory, Material material) {
         List<ItemStack> result = new ArrayList<>();
 
-        for (int i = 0; i < inventory.getSize(); i++) {
+        int size = inventory.getSize();
+
+        for (int i = 0; i < size; i++) {
             var stack = inventory.getItem(i);
             if (stack != null && stack.getType() == material) {
                 result.add(stack.clone());

@@ -86,6 +86,7 @@ public class PowerupsManager {
      * @param checks Set of powerup types to disable
      */
     public void disablePowerups(Player player, EnumSet<PowerupType> checks) {
+        if (player.hasPermission("greatcombat.powerups.bypass")) return;
         for (PowerupType check : checks) {
             check.getPowerup().disablePowerup(player);
         }

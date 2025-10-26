@@ -28,6 +28,7 @@ public class CombatManager {
             var runnable = user.getRunnable();
             if (runnable != null) runnable.cancel();
         }
+        playersInCombat.clear();
     }
 
     /**

@@ -4,7 +4,7 @@
   <groupId>dev.enco</groupId>
   <artifactId>GreatCombat</artifactId>
   <name>GreatCombat</name>
-  <version>1.8.2</version>
+  <version>1.8.3</version>
   <build>
     <resources>
       <resource>
@@ -156,26 +156,6 @@
       <artifactId>fastutil</artifactId>
       <version>8.5.17</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>junit-jupiter-api</artifactId>
-          <groupId>org.junit.jupiter</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>junit-jupiter-params</artifactId>
-          <groupId>org.junit.jupiter</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>junit-jupiter-engine</artifactId>
-          <groupId>org.junit.jupiter</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
   <properties>

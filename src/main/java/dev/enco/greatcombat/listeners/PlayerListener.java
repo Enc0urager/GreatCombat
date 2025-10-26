@@ -298,7 +298,6 @@ public class PlayerListener implements Listener {
     }
 
     private void handlePreventable(PreventableItem preventable, Player player, Cancellable e) {
-        Messages messages = ConfigManager.getMessages();
         if (player.hasPermission("greatcombat.prevention.bypass")) return;
         messages.onInteract().execute(player, preventable.translation());
         e.setCancelled(true);

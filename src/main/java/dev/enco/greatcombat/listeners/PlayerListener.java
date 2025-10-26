@@ -168,7 +168,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onConsume(PlayerItemConsumeEvent e) {
         var player = e.getPlayer();
         var uuid = player.getUniqueId();
@@ -178,7 +178,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent e) {
         var player = e.getPlayer();
         var uuid = player.getUniqueId();
@@ -188,7 +188,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         var player = e.getPlayer();
         var uuid = player.getUniqueId();
@@ -198,9 +198,9 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onResurrect(EntityResurrectEvent e) {
-        if (e.getEntity() instanceof Player player && !e.isCancelled()) {
+        if (e.getEntity() instanceof Player player) {
             var uuid = player.getUniqueId();
             if (combatManager.isInCombat(uuid)) {
                 var equipment = player.getEquipment();
@@ -213,7 +213,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onShoot(EntityShootBowEvent e) {
         if (e.getEntity() instanceof Player player) {
             var uuid = player.getUniqueId();
@@ -224,7 +224,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onProjectileLaunch(ProjectileLaunchEvent e) {
         if (e.getEntity().getShooter() instanceof Player player) {
             var uuid = player.getUniqueId();
@@ -299,6 +299,7 @@ public class PlayerListener implements Listener {
 
     private void handlePreventable(PreventableItem preventable, Player player, Cancellable e) {
         if (player.hasPermission("greatcombat.prevention.bypass")) return;
+        Messages messages = ConfigManager.getMessages();
         messages.onInteract().execute(player, preventable.translation());
         e.setCancelled(true);
     }

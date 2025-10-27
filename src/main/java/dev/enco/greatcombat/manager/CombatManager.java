@@ -83,7 +83,11 @@ public class CombatManager {
         if (!alreadyOpponents) {
             CombatPreStartEvent preStartEvent = new CombatPreStartEvent(damager, target);
             pm.callEvent(preStartEvent);
-            if (preStartEvent.isCancelled()) return;
+            if (preStartEvent.isCancelled()) {
+                if (!isDamagerInCombat) removeFromCombatMap(damagerUser);
+                if (!isTargetInCombat) removeFromCombatMap(targetUser);
+                return;
+            }
         }
 
         CombatDamageEvent event;

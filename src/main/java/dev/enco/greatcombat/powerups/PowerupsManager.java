@@ -16,6 +16,7 @@ import java.util.EnumSet;
  * Provides methods for powerup transformation, server manager setup, and powerup checking/disabling.
  */
 @UtilityClass @Getter
+@SuppressWarnings("unused")
 public class PowerupsManager {
     private ServerManager serverManager;
     /**
@@ -57,9 +58,8 @@ public class PowerupsManager {
                 break;
             }
         }
-        for (PowerupType type : PowerupType.values()) {
+        for (PowerupType type : PowerupType.values())
             type.initialize(serverManager);
-        }
     }
 
     /**
@@ -71,11 +71,10 @@ public class PowerupsManager {
      */
     public boolean hasPowerups(Player player, EnumSet<PowerupType> checks) {
         if (player.hasPermission("greatcombat.powerups.bypass")) return false;
-        for (PowerupType check : checks) {
-            if (check.getPowerup().hasPowerup(player)) {
-                return true;
-            }
-        }
+
+        for (PowerupType check : checks)
+            if (check.getPowerup().hasPowerup(player)) return true;
+
         return false;
     }
 
@@ -87,8 +86,7 @@ public class PowerupsManager {
      */
     public void disablePowerups(Player player, EnumSet<PowerupType> checks) {
         if (player.hasPermission("greatcombat.powerups.bypass")) return;
-        for (PowerupType check : checks) {
+        for (PowerupType check : checks)
             check.getPowerup().disablePowerup(player);
-        }
     }
 }

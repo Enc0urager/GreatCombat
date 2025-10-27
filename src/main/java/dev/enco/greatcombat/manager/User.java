@@ -59,7 +59,7 @@ public class User {
         this.runnable = scheduler.runRepeating(() ->
             pm.callEvent(new CombatTickEvent(User.this)),
                 20L,
-                    settings.tickInterval()
+                settings.tickInterval()
         );
     }
 
@@ -165,6 +165,11 @@ public class User {
         }
     }
 
+    /**
+     * Compares this User to the specified object.
+     *
+     * @return true if object equal, false otherwise
+     */
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof User user)) return false;

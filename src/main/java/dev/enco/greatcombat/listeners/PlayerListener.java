@@ -38,10 +38,10 @@ public class PlayerListener implements Listener {
     private final PluginManager pm = Bukkit.getPluginManager();
 
     @EventHandler(
-                priority = EventPriority.MONITOR
+            priority = EventPriority.MONITOR,
+            ignoreCancelled = true
     )
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) return;
         if (e.getEntity() instanceof Player target) {
             var damager = getDamager(e.getDamager());
             if (damager != null) {
@@ -116,15 +116,17 @@ public class PlayerListener implements Listener {
         Commands commands = ConfigManager.getCommands();
         Messages messages = ConfigManager.getMessages();
         for (var s : commands.playerCommands()) {
-            if (command.startsWith(s)) try {
-                String targetName = command.replace(s, "").split(" ")[1];
-                Player player = Bukkit.getPlayer(targetName);
-                if (player != null && combatManager.isInCombat(player.getUniqueId())) {
-                    e.setCancelled(true);
-                    messages.onPlayerCommand().execute(sender, targetName);
-                    break;
-                }
-            } catch (IndexOutOfBoundsException ignored) {}
+            if (command.startsWith(s)) {
+                try {
+                    String targetName = command.replace(s, "").split(" ")[1];
+                    Player player = Bukkit.getPlayer(targetName);
+                    if (player != null && combatManager.isInCombat(player.getUniqueId())) {
+                        e.setCancelled(true);
+                        messages.onPlayerCommand().execute(sender, targetName);
+                        break;
+                    }
+                } catch (IndexOutOfBoundsException ignored) {}
+            }
         }
     }
 

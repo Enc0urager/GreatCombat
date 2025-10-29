@@ -13,6 +13,7 @@ public record Locale(
         List<String> outdatedCore,
         String tabDiscardedInstance,
         String sbProvider,
+        String sbError,
         String handlerDoesNotExist,
         String metaDoesNotExist,
         String blockerDoesNotExist,

@@ -1,6 +1,7 @@
-package dev.enco.greatcombat.scoreboard;
+package dev.enco.greatcombat.scoreboard.impl;
 
 import dev.enco.greatcombat.manager.User;
+import dev.enco.greatcombat.scoreboard.ScoreboardProvider;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.scoreboard.Scoreboard;
 import me.neznamy.tab.api.scoreboard.ScoreboardManager;

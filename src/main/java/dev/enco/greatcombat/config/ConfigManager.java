@@ -128,6 +128,7 @@ public class ConfigManager {
                 lang.getStringList("outdated-core"),
                 lang.getString("tab-discarded-instance"),
                 lang.getString("scoreboard-provider"),
+                lang.getString("scoreboard-error"),
                 lang.getString("handler-does-not-exist"),
                 lang.getString("meta-does-not-exist"),
                 lang.getString("blocker-does-not-exist"),

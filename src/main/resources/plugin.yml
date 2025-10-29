@@ -12,6 +12,7 @@ softdepend:
   - WorldGuard
   - Towny
   - LangHelper
+  - SternalBoard
 commands:
   greatcombat:
     aliases: combat

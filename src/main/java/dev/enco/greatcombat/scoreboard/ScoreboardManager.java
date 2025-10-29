@@ -4,10 +4,13 @@ import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.config.settings.Scoreboard;
 import dev.enco.greatcombat.manager.User;
+import dev.enco.greatcombat.scoreboard.impl.FastBoardProvider;
+import dev.enco.greatcombat.scoreboard.impl.TABProvider;
 import dev.enco.greatcombat.utils.Placeholders;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,16 +31,31 @@ public class ScoreboardManager {
      */
     public void setProvider(String s) {
         Locale locale = ConfigManager.getLocale();
-        Logger.info(locale.sbProvider().replace("{0}", s));
-        switch (s) {
-            case "TAB": {
-                provider = new TABProvider();
-                return;
-            }
-            default: {
-                provider = new FastBoardProvider();
-            }
+        try {
+            ScoreboardProviderType type = ScoreboardProviderType.valueOf(s.toUpperCase());
+            setProvider(type);
+            Logger.info(locale.sbProvider().replace("{0}", s));
+        } catch (IllegalArgumentException e) {
+            Logger.warn(MessageFormat.format(locale.sbError(), s));
         }
+    }
+
+    /**
+     * Sets the scoreboard provider implementation directly.
+     *
+     * @param scoreboardProvider The scoreboard provider instance to use
+     */
+    public void setProvider(ScoreboardProvider scoreboardProvider) {
+        provider = scoreboardProvider;
+    }
+
+    /**
+     * Sets the scoreboard provider implementation based on the provider type.
+     *
+     * @param type The type of scoreboard provider to use
+     */
+    public void setProvider(ScoreboardProviderType type) {
+        setProvider(type.getProvider());
     }
 
     /**

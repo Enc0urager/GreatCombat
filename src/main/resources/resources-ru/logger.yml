@@ -14,6 +14,7 @@ outdated-core:
   - "Скачайте здесь - §6https://papermc.io/downloads/all"
 tab-discarded-instance: 'Экземпляр TabAPI был сброшен из-за перезагрузки плагина. Изменяем экземпляр...'
 scoreboard-provider: 'Используем {0} для управления скорбордами'
+scoreboard-error: "Провайдер скорборда {0} не существует, используем FASTBOARD"
 handler-does-not-exist: "Обработчик {0} не существует"
 meta-does-not-exist: "Проверка {0} не возможна"
 blocker-does-not-exist: "Тип блокировки {0} не существует"

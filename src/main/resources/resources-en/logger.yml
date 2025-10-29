@@ -14,6 +14,7 @@ outdated-core:
   - "Download it here - §6https://papermc.io/downloads/all"
 tab-discarded-instance: 'TabAPI instance got discarded because plugin was reloaded. Changing instance...'
 scoreboard-provider: 'Using {0} for scoreboard manage'
+scoreboard-error: "Scoreboard provider {0} doesn't exist, using FASTBOARD"
 handler-does-not-exist: "Handler {0} doesn't exist"
 meta-does-not-exist: "Meta {0} doesn't exist"
 blocker-does-not-exist: "Prevention type {0} doesn't exist"

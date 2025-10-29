@@ -190,10 +190,18 @@
       <version>8.5.17</version>
       <scope>provided</scope>
     </dependency>
+    <!-- Пока так, разработчик поломал публикацию в maven -->
     <dependency>
-      <groupId>com.github.BoomEaro</groupId>
+      <groupId>ru.boomearo</groupId>
       <artifactId>LangHelper</artifactId>
       <version>1.5.18</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/LangHelper-1.5.18.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.github.ShieldCommunity</groupId>
+      <artifactId>SternalBoard</artifactId>
+      <version>2.2.0-PRE</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

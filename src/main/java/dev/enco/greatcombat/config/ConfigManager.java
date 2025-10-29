@@ -11,6 +11,7 @@ import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.EnumUtils;
+import dev.enco.greatcombat.utils.LangUtils;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
@@ -72,6 +73,7 @@ public class ConfigManager {
         mainConfig = FilesHandler.getConfigFile("config").get();
         metricsEnable = mainConfig.getBoolean("metrics");
         setupLogger();
+        LangUtils.setup();
         var colorizerSection = mainConfig.getConfigurationSection("colorizer");
         if (colorizerSection == null) mainConfig.createSection("colorizer");
         Colorizer.setColorizer(mainConfig.getString("colorizer", "LEGACY"));
@@ -89,6 +91,7 @@ public class ConfigManager {
         PreventionManager.load(mainConfig.getConfigurationSection("preventable-items"));
         usingPapi = mainConfig.getBoolean("use-papi");
         teleportEnable = mainConfig.getBoolean("allow-teleport");
+        LangUtils.shutdown(mainConfig.getBoolean("disable-lang"));
         Logger.info(locale.configLoaded() + (System.currentTimeMillis() - start) + " ms.");
     }
 
@@ -153,7 +156,9 @@ public class ConfigManager {
                 lang.getString("reload"),
                 lang.getString("updated"),
                 lang.getString("material-null"),
-                lang.getString("material-error")
+                lang.getString("material-error"),
+                lang.getString("lang-error"),
+                lang.getString("lang-success")
         );
     }
 

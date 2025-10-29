@@ -142,7 +142,7 @@ public class User {
     public long getRemaining() {
         long leftTime = System.currentTimeMillis() - startPvpTime;
         Settings settings = ConfigManager.getSettings();
-        long totalTime = settings.combatTime() * 1000;
+        long totalTime = settings.combatTime() * 1000L;
         return totalTime - leftTime;
     }
 

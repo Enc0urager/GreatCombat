@@ -54,6 +54,16 @@ time-to-stop: 1
 ignored-projectile:
   - EGG
   - SNOWBALL
+# You can automatically translate item names from the "items-cooldowns" and "preventable-items" sections
+# To do this, leave the translation: '' field empty or remove it
+# If the translation field is not empty, the value from it will be used
+# To make this work, you need to install the plugin from here - https://github.com/BoomEaro/LangHelper/releases
+# This does not burden your server at all (translation is performed once when the plugin is enabled)
+use-lang-helper: false
+# The language that will be used
+helper-lang: "EN_US"
+# Should LangHelper be disabled after all items have been successfully translated?
+disable-lang: false
 # Available handlers:
 # CONSUME - while you eat item
 # RIGHT_CLICK_AIR - right click air
@@ -166,4 +176,4 @@ commands:
     - /tpa
     - /feed
 # Don't change it !!!
-config-version: 1
+config-version: 2

@@ -1,8 +1,8 @@
 package dev.enco.greatcombat.manager;
 
 import dev.enco.greatcombat.utils.ItemUtils;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @UtilityClass
 public class ItemsManager {
-    private final Object2ObjectMap<UUID, EnumMap<Material, ItemStack[]>> stored = new Object2ObjectOpenHashMap<>();
+    private final Reference2ObjectMap<UUID, EnumMap<Material, ItemStack[]>> stored = new Reference2ObjectOpenHashMap<>();
 
     public void removeItems(Player player, Material material) {
         UUID uuid = player.getUniqueId();

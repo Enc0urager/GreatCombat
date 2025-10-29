@@ -10,6 +10,7 @@ import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.utils.EnumUtils;
 import dev.enco.greatcombat.utils.ItemUtils;
+import dev.enco.greatcombat.utils.LangUtils;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
@@ -70,9 +71,10 @@ public class CooldownManager {
 
             int time = itemSection.getInt("time");
 
+            var itemStack = ItemUtils.decode(itemSection.getString("base64"));
             var item = new CooldownItem(
-                    ItemUtils.decode(itemSection.getString("base64")),
-                    Colorizer.colorize(itemSection.getString("translation")),
+                    itemStack,
+                    Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), itemStack)),
                     metas,
                     handlers,
                     time,

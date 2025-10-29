@@ -11,6 +11,7 @@ softdepend:
   - PlaceholderAPI
   - WorldGuard
   - Towny
+  - LangHelper
 commands:
   greatcombat:
     aliases: combat

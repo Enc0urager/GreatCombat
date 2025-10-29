@@ -53,6 +53,16 @@ time-to-stop: 1
 ignored-projectile:
   - EGG
   - SNOWBALL
+#Вы можете автоматически переводить названия предметов из секций "items-cooldowns" и "preventable-items"
+#Для этого оставьте поле translation: '' либо уберите его
+#Если поле translation не пустое - будет использоваться значение из него.
+#Для работы необходимо установить плагин отсюда - https://github.com/BoomEaro/LangHelper/releases
+#Это никак не нагружает ваш сервер (перевод осуществляется 1 раз при включении плагина)
+use-lang-helper: false
+#Язык, который будет использоваться
+helper-lang: "RU_RU"
+#Нужно ли выключать LangHelper после того, как все предметы успешно переведены?
+disable-lang: false
 # Доступные обработчики:
 # CONSUME - при употреблении предмета
 # RIGHT_CLICK_AIR - ПКМ по воздуху
@@ -163,4 +173,4 @@ commands:
     - /tpa
     - /feed
 # Не менять !!!
-config-version: 1
+config-version: 2

@@ -3,8 +3,8 @@ package dev.enco.greatcombat.manager;
 import dev.enco.greatcombat.api.*;
 import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -15,7 +15,7 @@ import java.util.UUID;
  * Manager responsible for managing players combat state
  */
 public class CombatManager {
-    private final Object2ObjectMap<UUID, User> playersInCombat = new Object2ObjectOpenHashMap<>();
+    private final Reference2ObjectMap<UUID, User> playersInCombat = new Reference2ObjectOpenHashMap<>();
     private final PluginManager pm = Bukkit.getPluginManager();
 
     /**

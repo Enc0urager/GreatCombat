@@ -51,5 +51,7 @@ reload: "Config successfully reloaded"
 config-update: "Found newer version of {0}, updating..."
 config-add: "Adding value {1} {2} to {0}.yml"
 updated: "Plugin updated, restart server to apply update"
+lang-error: "Unable to hook into LangHelper - "
+lang-success: "Successfully hooked into LangHelper using {0} locale"
 # Don't change it !!!
-config-version: 1
+config-version: 2

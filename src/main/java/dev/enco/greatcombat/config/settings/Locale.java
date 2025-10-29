@@ -41,5 +41,7 @@ public record Locale(
         String reload,
         String updated,
         String nullMaterial,
-        String materialError
+        String materialError,
+        String langError,
+        String langSuccess
 ) {}

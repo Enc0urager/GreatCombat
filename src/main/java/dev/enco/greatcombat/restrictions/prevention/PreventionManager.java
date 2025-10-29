@@ -6,6 +6,8 @@ import dev.enco.greatcombat.restrictions.InteractionHandler;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.utils.EnumUtils;
 import dev.enco.greatcombat.utils.ItemUtils;
+import dev.enco.greatcombat.utils.LangUtils;
+import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
 import org.bukkit.configuration.ConfigurationSection;
@@ -66,9 +68,10 @@ public class PreventionManager {
                     type -> Logger.warn(MessageFormat.format(locale.blockerDoesNotExist(), type))
             );
 
+            var item = ItemUtils.decode(itemSection.getString("base64"));
             itemsList.add(new PreventableItem(
-                    ItemUtils.decode(itemSection.getString("base64")),
-                    itemSection.getString("translation"),
+                    item,
+                    Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), item)),
                     types,
                     handlers,
                     metas,

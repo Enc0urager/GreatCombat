@@ -35,6 +35,7 @@ public class ScoreboardManager {
             Logger.info(locale.sbProvider().replace("{0}", s));
         } catch (IllegalArgumentException e) {
             Logger.warn(MessageFormat.format(locale.sbError(), s));
+            setProvider(ScoreboardProviderType.FASTBOARD);
         }
     }
 

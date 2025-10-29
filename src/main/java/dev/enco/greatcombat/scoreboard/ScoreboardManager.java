@@ -4,8 +4,6 @@ import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.config.settings.Scoreboard;
 import dev.enco.greatcombat.manager.User;
-import dev.enco.greatcombat.scoreboard.impl.FastBoardProvider;
-import dev.enco.greatcombat.scoreboard.impl.TABProvider;
 import dev.enco.greatcombat.utils.Placeholders;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;

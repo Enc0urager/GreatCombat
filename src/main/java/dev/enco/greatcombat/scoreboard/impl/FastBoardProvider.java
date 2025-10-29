@@ -5,6 +5,7 @@ import dev.enco.greatcombat.scoreboard.ScoreboardProvider;
 import fr.mrmicky.fastboard.FastBoard;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+
 import java.util.List;
 import java.util.UUID;
 

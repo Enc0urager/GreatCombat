@@ -1,5 +1,6 @@
 package dev.enco.greatcombat.listeners;
 
+import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.api.PlayerKickInCombatEvent;
 import dev.enco.greatcombat.api.PlayerLeaveInCombatEvent;
 import dev.enco.greatcombat.config.ConfigManager;
@@ -27,6 +28,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.EnumSet;
@@ -48,6 +50,10 @@ public class PlayerListener implements Listener {
                 combatManager.startCombat(damager, target);
             }
         }
+        if (e.getEntity() instanceof EnderCrystal crystal) {
+            Player exploder = getDamager(e.getDamager());
+            if (exploder != null) crystal.setMetadata("exploder", new FixedMetadataValue(GreatCombat.getInstance(), exploder.getUniqueId()));
+        }
     }
 
     private Player getDamager(Entity damager) {
@@ -57,6 +63,8 @@ public class PlayerListener implements Listener {
             if (!settings.ignoredProjectile().contains(damager.getType())) return pl;
         if (damager instanceof AreaEffectCloud cl && cl.getSource() instanceof Player pl) return pl;
         if (damager instanceof TNTPrimed tnt && tnt.getSource() instanceof Player pl) return pl;
+        if (damager instanceof EnderCrystal crystal && crystal.hasMetadata("exploder"))
+            return Bukkit.getPlayer((UUID) crystal.getMetadata("exploder").get(0).value());
         return null;
     }
 

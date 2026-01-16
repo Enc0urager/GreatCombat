@@ -6,7 +6,7 @@
 
   <groupId>dev.enco</groupId>
   <artifactId>GreatCombat</artifactId>
-  <version>1.8.5</version>
+  <version>1.9</version>
   <packaging>jar</packaging>
 
   <name>GreatCombat</name>

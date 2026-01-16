@@ -144,6 +144,9 @@ public class CooldownManager {
      * @param player The player to clear cooldowns for
      */
     public void clearPlayerCooldowns(Player player) {
-        for (var item : itemsCooldowns.keySet()) player.setCooldown(item.itemStack().getType(), 0);
+        for (var entry: itemsCooldowns.entrySet()) {
+            player.setCooldown(entry.getKey().itemStack().getType(), 0);
+            entry.getValue().invalidate(player.getUniqueId());
+        }
     }
 }

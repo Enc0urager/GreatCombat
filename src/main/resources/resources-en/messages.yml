@@ -44,5 +44,7 @@ actions:
   on-join:
     - "[MESSAGE] You joined combat with {0}"
   on-merge: []
+  on-cooldown-expired:
+    - "[TITLE] &r;&fCooldown for {0} was expired"
 # Don't change it !!!
-config-version: 1
+config-version: 2

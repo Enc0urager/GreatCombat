@@ -258,7 +258,8 @@ public class ConfigManager {
                 ActionFactory.from(section.getStringList("on-tick")),
                 ActionFactory.from(section.getStringList("on-player-command")),
                 ActionFactory.from(section.getStringList("on-join")),
-                ActionFactory.from(section.getStringList("on-merge"))
+                ActionFactory.from(section.getStringList("on-merge")),
+                ActionFactory.from(section.getStringList("on-cooldown-expired"))
         );
     }
 

@@ -13,5 +13,6 @@ public record Messages(
         ActionMap onTick,
         ActionMap onPlayerCommand,
         ActionMap onJoin,
-        ActionMap onMerge
+        ActionMap onMerge,
+        ActionMap onCooldownExpired
 ) {}

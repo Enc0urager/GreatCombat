@@ -2,6 +2,8 @@ package dev.enco.greatcombat.restrictions.cooldowns;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalCause;
+import com.github.benmanes.caffeine.cache.Scheduler;
 import com.google.common.collect.ImmutableMap;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.restrictions.CheckedMeta;
@@ -14,6 +16,7 @@ import dev.enco.greatcombat.utils.LangUtils;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -70,11 +73,12 @@ public class CooldownManager {
             );
 
             int time = itemSection.getInt("time");
-
             var itemStack = ItemUtils.decode(itemSection.getString("base64"));
+            var translation = Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), itemStack));
+
             var item = new CooldownItem(
                     itemStack,
-                    Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), itemStack)),
+                    translation,
                     metas,
                     handlers,
                     time,
@@ -82,6 +86,11 @@ public class CooldownManager {
             );
             temp.put(item, Caffeine.newBuilder()
                     .expireAfterWrite(time, TimeUnit.SECONDS)
+                    .scheduler(Scheduler.systemScheduler())
+                    .removalListener(((k, v, cause) -> {
+                        if (cause == RemovalCause.EXPIRED)
+                            ConfigManager.getMessages().onCooldownExpired().execute(Bukkit.getPlayer((UUID) k), translation);
+                    }))
                     .build());
         }
         itemsCooldowns = ImmutableMap.copyOf(temp);

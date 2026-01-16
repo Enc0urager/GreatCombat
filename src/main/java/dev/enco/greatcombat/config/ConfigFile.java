@@ -56,7 +56,7 @@ public class ConfigFile {
     private static final Map<String, Integer> versions = Map.of(
             "config", 2,
             "logger", 2,
-            "messages", 1,
+            "messages", 2,
             "scoreboard", 1
     );
     private static final Set<String> IGNORED = Set.of("preventable-items", "items-cooldowns");

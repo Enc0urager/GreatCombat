@@ -46,5 +46,7 @@ actions:
   on-merge: []
   on-cooldown-expired:
     - "[TITLE] &r;&fCooldown for {0} was expired"
+  on-held:
+    - "[TITLE] &r;&f{0} cooldown expires in {1}"
 # Don't change it !!!
 config-version: 2

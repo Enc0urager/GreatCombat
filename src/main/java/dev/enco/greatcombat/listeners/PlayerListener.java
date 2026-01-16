@@ -241,6 +241,27 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onHeld(PlayerItemHeldEvent e) {
+        var player = e.getPlayer();
+        var uuid = player.getUniqueId();
+        if (combatManager.isInCombat(uuid)) {
+            var is = player.getInventory().getItem(e.getNewSlot());
+            if (is == null) return;
+            var item = CooldownManager.getCooldownItem(is);
+            if (item == null) return;
+            if (CooldownManager.hasCooldown(uuid, item)) {
+                ConfigManager.getMessages().onItemHeld().execute(
+                        player,
+                        item.translation(),
+                        Time.format(
+                                CooldownManager.getCooldownTime(uuid, item)
+                        )
+                );
+            }
+        }
+    }
+
     private void handleBlockInteraction(PlayerInteractEvent e, Player player) {
         var blockMaterial = e.getClickedBlock() != null ? e.getClickedBlock().getType() : null;
         if (blockMaterial != null && blockMaterial.isItem()) {

@@ -12,6 +12,7 @@ import dev.enco.greatcombat.restrictions.prevention.PreventionManager;
 import dev.enco.greatcombat.scoreboard.ScoreboardManager;
 import dev.enco.greatcombat.utils.EnumUtils;
 import dev.enco.greatcombat.utils.LangUtils;
+import dev.enco.greatcombat.utils.PapiExpansion;
 import dev.enco.greatcombat.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
@@ -90,6 +91,16 @@ public class ConfigManager {
         checkUpdates = mainConfig.getBoolean("update-checker");
         PreventionManager.load(mainConfig.getConfigurationSection("preventable-items"));
         usingPapi = mainConfig.getBoolean("use-papi");
+        var expansion = mainConfig.getConfigurationSection("expansion");
+        if (usingPapi)
+            new PapiExpansion(
+                    new Expansion(
+                            expansion.getString("error"),
+                            expansion.getString("true"),
+                            expansion.getString("false"),
+                            expansion.getString("delimiter")
+                    )
+            ).register();
         teleportEnable = mainConfig.getBoolean("allow-teleport");
         LangUtils.shutdown(mainConfig.getBoolean("disable-lang"));
         Logger.info(locale.configLoaded() + (System.currentTimeMillis() - start) + " ms.");

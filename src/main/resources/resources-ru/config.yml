@@ -15,6 +15,11 @@ update-checker: true
 # Заменять плейсхолдеры в скорбордах и сообщениях
 use-papi: false
 # Отображение времени
+expansion:
+  error: 'N/A'
+  true: '&aДа'
+  false: '&cНет'
+  delimiter: '; '
 time:
   seconds:
     form1: 'секунда'
@@ -173,4 +178,4 @@ commands:
     - /tpa
     - /feed
 # Не менять !!!
-config-version: 2
+config-version: 3

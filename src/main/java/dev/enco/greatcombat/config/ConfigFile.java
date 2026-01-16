@@ -54,7 +54,7 @@ public class ConfigFile {
     }
 
     private static final Map<String, Integer> versions = Map.of(
-            "config", 2,
+            "config", 3,
             "logger", 2,
             "messages", 2,
             "scoreboard", 1

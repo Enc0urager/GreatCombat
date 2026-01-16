@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Entity for managing combat state, opponents, timer, and visual effects.
@@ -32,6 +33,13 @@ public class User {
     private WrappedTask<?> runnable;
     private static final PluginManager pm = Bukkit.getPluginManager();
     private final IScheduler scheduler;
+
+    public String getOpponentsFormatted(String delimiter) {
+        return opponents.stream()
+                .map(User::toPlayer).map(Player::getName)
+                .collect(Collectors.joining(delimiter));
+
+    }
 
     /**
      * Converts the user's UUID to a Player

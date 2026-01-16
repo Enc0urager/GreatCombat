@@ -15,6 +15,11 @@ update-checker: true
 #Will placeholders be filled in scoreboards and messages
 #In messages, placeholders are filled in for the player who receives them
 use-papi: false
+expansion:
+  error: 'N/A'
+  true: '&aYes'
+  false: '&cNo'
+  delimiter: '; '
 # Time displaying
 time:
   seconds:
@@ -176,4 +181,4 @@ commands:
     - /tpa
     - /feed
 # Don't change it !!!
-config-version: 2
+config-version: 3

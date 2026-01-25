@@ -4,7 +4,7 @@
   <groupId>dev.enco</groupId>
   <artifactId>GreatCombat</artifactId>
   <name>GreatCombat</name>
-  <version>1.8.5</version>
+  <version>1.9</version>
   <build>
     <resources>
       <resource>
@@ -169,6 +169,13 @@
       <version>1.5.18</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/libs/LangHelper-1.5.18.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.ssomar.score</groupId>
+      <artifactId>SCore</artifactId>
+      <version>5.26.1.24</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/SCore-5.26.1.24.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

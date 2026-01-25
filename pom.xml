@@ -190,7 +190,6 @@
       <version>8.5.17</version>
       <scope>provided</scope>
     </dependency>
-    <!-- Пока так, разработчик поломал публикацию в maven -->
     <dependency>
       <groupId>ru.boomearo</groupId>
       <artifactId>LangHelper</artifactId>

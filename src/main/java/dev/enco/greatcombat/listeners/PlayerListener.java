@@ -188,7 +188,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent e) {
         var player = e.getPlayer();
         var uuid = player.getUniqueId();

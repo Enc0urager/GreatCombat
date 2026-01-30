@@ -13,6 +13,7 @@ softdepend:
   - Towny
   - LangHelper
   - SternalBoard
+  - Lands
 commands:
   greatcombat:
     aliases: combat

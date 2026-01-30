@@ -164,18 +164,17 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>com.github.angeschossen</groupId>
+      <artifactId>LandsAPI</artifactId>
+      <version>7.23.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>ru.boomearo</groupId>
       <artifactId>LangHelper</artifactId>
       <version>1.5.18</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/libs/LangHelper-1.5.18.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>com.ssomar.score</groupId>
-      <artifactId>SCore</artifactId>
-      <version>5.26.1.24</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/libs/SCore-5.26.1.24.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

@@ -7,14 +7,21 @@ import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.listeners.CombatListener;
 import dev.enco.greatcombat.listeners.PlayerListener;
 import dev.enco.greatcombat.manager.CombatManager;
+import dev.enco.greatcombat.manager.User;
 import dev.enco.greatcombat.powerups.PowerupsManager;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.utils.UpdateUtils;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.Getter;
+import me.angeschossen.lands.api.events.player.area.PlayerAreaEnterEvent;
+import me.angeschossen.lands.api.handler.APIHandler;
+import me.angeschossen.lands.api.LandsIntegration;
+import me.angeschossen.lands.api.land.Area;
+import me.angeschossen.lands.api.player.LandPlayer;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,6 +33,7 @@ import org.codemc.worldguardwrapper.event.WrappedDisallowedPVPEvent;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 public final class GreatCombat extends JavaPlugin {
@@ -118,6 +126,29 @@ public final class GreatCombat extends JavaPlugin {
 
                             if (damagerInCombat && targetInCombat)
                                 event.setCancelled(false);
+                        }
+                    }
+                };
+                break;
+            }
+            case "Lands": {
+                LandsIntegration api = LandsIntegration.of(GreatCombat.getInstance());
+                listener = new Listener() {
+                    @EventHandler
+                    public void listenEnter(PlayerAreaEnterEvent e) {
+                        Area area = e.getArea();
+                        LandPlayer landPlayer = e.getLandPlayer();
+                        Player player = landPlayer.getPlayer();
+                        UUID uuid = player.getUniqueId();
+                        if (combatManager.isInCombat(uuid)) {
+                            User user = combatManager.getUser(uuid);
+                            for (var opponent : user.getOpponents()) {
+                                LandPlayer lPlayer = api.getLandPlayer(opponent.getPlayerUUID());
+                                if (!area.canPvP(landPlayer, lPlayer, false)) {
+                                    e.setCancelled(true);
+                                    break;
+                                }
+                            }
                         }
                     }
                 };

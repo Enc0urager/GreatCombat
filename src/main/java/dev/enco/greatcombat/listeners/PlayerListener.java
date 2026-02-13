@@ -122,7 +122,9 @@ public class PlayerListener implements Listener {
     private boolean matchSubcommands(String command, String subCommand, Commands commands) {
         var cmds = commands.commands();
         var subCmds = cmds.get(command);
-        if (subCmds == null || subCmds.isEmpty()) return true;
+        if (subCmds == null) return false;
+        if (subCmds.isEmpty()) return true;
+        if (subCommand == null) return false;
         return subCmds.contains(subCommand);
     }
 

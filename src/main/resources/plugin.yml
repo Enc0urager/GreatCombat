@@ -14,6 +14,10 @@ softdepend:
   - LangHelper
   - SternalBoard
   - Lands
+  - DeluxeMenus
+  - BMenu
+  - AbstractMenu
+  - zMenu
 commands:
   greatcombat:
     aliases: combat

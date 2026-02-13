@@ -136,6 +136,7 @@ public final class GreatCombat extends JavaPlugin {
                 listener = new Listener() {
                     @EventHandler
                     public void listenEnter(PlayerAreaEnterEvent e) {
+                        if (!worlds.contains(e.getLandPlayer().getPlayer().getWorld().getName())) return;
                         Area area = e.getArea();
                         LandPlayer landPlayer = e.getLandPlayer();
                         Player player = landPlayer.getPlayer();

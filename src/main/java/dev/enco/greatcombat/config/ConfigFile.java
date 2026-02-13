@@ -13,8 +13,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 public class ConfigFile {
@@ -54,7 +53,7 @@ public class ConfigFile {
     }
 
     private static final Map<String, Integer> versions = Map.of(
-            "config", 3,
+            "config", 4,
             "logger", 2,
             "messages", 2,
             "scoreboard", 1
@@ -75,6 +74,23 @@ public class ConfigFile {
                 if (!fileConfiguration.contains(key)) {
                     Object val = defConfig.get(key);
                     fileConfiguration.set(key, val);
+                }
+            }
+
+            if (name.equals("config") && (ver == null || ver < 4)) {
+                if (fileConfiguration.isList("commands.commands")) {
+                    var list = fileConfiguration.getList("commands.commands");
+                    if (list != null && !list.isEmpty()) {
+                        List<Map<String, List<String>>> newList = new ArrayList<>();
+                        for (var obj : list) {
+                            if (obj instanceof String cmd) {
+                                Map<String, List<String>> map = new HashMap<>();
+                                map.put(cmd, new ArrayList<>());
+                                newList.add(map);
+                            }
+                        }
+                        fileConfiguration.set("commands.commands", newList);
+                    }
                 }
             }
 

@@ -5,6 +5,7 @@ import dev.enco.greatcombat.restrictions.InteractionHandler;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * Record representing an item that can have cooldowns during combat.
@@ -15,6 +16,7 @@ import java.util.EnumSet;
  * @param handlers The interaction handlers that trigger cooldown
  * @param time The cooldown time in seconds
  * @param setMaterialCooldown Whether to set material cooldown visually
+ * @param linkedItems Items that will be blocked with current item
  */
 public record CooldownItem(
        ItemStack itemStack,
@@ -22,5 +24,6 @@ public record CooldownItem(
        EnumSet<CheckedMeta> checkedMetas,
        EnumSet<InteractionHandler> handlers,
        int time,
-       boolean setMaterialCooldown
+       boolean setMaterialCooldown,
+       Set<String> linkedItems
 ) {}

@@ -92,6 +92,8 @@ items-cooldowns:
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs7ILyotjk8rKs0sYWRgdc4vzQPSAGpDd/c8AAAA'
     time: 20
     set-material-cooldown: true
+    linked-items:
+      - GOLDEN_APPLE
   GOLDEN_APPLE:
     translation: 'Golden Apple'
     handlers:
@@ -103,6 +105,8 @@ items-cooldowns:
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDLzcxLTS5KTCuxSs/PSUnNi08sKMhJZWRgdc4vzSthZAAAKVnRWDwAAAA='
     time: 30
     set-material-cooldown: true
+    linked-items:
+      - CHORUS_FRUIT
 #Items interact with that will be blocked in combat
 #handlers is similar with cooldowns
 #prevention item types:
@@ -167,9 +171,9 @@ commands:
   change-tabcomplete: true
   #If empty all commands will be available
   commands:
-    - tell
-    - msg
-    - check
+    - tell: [ ]
+    - msg: [ ]
+    - check: [ confess, chat ]
   # Settings for blocking commands targeting other players
   # Only the beginning is checked, you need to write all command arguments up to the player's nickname
   # For example, if you want to block the command /fix all {player} - write /fix all
@@ -181,4 +185,4 @@ commands:
     - /tpa
     - /feed
 # Don't change it !!!
-config-version: 3
+config-version: 4

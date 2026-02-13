@@ -87,7 +87,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler(
-            priority = EventPriority.HIGHEST
+            priority = EventPriority.LOWEST
     )
     public void onPreprocess(PlayerCommandPreprocessEvent e) {
         var player = e.getPlayer();
@@ -97,19 +97,18 @@ public class PlayerListener implements Listener {
         Commands commands = ConfigManager.getCommands();
         Messages messages = ConfigManager.getMessages();
         if (combatManager.isInCombat(uuid) && !commands.commands().isEmpty()) {
-            var command = e.getMessage().split(" ")[0].replaceFirst("/", "");
+            String[] args = e.getMessage().split(" ");
+            String command = args[0].substring(1).toLowerCase();
+            String subCommand = args.length > 1 ? args[1].toLowerCase() : null;
             boolean cancel = false;
+            boolean match = matchSubcommands(command, subCommand, commands);
             switch (commands.changeType()) {
                 case BLACKLIST: {
-                    if (commands.commands().contains(command)) {
-                        cancel = true;
-                    }
+                    if (match) cancel = true;
                     break;
                 }
                 case WHITELIST: {
-                    if (!commands.commands().contains(command)) {
-                        cancel = true;
-                    }
+                    if (!match) cancel = true;
                     break;
                 }
             }
@@ -118,6 +117,13 @@ public class PlayerListener implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+
+    private boolean matchSubcommands(String command, String subCommand, Commands commands) {
+        var cmds = commands.commands();
+        var subCmds = cmds.get(command);
+        if (subCmds == null || subCmds.isEmpty()) return true;
+        return subCmds.contains(subCommand);
     }
 
     private void handlePlayerCommand(Player sender, String command, Cancellable e) {
@@ -153,11 +159,11 @@ public class PlayerListener implements Listener {
                     switch (commands.changeType()) {
                         case WHITELIST : {
                             e.getCommands().clear();
-                            e.getCommands().addAll(cmds);
+                            e.getCommands().addAll(cmds.keySet());
                             break;
                         }
                         case BLACKLIST : {
-                            e.getCommands().removeAll(cmds);
+                            e.getCommands().removeAll(cmds.keySet());
                             break;
                         }
                     }

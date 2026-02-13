@@ -1,10 +1,12 @@
 package dev.enco.greatcombat.config;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.actions.ActionFactory;
 import dev.enco.greatcombat.config.settings.*;
+import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.listeners.CommandsType;
 import dev.enco.greatcombat.powerups.PowerupType;
 import dev.enco.greatcombat.restrictions.cooldowns.CooldownManager;
@@ -25,8 +27,7 @@ import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter @RequiredArgsConstructor
 public class ConfigManager {
@@ -223,10 +224,21 @@ public class ConfigManager {
 
     private void setupCommands(FileConfiguration config) {
         var section = config.getConfigurationSection("commands");
+
+        ImmutableMap.Builder<String, Set<String>> mapBuilder = ImmutableMap.builder();
+        List<Map<?, ?>> commandMaps = section.getMapList("commands");
+
+        for (var map : commandMaps) {
+            for (var entry : map.entrySet()) {
+                var cmd = entry.getKey().toString();
+                var subCmds = (List<String>) entry.getValue();
+                mapBuilder.put(cmd, new HashSet<>(subCmds));
+            }
+        }
         commands = new Commands(
                 CommandsType.valueOf(section.getString("type")),
                 section.getBoolean("change-tabcomplete"),
-                ImmutableSet.copyOf(section.getStringList("commands")),
+                mapBuilder.build(),
                 ImmutableSet.copyOf(section.getStringList("player-commands"))
         );
     }

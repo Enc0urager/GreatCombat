@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 @UtilityClass
 public class CooldownManager {
     private ImmutableMap<CooldownItem, Cache<UUID, Long>> itemsCooldowns;
+    private final Map<String, CooldownItem> idsRefs = new HashMap<>();
 
     /**
      * Retrieves the CooldownItem associated with the given ItemStack.
@@ -82,8 +84,10 @@ public class CooldownManager {
                     metas,
                     handlers,
                     time,
-                    itemSection.getBoolean("set-material-cooldown")
+                    itemSection.getBoolean("set-material-cooldown"),
+                    new HashSet<>(itemSection.getStringList("linked-items"))
             );
+            idsRefs.put(key, item);
             temp.put(item, Caffeine.newBuilder()
                     .expireAfterWrite(time, TimeUnit.SECONDS)
                     .scheduler(Scheduler.systemScheduler())
@@ -129,12 +133,17 @@ public class CooldownManager {
      * @param item The CooldownItem to set cooldown for
      */
     public void putCooldown(UUID playerUUID, Player player, CooldownItem item) {
+        setCooldown(playerUUID, player, item);
+        for (var id : item.linkedItems()) setCooldown(playerUUID, player, idsRefs.get(id));
+    }
+
+    private void setCooldown(UUID playerUUID, Player player, CooldownItem item) {
         itemsCooldowns.get(item).put(playerUUID, System.currentTimeMillis());
         if (item.setMaterialCooldown())
             TaskManager.getGlobalScheduler().runLater(() ->
-                player.setCooldown(
-                        item.itemStack().getType(), item.time() * 20
-                ),1L
+                    player.setCooldown(
+                            item.itemStack().getType(), item.time() * 20
+                    ),1L
             );
     }
 

@@ -121,8 +121,12 @@ preventable-items:
       - INTERACTED_ITEM
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDNzcxLTS5KTCuxSslMzM3PS4nPL0plZGB1zi/NK2FkAADqMtJCOwAAAA=='
     set-material-cooldown: true
-# Работает только если ServerManager не Vanilla
-allow-teleport: false
+# Причины телепортаций которые разрешены в пвп
+# Список -https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
+# Если [] все телепортации будут заблокированы
+allowed-teleportations-cause:
+  - CHORUS_FRUIT
+  - ENDER_PEARL
 # Миры, где бой не может начаться
 ignored-worlds: []
 # Бой не начнется, если атакующий имеет эти усиления
@@ -178,4 +182,4 @@ commands:
     - /tpa
     - /feed
 # Не менять !!!
-config-version: 4
+config-version: 5

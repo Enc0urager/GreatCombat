@@ -92,8 +92,11 @@ public class CooldownManager {
                     .expireAfterWrite(time, TimeUnit.SECONDS)
                     .scheduler(Scheduler.systemScheduler())
                     .removalListener(((k, v, cause) -> {
-                        if (cause == RemovalCause.EXPIRED)
-                            ConfigManager.getMessages().onCooldownExpired().execute(Bukkit.getPlayer((UUID) k), translation);
+                        if (cause == RemovalCause.EXPIRED) {
+                            Player player = Bukkit.getPlayer((UUID) k);
+                            if (player == null || !player.isOnline()) return;
+                            ConfigManager.getMessages().onCooldownExpired().execute(player, translation);
+                        }
                     }))
                     .build());
         }

@@ -156,13 +156,4 @@ public class CMI implements ServerManager, Listener {
     public Powerup walkspeedPowerup() {
         return walkspeedPowerup;
     }
-
-    @EventHandler
-    public void listenTeleports(CMIAsyncPlayerTeleportEvent e) {
-        if (!ConfigManager.isTeleportEnable()) {
-            Player player = e.getPlayer();
-            if (player.hasPermission("greatcombat.teleports.bypass")) return;
-            if (combatManager.isInCombat(player.getUniqueId())) e.setCancelled(true);
-        }
-    }
 }

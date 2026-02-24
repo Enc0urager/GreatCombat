@@ -24,6 +24,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -34,8 +35,6 @@ public class ConfigManager {
     private final GreatCombat plugin;
     @Getter
     private static boolean checkUpdates;
-    @Getter
-    private static boolean teleportEnable;
     @Getter
     private static boolean metricsEnable;
     @Getter
@@ -102,7 +101,6 @@ public class ConfigManager {
                             expansion.getString("delimiter")
                     )
             ).register();
-        teleportEnable = mainConfig.getBoolean("allow-teleport");
         LangUtils.shutdown(mainConfig.getBoolean("disable-lang"));
         Logger.info(locale.configLoaded() + (System.currentTimeMillis() - start) + " ms.");
     }
@@ -197,7 +195,7 @@ public class ConfigManager {
         }
         settings = new Settings(
                 config.getInt("pvp-time"),
-                config.getBoolean("allow-teleport"),
+                EnumUtils.toEnumSet(config.getStringList("allowed-teleportations-cause"), PlayerTeleportEvent.TeleportCause.class, c -> Logger.warn("Unknown teleport cause")),
                 ImmutableSet.copyOf(config.getStringList("ignored-worlds")),
                 config.getBoolean("kill-on-leave"),
                 config.getBoolean("kill-on-kick"),

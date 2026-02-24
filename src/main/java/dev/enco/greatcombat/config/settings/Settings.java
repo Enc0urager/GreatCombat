@@ -2,10 +2,13 @@ package dev.enco.greatcombat.config.settings;
 
 import com.google.common.collect.ImmutableSet;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.player.PlayerTeleportEvent;
+
+import java.util.EnumSet;
 
 public record Settings(
         int combatTime,
-        boolean allowTeleport,
+        EnumSet<PlayerTeleportEvent.TeleportCause> allowedTpCause,
         ImmutableSet<String> ignoredWorlds,
         boolean killOnLeave,
         boolean killOnKick,

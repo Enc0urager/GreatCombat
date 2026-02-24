@@ -127,8 +127,12 @@ preventable-items:
       - INTERACTED_ITEM
     base64: 'H4sIAAAAAAAA/+NiYGBm4HZJLEkMSy0qzszPY2DgkuJgYMpMYRDNzcxLTS5KTCuxSslMzM3PS4nPL0plZGB1zi/NK2FkAADqMtJCOwAAAA=='
     set-material-cooldown: true
-# Will work only if ServerManager not Vanilla
-allow-teleport: false
+# Teleportation cause that will be allowed
+# List -https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
+# If [] all teleportations will be blocked
+allowed-teleportations-cause:
+  - CHORUS_FRUIT
+  - ENDER_PEARL
 # Worlds where combat couldn't start
 ignored-worlds: []
 # Combat couldn't start if player has this powerups
@@ -185,4 +189,4 @@ commands:
     - /tpa
     - /feed
 # Don't change it !!!
-config-version: 4
+config-version: 5

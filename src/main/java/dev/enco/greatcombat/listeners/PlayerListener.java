@@ -146,8 +146,18 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onTeleport(PlayerTeleportEvent e) {
+        Settings settings = ConfigManager.getSettings();
+        if (settings.allowedTpCause().contains(e.getCause())) return;
+        Player player = e.getPlayer();
+        if (player.hasPermission("greatcombat.teleports.bypass")) return;
+        if (!combatManager.isInCombat(player.getUniqueId())) return;
+        e.setCancelled(true);
+    }
+
     @EventHandler(
-            priority = EventPriority.HIGHEST
+            priority = EventPriority.LOWEST
     )
     public void onSend(PlayerCommandSendEvent e) {
         var player = e.getPlayer();

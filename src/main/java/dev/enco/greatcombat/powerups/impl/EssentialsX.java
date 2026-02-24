@@ -151,13 +151,4 @@ public class EssentialsX implements ServerManager, Listener {
     public Powerup walkspeedPowerup() {
         return walkspeedPowerup;
     }
-
-    @EventHandler
-    public void listenTeleports(PreTeleportEvent e) {
-        if (!ConfigManager.isTeleportEnable()) {
-            Player player = e.getTeleporter().getBase();
-            if (player.hasPermission("greatcombat.teleports.bypass")) return;
-            if (combatManager.isInCombat(player.getUniqueId())) e.setCancelled(true);
-        }
-    }
 }

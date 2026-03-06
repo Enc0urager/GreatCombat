@@ -138,7 +138,7 @@ public class MetaManager {
      */
     public boolean isSimilar(ItemStack first, ItemStack second, EnumSet<CheckedMeta> checkedMetas) {
         WrappedItem f = WrappedItem.noMeta(first);
-        WrappedItem s = WrappedItem.noMeta(first);
+        WrappedItem s = WrappedItem.noMeta(second);
         for (var meta : checkedMetas) {
             if (meta.isCheckMeta()) {
                 if (!f.hasMeta()) f = WrappedItem.withMeta(first);

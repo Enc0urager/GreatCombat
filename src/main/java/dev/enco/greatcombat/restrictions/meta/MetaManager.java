@@ -137,10 +137,13 @@ public class MetaManager {
      * @return true if items match all specified metadata checks, false otherwise
      */
     public boolean isSimilar(ItemStack first, ItemStack second, EnumSet<CheckedMeta> checkedMetas) {
-        WrappedItem f = WrappedItem.of(first);
-        WrappedItem s = WrappedItem.of(second);
+        WrappedItem f = WrappedItem.noMeta(first);
+        WrappedItem s = WrappedItem.noMeta(second);
         for (var meta : checkedMetas) {
             if (meta.isCheckMeta()) {
+                if (!f.hasMeta()) f = WrappedItem.withMeta(first);
+                if (!s.hasMeta()) s = WrappedItem.withMeta(second);
+
                 if (f.hasMeta() && !s.hasMeta() || !f.hasMeta() && s.hasMeta()) return false;
                 if (!f.hasMeta() && !s.hasMeta()) continue;
             }

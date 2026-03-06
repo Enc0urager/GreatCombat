@@ -16,17 +16,31 @@ public record WrappedItem(
         boolean hasMeta
 ) {
     /**
-     * Creates a WrappedItem from an ItemStack.
+     * Creates a WrappedItem from an ItemStack with ItemMeta.
      *
      * @param itemStack The ItemStack to wrap
      * @return WrappedItem containing the item and its metadata
      */
-    public static WrappedItem of(ItemStack itemStack) {
+    public static WrappedItem withMeta(ItemStack itemStack) {
         var meta = itemStack.getItemMeta();
         return new WrappedItem(
                 itemStack,
                 meta,
                 meta != null
+        );
+    }
+
+    /**
+     * Creates a WrappedItem from an ItemStack without ItemMeta.
+     *
+     * @param itemStack The ItemStack to wrap
+     * @return WrappedItem containing the item and its metadata
+     */
+    public static WrappedItem noMeta(ItemStack itemStack) {
+        return new WrappedItem(
+                itemStack,
+                null,
+                false
         );
     }
 }

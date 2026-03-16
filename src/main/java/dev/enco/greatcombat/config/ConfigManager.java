@@ -62,6 +62,8 @@ public class ConfigManager {
     @Getter
     private static Locale locale;
     @Getter
+    private static boolean elytraGlideAllowed;
+    @Getter
     private static FileConfiguration mainConfig;
 
     public void reload() {
@@ -102,6 +104,7 @@ public class ConfigManager {
                     )
             ).register();
         LangUtils.shutdown(mainConfig.getBoolean("disable-lang"));
+        elytraGlideAllowed = mainConfig.getBoolean("allow-elytra-gliding");
         Logger.info(locale.configLoaded() + (System.currentTimeMillis() - start) + " ms.");
     }
 

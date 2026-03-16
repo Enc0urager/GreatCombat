@@ -34,6 +34,7 @@ time:
     form1: 'hour'
     form3: 'hours'
     form5: 'hours'
+allow-elytra-gliding: false
 # Which plugin must manage powerups
 # Available: Essentials, CMI, Vanilla (def)
 server-manager: Vanilla
@@ -189,4 +190,4 @@ commands:
     - /tpa
     - /feed
 # Don't change it !!!
-config-version: 5
+config-version: 6

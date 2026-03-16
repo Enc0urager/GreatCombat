@@ -3,6 +3,7 @@ package dev.enco.greatcombat.listeners;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.api.PlayerKickInCombatEvent;
 import dev.enco.greatcombat.api.PlayerLeaveInCombatEvent;
+import dev.enco.greatcombat.config.ConfigFile;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;
@@ -18,6 +19,7 @@ import dev.enco.greatcombat.utils.Time;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -286,6 +288,16 @@ public class PlayerListener implements Listener {
                 );
             }
         }
+    }
+
+    @EventHandler
+    public void onGlide(EntityToggleGlideEvent e) {
+        if (ConfigManager.isElytraGlideAllowed()) return;
+        if (!(e.getEntity() instanceof Player player)) return;
+        if (player.hasPermission("greatcombat.glide.bypass")) return;
+        var chestplate = player.getInventory().getChestplate();
+        if (chestplate == null || chestplate.getType() != Material.ELYTRA) return;
+        if (combatManager.isInCombat(player.getUniqueId())) e.setCancelled(true);
     }
 
     private void handleBlockInteraction(PlayerInteractEvent e, Player player) {

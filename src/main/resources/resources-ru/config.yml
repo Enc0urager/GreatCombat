@@ -33,6 +33,8 @@ time:
     form1: 'час'
     form3: 'часа'
     form5: 'часов'
+# Разрешить полёт на элитре в пвп
+allow-elytra-gliding: false
 # Какой плагин управляет усилениями
 # Доступно: Essentials, CMI, Vanilla (по умолчанию)
 server-manager: Vanilla
@@ -182,4 +184,4 @@ commands:
     - /tpa
     - /feed
 # Не менять !!!
-config-version: 5
+config-version: 6

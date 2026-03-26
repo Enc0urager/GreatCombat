@@ -28,10 +28,7 @@ public class Placeholders {
      * @return The string with all placeholders replaced and colorized
      */
     public String replaceInBoard(Player player, String s) {
-        s = s.replace("{player}", player.getName())
-                .replace("{health}", df.format(player.getHealth()))
-                .replace("{ping}", String.valueOf(player.getPing()));
-        return replace(player, s);
+        return replaceInMessage(player, s, player.getName(), df.format(player.getHealth()), String.valueOf(player.getPing()));
     }
 
     /**

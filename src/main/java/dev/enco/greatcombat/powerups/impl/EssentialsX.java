@@ -9,11 +9,9 @@ import dev.enco.greatcombat.powerups.Powerup;
 import dev.enco.greatcombat.powerups.ServerManager;
 import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
-import net.ess3.api.events.teleport.PreTeleportEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 

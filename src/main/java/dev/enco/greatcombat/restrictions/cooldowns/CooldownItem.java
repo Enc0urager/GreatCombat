@@ -3,7 +3,6 @@ package dev.enco.greatcombat.restrictions.cooldowns;
 import dev.enco.greatcombat.restrictions.CheckedMeta;
 import dev.enco.greatcombat.restrictions.InteractionHandler;
 import dev.enco.greatcombat.restrictions.WrappedItem;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
 import java.util.Set;

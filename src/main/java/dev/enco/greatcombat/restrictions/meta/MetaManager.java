@@ -5,7 +5,6 @@ import dev.enco.greatcombat.restrictions.MetaChecker;
 import dev.enco.greatcombat.restrictions.WrappedItem;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -17,7 +16,7 @@ import java.util.Objects;
  * Utility class for managing item metadata comparisons.
  * Provides various MetaChecker implementations for different types of item metadata.
  */
-@UtilityClass @SuppressWarnings("removal")
+@UtilityClass
 public class MetaManager {
     @Getter
     private MetaChecker similarChecker, metaChecker, flagsChecker, materialChecker,
@@ -56,7 +55,7 @@ public class MetaManager {
                 first.itemMeta().getDisplayName().equals(second.itemMeta().getDisplayName());
 
         attributesChecker = (first, second) ->
-                first.itemMeta().getAttributeModifiers().equals(second.itemMeta().getAttributeModifiers());
+                Objects.equals(first.itemMeta().getAttributeModifiers(), second.itemMeta().getAttributeModifiers());
 
         pdcChecker = (first, second) ->
                 first.itemMeta().getPersistentDataContainer().equals(second.itemMeta().getPersistentDataContainer());
@@ -118,7 +117,7 @@ public class MetaManager {
             if (!(first.itemMeta() instanceof SkullMeta firstMeta) ||
                     !(second.itemMeta() instanceof SkullMeta secondMeta))
                 return false;
-            return firstMeta.getOwningPlayer().equals(secondMeta.getOwningPlayer());
+            return Objects.equals(firstMeta.getOwningPlayer(), secondMeta.getOwningPlayer());
         };
     }
 

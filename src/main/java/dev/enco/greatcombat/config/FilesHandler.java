@@ -7,7 +7,7 @@ import java.util.List;
 
 @UtilityClass
 public class FilesHandler {
-    private final List<ConfigFile> configFiles = new ArrayList();
+    private final List<ConfigFile> configFiles = new ArrayList<>();
 
     public void reloadAll() {
         for (var file : configFiles) file.reload();

@@ -3,7 +3,6 @@ package dev.enco.greatcombat.listeners;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.api.PlayerKickInCombatEvent;
 import dev.enco.greatcombat.api.PlayerLeaveInCombatEvent;
-import dev.enco.greatcombat.config.ConfigFile;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Commands;
 import dev.enco.greatcombat.config.settings.Messages;

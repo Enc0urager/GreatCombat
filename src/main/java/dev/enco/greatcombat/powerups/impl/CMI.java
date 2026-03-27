@@ -2,7 +2,6 @@ package dev.enco.greatcombat.powerups.impl;
 
 import com.Zrips.CMI.Containers.CMIUser;
 import com.Zrips.CMI.PlayerManager;
-import com.Zrips.CMI.events.CMIAsyncPlayerTeleportEvent;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.config.settings.Locale;
 import dev.enco.greatcombat.manager.CombatManager;
@@ -12,7 +11,6 @@ import dev.enco.greatcombat.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 

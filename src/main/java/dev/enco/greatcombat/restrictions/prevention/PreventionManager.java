@@ -3,6 +3,7 @@ package dev.enco.greatcombat.restrictions.prevention;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.restrictions.CheckedMeta;
 import dev.enco.greatcombat.restrictions.InteractionHandler;
+import dev.enco.greatcombat.restrictions.WrappedItem;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.utils.EnumUtils;
 import dev.enco.greatcombat.utils.ItemUtils;
@@ -33,7 +34,7 @@ public class PreventionManager {
      */
     public PreventableItem getPreventableItem(ItemStack itemStack) {
         for (PreventableItem item : preventableItems)
-            if (MetaManager.isSimilar(item.itemStack(), itemStack, item.checkedMetas()))
+            if (MetaManager.isSimilar(item.wrappedItem(), itemStack, item.checkedMetas()))
                 return item;
 
         return null;
@@ -70,7 +71,7 @@ public class PreventionManager {
 
             var item = ItemUtils.decode(itemSection.getString("base64"));
             itemsList.add(new PreventableItem(
-                    item,
+                    WrappedItem.withMeta(item),
                     Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), item)),
                     types,
                     handlers,

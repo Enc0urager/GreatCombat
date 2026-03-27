@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableMap;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.restrictions.CheckedMeta;
 import dev.enco.greatcombat.restrictions.InteractionHandler;
+import dev.enco.greatcombat.restrictions.WrappedItem;
 import dev.enco.greatcombat.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.scheduler.TaskManager;
 import dev.enco.greatcombat.utils.EnumUtils;
@@ -45,7 +46,7 @@ public class CooldownManager {
      */
     public CooldownItem getCooldownItem(ItemStack i) {
         for (var item : itemsCooldowns.keySet())
-            if (MetaManager.isSimilar(item.itemStack(), i, item.checkedMetas()))
+            if (MetaManager.isSimilar(item.wrappedItem(), i, item.checkedMetas()))
                 return item;
         return null;
     }
@@ -79,7 +80,7 @@ public class CooldownManager {
             var translation = Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), itemStack));
 
             var item = new CooldownItem(
-                    itemStack,
+                    WrappedItem.withMeta(itemStack),
                     translation,
                     metas,
                     handlers,
@@ -145,7 +146,7 @@ public class CooldownManager {
         if (item.setMaterialCooldown())
             TaskManager.getGlobalScheduler().runLater(() ->
                     player.setCooldown(
-                            item.itemStack().getType(), item.time() * 20
+                            item.wrappedItem().itemStack().getType(), item.time() * 20
                     ),1L
             );
     }
@@ -157,7 +158,7 @@ public class CooldownManager {
      */
     public void clearPlayerCooldowns(Player player) {
         for (var entry: itemsCooldowns.entrySet()) {
-            player.setCooldown(entry.getKey().itemStack().getType(), 0);
+            player.setCooldown(entry.getKey().wrappedItem().itemStack().getType(), 0);
             entry.getValue().invalidate(player.getUniqueId());
         }
     }

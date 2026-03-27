@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.EnumSet;
+import java.util.Objects;
 
 /**
  * Utility class for managing item metadata comparisons.
@@ -65,20 +66,21 @@ public class MetaManager {
     }
 
     // Splitting for codefactor
+    @SuppressWarnings("deprecation")
     private void createPotion() {
         if (isLegacyPotionAPI()) {
             basePotionChecker = (first, second) -> {
                 if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
                         !(second.itemMeta() instanceof PotionMeta secondMeta))
                     return false;
-                return firstMeta.getBasePotionData().equals(secondMeta.getBasePotionData());
+                return Objects.equals(firstMeta.getBasePotionData(), secondMeta.getBasePotionData());
             };
         } else {
             basePotionChecker = (first, second) -> {
                 if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
                         !(second.itemMeta() instanceof PotionMeta secondMeta))
                     return false;
-                return firstMeta.getBasePotionType().equals(secondMeta.getBasePotionType());
+                return Objects.equals(firstMeta.getBasePotionType(), secondMeta.getBasePotionType());
             };
         }
         potionChecker = (first, second) -> {
@@ -137,17 +139,15 @@ public class MetaManager {
     /**
      * Checks if two items are similar based on the specified metadata checks.
      *
-     * @param first The first ItemStack to compare
+     * @param f The config wrapped item to compare
      * @param second The second ItemStack to compare
      * @param checkedMetas The set of metadata types to check
      * @return true if items match all specified metadata checks, false otherwise
      */
-    public boolean isSimilar(ItemStack first, ItemStack second, EnumSet<CheckedMeta> checkedMetas) {
-        WrappedItem f = WrappedItem.noMeta(first);
+    public boolean isSimilar(WrappedItem f, ItemStack second, EnumSet<CheckedMeta> checkedMetas) {
         WrappedItem s = WrappedItem.noMeta(second);
         for (var meta : checkedMetas) {
             if (meta.isCheckMeta()) {
-                if (!f.hasMeta()) f = WrappedItem.withMeta(first);
                 if (!s.hasMeta()) s = WrappedItem.withMeta(second);
 
                 if (f.hasMeta() && !s.hasMeta() || !f.hasMeta() && s.hasMeta()) return false;

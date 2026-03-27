@@ -81,6 +81,12 @@ public class MetaManager {
                 return firstMeta.getBasePotionType().equals(secondMeta.getBasePotionType());
             };
         }
+        potionChecker = (first, second) -> {
+            if (!(first.itemMeta() instanceof PotionMeta firstMeta) ||
+                    !(second.itemMeta() instanceof PotionMeta secondMeta))
+                return false;
+            return firstMeta.getCustomEffects().equals(secondMeta.getCustomEffects());
+        };
     }
 
 

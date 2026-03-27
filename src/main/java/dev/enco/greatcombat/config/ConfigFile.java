@@ -56,7 +56,7 @@ public class ConfigFile {
             "config", 6,
             "logger", 2,
             "messages", 2,
-            "scoreboard", 1
+            "scoreboard", 2
     );
     private static final Set<String> IGNORED = Set.of("preventable-items", "items-cooldowns");
 
@@ -92,6 +92,16 @@ public class ConfigFile {
                         fileConfiguration.set("commands.commands", newList);
                     }
                 }
+            }
+
+            if (name.equals("scoreboard") && ver == 1) {
+                fileConfiguration.set(
+                        "opponent",
+                        fileConfiguration.getString("opponent", "&f{player} &c{health}❤ &9{ping}⇄")
+                                .replace("{player}", "{0}")
+                                .replace("{health}", "{1}")
+                                .replace("{ping}", "{2}")
+                );
             }
 
             fileConfiguration.set("config-version", latest);

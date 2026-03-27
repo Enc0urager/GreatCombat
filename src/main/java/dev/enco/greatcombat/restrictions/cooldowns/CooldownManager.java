@@ -45,8 +45,9 @@ public class CooldownManager {
      * @return CooldownItem if found, null otherwise
      */
     public CooldownItem getCooldownItem(ItemStack i) {
+        var wrapped = WrappedItem.wrap(i);
         for (var item : itemsCooldowns.keySet())
-            if (MetaManager.isSimilar(item.wrappedItem(), i, item.checkedMetas()))
+            if (MetaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
                 return item;
         return null;
     }

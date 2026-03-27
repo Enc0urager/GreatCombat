@@ -33,8 +33,9 @@ public class PreventionManager {
      * @return PreventableItem if found, null otherwise
      */
     public PreventableItem getPreventableItem(ItemStack itemStack) {
+        var wrapped = WrappedItem.wrap(itemStack);
         for (PreventableItem item : preventableItems)
-            if (MetaManager.isSimilar(item.wrappedItem(), itemStack, item.checkedMetas()))
+            if (MetaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
                 return item;
 
         return null;

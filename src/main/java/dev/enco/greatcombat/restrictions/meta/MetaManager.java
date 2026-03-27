@@ -139,17 +139,14 @@ public class MetaManager {
     /**
      * Checks if two items are similar based on the specified metadata checks.
      *
-     * @param f The config wrapped item to compare
-     * @param second The second ItemStack to compare
+     * @param f The first wrapped item to compare
+     * @param s The second wrapped item to compare
      * @param checkedMetas The set of metadata types to check
      * @return true if items match all specified metadata checks, false otherwise
      */
-    public boolean isSimilar(WrappedItem f, ItemStack second, EnumSet<CheckedMeta> checkedMetas) {
-        WrappedItem s = WrappedItem.noMeta(second);
+    public boolean isSimilar(WrappedItem f, WrappedItem s, EnumSet<CheckedMeta> checkedMetas) {
         for (var meta : checkedMetas) {
             if (meta.isCheckMeta()) {
-                if (!s.hasMeta()) s = WrappedItem.withMeta(second);
-
                 if (f.hasMeta() && !s.hasMeta() || !f.hasMeta() && s.hasMeta()) return false;
                 if (!f.hasMeta() && !s.hasMeta()) continue;
             }

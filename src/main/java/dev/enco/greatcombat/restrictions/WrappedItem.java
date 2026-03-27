@@ -16,6 +16,15 @@ public record WrappedItem(
         boolean hasMeta
 ) {
     /**
+     * Creates a WrappedItem from an ItemStack depended on ItemMeta.
+     *
+     * @param stack The ItemStack to wrap
+     * @return WrappedItem containing the item and its metadata
+     */
+    public static WrappedItem wrap(ItemStack stack) {
+       return stack.hasItemMeta() ? withMeta(stack) : noMeta(stack);
+    }
+    /**
      * Creates a WrappedItem from an ItemStack with ItemMeta.
      *
      * @param itemStack The ItemStack to wrap

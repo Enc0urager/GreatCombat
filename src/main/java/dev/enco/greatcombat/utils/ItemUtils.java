@@ -3,6 +3,8 @@ package dev.enco.greatcombat.utils;
 import dev.enco.greatcombat.GreatCombat;
 import dev.enco.greatcombat.config.ConfigManager;
 import dev.enco.greatcombat.utils.logger.Logger;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,9 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 /**
  * Utility class for serializing and deserializing ItemStacks to/from Base64 strings.
@@ -87,5 +87,33 @@ public class ItemUtils {
             for (var stack : over.values())
                 world.dropItemNaturally(location, stack);
         }
+    }
+
+    private final Reference2ObjectMap<UUID, EnumMap<Material, ItemStack[]>> stored = new Reference2ObjectOpenHashMap<>();
+
+    /**
+     * Removes items of a specific material from player's inventory and stores them in a cache
+     *
+     * @param player The player whose items will be removed.
+     * @param material The material of the items to be removed
+     */
+    public void removeItems(Player player, Material material) {
+        UUID uuid = player.getUniqueId();
+        var matMap = stored.getOrDefault(uuid, new EnumMap<>(Material.class));
+        matMap.put(material, findAndRemove(player.getInventory(), material));
+        stored.put(uuid, matMap);
+    }
+
+    /**
+     * Restores all previously stored items to the player's inventory.
+     *
+     * @param player The player to whom the items should be returned.
+     */
+    public void backItems(Player player) {
+        UUID uuid = player.getUniqueId();
+        var matMap = stored.get(uuid);
+        if (matMap == null) return;
+        for (var i : matMap.values()) giveOrDrop(player, i);
+        stored.remove(uuid);
     }
 }

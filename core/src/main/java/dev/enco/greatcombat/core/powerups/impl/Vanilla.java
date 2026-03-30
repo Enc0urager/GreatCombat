@@ -31,18 +31,7 @@ public class Vanilla implements PowerupProvider {
     private Powerup flyPowerup;
 
     private void setupFlyPowerup() {
-        this.flyPowerup = new Powerup() {
-            @Override
-            public boolean hasPowerup(@NotNull Player player) {
-                return player.isFlying();
-            }
-
-            @Override
-            public void disablePowerup(@NotNull Player player) {
-                player.setFlying(false);
-                player.setAllowFlight(false);
-            }
-        };
+        this.flyPowerup = DefaultPowerups.FLY_POWERUP;
     }
 
     @Override
@@ -95,17 +84,7 @@ public class Vanilla implements PowerupProvider {
     private Powerup gamemodePowerup;
 
     private void setupGamemodePowerup() {
-        this.gamemodePowerup = new Powerup() {
-            @Override
-            public boolean hasPowerup(@NotNull Player player) {
-                return !player.getGameMode().equals(GameMode.SURVIVAL);
-            }
-
-            @Override
-            public void disablePowerup(@NotNull Player player) {
-                player.setGameMode(GameMode.SURVIVAL);
-            }
-        };
+        this.gamemodePowerup = DefaultPowerups.GM_POWERUP;
     }
 
     @Override
@@ -116,17 +95,7 @@ public class Vanilla implements PowerupProvider {
     private Powerup walkspeedPowerup;
 
     private void setupWalkspeedPowerup() {
-        this.walkspeedPowerup = new Powerup() {
-            @Override
-            public boolean hasPowerup(@NotNull Player player) {
-                return player.getWalkSpeed() != 0.2F;
-            }
-
-            @Override
-            public void disablePowerup(@NotNull Player player) {
-                player.setWalkSpeed(0.2F);
-            }
-        };
+        this.walkspeedPowerup = DefaultPowerups.WALKSPEED_POWERUP;
     }
 
     @Override

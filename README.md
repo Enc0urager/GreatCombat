@@ -9,9 +9,9 @@ Functional combat mode manager.
 </repository>
 
 <dependency>
-    <groupId>com.github.Enc0urager</groupId>
-    <artifactId>GreatCombat</artifactId>
-    <version>1.8.4</version>
+    <groupId>ru.encourager.greatcombat</groupId>
+    <artifactId>api</artifactId>
+    <version>2.0.0</version>
     <scope>provided</scope>
 </dependency>
 ```

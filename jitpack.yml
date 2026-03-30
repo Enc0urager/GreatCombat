@@ -4,3 +4,5 @@ before_install:
   - sdk update
   - sdk install java 21.0.5-zulu
   - sdk use java 21.0.5-zulu
+install:
+  - mvn clean install -DskipTests

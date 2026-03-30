@@ -1,0 +1,26 @@
+name: GreatCombat
+version: '${project.version}'
+main: dev.enco.greatcombat.core.GreatCombat
+api-version: '1.16'
+folia-supported: true
+author: Encourager
+softdepend:
+  - TAB
+  - CMI
+  - Essentials
+  - PlaceholderAPI
+  - WorldGuard
+  - Towny
+  - LangHelper
+  - SternalBoard
+  - Lands
+  - DeluxeMenus
+  - BMenu
+  - AbstractMenu
+  - zMenu
+commands:
+  greatcombat:
+    aliases: combat
+libraries:
+  - com.github.ben-manes.caffeine:caffeine:3.2.2
+  - com.google.inject:guice:5.1.0

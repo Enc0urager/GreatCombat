@@ -1,16 +1,26 @@
 package dev.enco.greatcombat.api.models;
 
 /**
- * Interface for checking if two wrapped items have matching metadata.
+ * Strategy interface for comparing metadata between two {@link IWrappedItem}s.
+ * <p>
+ * Implementations define specific comparison rules (e.g. name, lore, enchantments).
  */
 public interface MetaChecker {
     /**
-     * Checks if two wrapped items have matching metadata.
+     * Checks whether two wrapped items match, according to this checker.
      *
-     * @param first The first wrapped item
-     * @param second The second wrapped item
-     * @return true if metadata matches, false otherwise
+     * @param first the first item
+     * @param second the second item
+     * @return true if the items match, false otherwise
      */
     boolean hasMeta(IWrappedItem first, IWrappedItem second);
+    /**
+     * Indicates whether this checker requires both items to have item meta.
+     * <p>
+     * If true, comparison should be skipped or fail when one of the items
+     * does not have a meta.
+     *
+     * @return true if metadata is required, false otherwise
+     */
     boolean requiresMeta();
 }

@@ -1,4 +1,4 @@
-# GreatCombat [![CodeFactor](https://www.codefactor.io/repository/github/enc0urager/greatcombat/badge)](https://www.codefactor.io/repository/github/enc0urager/greatcombat) [![](https://jitpack.io/v/Enc0urager/GreatCombat.svg)](https://jitpack.io/#Enc0urager/GreatCombat)
+# GreatCombat [![CodeFactor](https://www.codefactor.io/repository/github/enc0urager/greatcombat/badge)](https://www.codefactor.io/repository/github/enc0urager/greatcombat) [![](https://jitpack.io/v/Enc0urager/GreatCombat.svg)](https://jitpack.io/#ru.encourager/GreatCombat/GreatCombat)
 
 Functional combat mode manager.
 

@@ -13,7 +13,7 @@ public interface MetaChecker {
      * @param second the second item
      * @return true if the items match, false otherwise
      */
-    boolean hasMeta(IWrappedItem first, IWrappedItem second);
+    boolean matches(IWrappedItem first, IWrappedItem second);
     /**
      * Indicates whether this checker requires both items to have item meta.
      * <p>

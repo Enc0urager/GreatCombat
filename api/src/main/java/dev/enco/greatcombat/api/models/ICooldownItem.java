@@ -23,9 +23,9 @@ public interface ICooldownItem {
     /**
      * Returns metadata checkers used for matching items.
      *
-     * @return set of meta-checkers
+     * @return array of meta-checkers
      */
-    Set<? extends MetaChecker> checkedMetas();
+    MetaChecker[] checkedMetas();
 
     /**
      * Returns interaction handlers that trigger cooldown.

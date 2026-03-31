@@ -50,6 +50,7 @@ public class ConfigManager {
     private FileConfiguration mainConfig;
     private Expansion expansion;
     private List<String> regionWorlds;
+    private List<String> checkers;
 
     public void reload() {
         FilesHandler.reloadAll();
@@ -87,6 +88,7 @@ public class ConfigManager {
         regionWorlds = mainConfig.getStringList("region-worlds");
         LangUtils.shutdown(mainConfig.getBoolean("disable-lang"));
         elytraGlideAllowed = mainConfig.getBoolean("allow-elytra-gliding");
+        checkers = mainConfig.getStringList("api.custom-checkers-ids");
         Logger.info(locale.configLoaded() + (System.currentTimeMillis() - start) + " ms.");
     }
 

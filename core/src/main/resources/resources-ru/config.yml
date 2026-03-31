@@ -14,6 +14,9 @@ metrics: true
 update-checker: true
 # Заменять плейсхолдеры в скорбордах и сообщениях
 use-papi: false
+api:
+  # ЕСЛИ ВЫ НЕ РАЗРАБОТЧИК - ПРОПУСТИТЕ ЭТУ НАСТРОЙКУ
+  custom-checkers-ids: []
 # Отображение времени
 expansion:
   error: 'N/A'

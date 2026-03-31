@@ -10,39 +10,39 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.Objects;
 
 @Getter
-public enum CheckedMeta implements MetaChecker {
+public enum DefaultCheckers implements MetaChecker {
 
     SIMILAR(false) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return f.itemStack().isSimilar(s.itemStack());
         }
     },
 
     META(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return f.itemMeta().equals(s.itemMeta());
         }
     },
 
     MATERIAL(false) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return f.itemStack().getType().equals(s.itemStack().getType());
         }
     },
 
     ITEM_FLAGS(false) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return f.itemStack().getItemFlags().equals(s.itemStack().getItemFlags());
         }
     },
 
     DISPLAY_NAME(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return Objects.equals(
                     f.itemMeta().getDisplayName(),
                     s.itemMeta().getDisplayName()
@@ -52,7 +52,7 @@ public enum CheckedMeta implements MetaChecker {
 
     LORE(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             var l1 = f.itemMeta().getLore();
             var l2 = s.itemMeta().getLore();
             return Objects.equals(l1, l2);
@@ -61,7 +61,7 @@ public enum CheckedMeta implements MetaChecker {
 
     ENCHANTMENTS(false) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return f.itemStack().getEnchantments()
                     .equals(s.itemStack().getEnchantments());
         }
@@ -69,7 +69,7 @@ public enum CheckedMeta implements MetaChecker {
 
     ATTRIBUTES(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return Objects.equals(
                     f.itemMeta().getAttributeModifiers(),
                     s.itemMeta().getAttributeModifiers()
@@ -79,7 +79,7 @@ public enum CheckedMeta implements MetaChecker {
 
     PDC(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return f.itemMeta().getPersistentDataContainer()
                     .equals(s.itemMeta().getPersistentDataContainer());
         }
@@ -87,14 +87,14 @@ public enum CheckedMeta implements MetaChecker {
 
     UNBREAKABLE(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             return f.itemMeta().isUnbreakable() == s.itemMeta().isUnbreakable();
         }
     },
 
     POTION_EFFECTS(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             if (!(f.itemMeta() instanceof PotionMeta fm) ||
                     !(s.itemMeta() instanceof PotionMeta sm)) {
                 return false;
@@ -105,7 +105,7 @@ public enum CheckedMeta implements MetaChecker {
 
     POTION_BASE(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             if (!(f.itemMeta() instanceof PotionMeta fm) ||
                     !(s.itemMeta() instanceof PotionMeta sm)) {
                 return false;
@@ -121,7 +121,7 @@ public enum CheckedMeta implements MetaChecker {
 
     COLOR(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             if (!(f.itemMeta() instanceof LeatherArmorMeta fm) ||
                     !(s.itemMeta() instanceof LeatherArmorMeta sm)) {
                 return false;
@@ -132,7 +132,7 @@ public enum CheckedMeta implements MetaChecker {
 
     CUSTOM_MODEL_DATA(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             var fm = f.itemMeta();
             var sm = s.itemMeta();
 
@@ -144,7 +144,7 @@ public enum CheckedMeta implements MetaChecker {
 
     SKULL(true) {
         @Override
-        public boolean hasMeta(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(IWrappedItem f, IWrappedItem s) {
             if (!(f.itemMeta() instanceof SkullMeta fm) ||
                     !(s.itemMeta() instanceof SkullMeta sm)) {
                 return false;
@@ -155,7 +155,7 @@ public enum CheckedMeta implements MetaChecker {
 
     private final boolean requiresMeta;
 
-    CheckedMeta(boolean requiresMeta) {
+    DefaultCheckers(boolean requiresMeta) {
         this.requiresMeta = requiresMeta;
     }
 

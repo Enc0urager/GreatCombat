@@ -12,7 +12,8 @@ import dev.enco.greatcombat.api.managers.IMetaManager;
 import dev.enco.greatcombat.api.managers.ITaskManager;
 import dev.enco.greatcombat.api.models.ICooldownItem;
 import dev.enco.greatcombat.core.config.ConfigManager;
-import dev.enco.greatcombat.core.restrictions.CheckedMeta;
+import dev.enco.greatcombat.core.restrictions.DefaultCheckers;
+import dev.enco.greatcombat.core.restrictions.MetaHandle;
 import dev.enco.greatcombat.core.restrictions.WrappedItem;
 import dev.enco.greatcombat.core.utils.EnumUtils;
 import dev.enco.greatcombat.core.utils.ItemUtils;
@@ -24,10 +25,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
@@ -63,11 +61,13 @@ public class CooldownManager implements ICooldownManager {
 
             var handlers = new HashSet<>(itemSection.getStringList("handlers"));
 
-            var metas = EnumUtils.toEnumSet(
-                    itemSection.getStringList("checked-meta"),
-                    CheckedMeta.class,
-                    meta -> Logger.warn(MessageFormat.format(locale.metaDoesNotExist(), meta))
-            );
+            List<String> metaKeys = itemSection.getStringList("checked-meta");
+            int size = metaKeys.size();
+            MetaHandle[] handles = new MetaHandle[size];
+
+            for (int i = 0; i < size; i++) {
+                handles[i] = (MetaHandle) metaManager.getByID(metaKeys.get(i));
+            }
 
             int time = itemSection.getInt("time");
             var itemStack = ItemUtils.decode(itemSection.getString("base64"));
@@ -76,7 +76,7 @@ public class CooldownManager implements ICooldownManager {
             CooldownItem item = new CooldownItem(
                     WrappedItem.withMeta(itemStack),
                     translation,
-                    metas,
+                    handles,
                     handlers,
                     time,
                     itemSection.getBoolean("set-material-cooldown"),

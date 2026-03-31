@@ -38,9 +38,9 @@ public interface IPreventableItem {
     /**
      * Returns metadata checkers used for matching items.
      *
-     * @return set of meta-checkers
+     * @return array of meta-checkers
      */
-    Set<? extends MetaChecker> checkedMetas();
+    MetaChecker[] checkedMetas();
 
     /**
      * Indicates whether a visual material cooldown should be applied.

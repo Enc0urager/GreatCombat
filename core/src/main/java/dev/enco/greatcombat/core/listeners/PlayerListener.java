@@ -8,7 +8,6 @@ import dev.enco.greatcombat.api.managers.ICooldownManager;
 import dev.enco.greatcombat.api.managers.IPreventionManager;
 import dev.enco.greatcombat.api.models.ICooldownItem;
 import dev.enco.greatcombat.api.models.IPreventableItem;
-import dev.enco.greatcombat.api.models.InteractionHandler;
 import dev.enco.greatcombat.api.models.PreventionType;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.config.settings.Commands;
@@ -202,77 +201,6 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onConsume(PlayerItemConsumeEvent e) {
-        var player = e.getPlayer();
-        var uuid = player.getUniqueId();
-        if (combatManager.isInCombat(uuid)) {
-            var is = e.getItem();
-            check(is, uuid, player, e, InteractionHandler.CONSUME);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInteract(PlayerInteractEvent e) {
-        var player = e.getPlayer();
-        var uuid = player.getUniqueId();
-        if (combatManager.isInCombat(uuid)) {
-            handleInteraction(e, player);
-            handleBlockInteraction(e, player);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent e) {
-        var player = e.getPlayer();
-        var uuid = player.getUniqueId();
-        if (combatManager.isInCombat(uuid)) {
-            var is = player.getItemInHand();
-            check(is, uuid, player, e, InteractionHandler.BLOCK_BREAK);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onResurrect(EntityResurrectEvent e) {
-        if (e.getEntity() instanceof Player player) {
-            var uuid = player.getUniqueId();
-            if (combatManager.isInCombat(uuid)) {
-                var equipment = player.getEquipment();
-                var itemInMain = equipment.getItemInMainHand();
-                var itemInOff = equipment.getItemInOffHand();
-                check(itemInMain, uuid, player, e, InteractionHandler.RESURRECT_MAINHAND);
-                if (!itemInOff.getType().equals(itemInMain.getType()))
-                    check(itemInOff, uuid, player, e, InteractionHandler.RESURRECT_OFFHAND);
-            }
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onShoot(EntityShootBowEvent e) {
-        if (e.getEntity() instanceof Player player) {
-            var uuid = player.getUniqueId();
-            if (combatManager.isInCombat(uuid)) {
-                var is = e.getBow();
-                check(is, uuid, player, e, InteractionHandler.BOW_SHOOT);
-            }
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onProjectileLaunch(ProjectileLaunchEvent e) {
-        if (e.getEntity().getShooter() instanceof Player player) {
-            var uuid = player.getUniqueId();
-            if (combatManager.isInCombat(uuid)) {
-                var equipment = player.getEquipment();
-                var itemInMain = equipment.getItemInMainHand();
-                var itemInOff = equipment.getItemInOffHand();
-                check(itemInMain, uuid, player, e, InteractionHandler.PROJECTILE_LAUNCH);
-                if (!itemInOff.getType().equals(itemInMain.getType()))
-                    check(itemInOff, uuid, player, e, InteractionHandler.PROJECTILE_LAUNCH);
-            }
-        }
-    }
-
     @EventHandler
     public void onHeld(PlayerItemHeldEvent e) {
         var player = e.getPlayer();
@@ -302,80 +230,5 @@ public class PlayerListener implements Listener {
         var chestplate = player.getInventory().getChestplate();
         if (chestplate == null || chestplate.getType() != Material.ELYTRA) return;
         if (combatManager.isInCombat(player.getUniqueId())) e.setCancelled(true);
-    }
-
-    private void handleBlockInteraction(PlayerInteractEvent e, Player player) {
-        var blockMaterial = e.getClickedBlock() != null ? e.getClickedBlock().getType() : null;
-        if (blockMaterial != null && blockMaterial.isItem()) {
-            var preventable = preventionManager.getPreventableItem(new ItemStack(blockMaterial));
-            if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_BLOCK)) {
-                var action = e.getAction();
-                if (shouldBlockAction(action, preventable.handlers())) {
-                    handlePreventable(preventable, player, e);
-                }
-            }
-        }
-    }
-
-    private void handleInteraction(PlayerInteractEvent e, Player player) {
-        ItemStack is = e.getItem();
-        if (is == null) return;
-        var preventable = preventionManager.getPreventableItem(is);
-        var action = e.getAction();
-        if (preventable != null && preventable.types().contains(PreventionType.INTERACTED_ITEM)) {
-            if (shouldBlockAction(action, preventable.handlers())) {
-                handlePreventable(preventable, player, e);
-            }
-        }
-        var item = cooldownManager.getCooldownItem(is);
-        if (item != null) {
-            if (shouldBlockAction(action, item.handlers())) {
-                handleCooldown(player.getUniqueId(), player, item, e);
-            }
-        }
-    }
-
-    private boolean shouldBlockAction(Action action, EnumSet<InteractionHandler> handlers) {
-        switch (action) {
-            case RIGHT_CLICK_AIR:
-                return handlers.contains(InteractionHandler.RIGHT_CLICK_AIR);
-            case RIGHT_CLICK_BLOCK:
-                return handlers.contains(InteractionHandler.RIGHT_CLICK_BLOCK);
-            case LEFT_CLICK_AIR:
-                return handlers.contains(InteractionHandler.LEFT_CLICK_AIR);
-            case LEFT_CLICK_BLOCK:
-                return handlers.contains(InteractionHandler.LEFT_CLICK_BLOCK);
-            default:
-                return false;
-        }
-    }
-
-    private void check(ItemStack itemStack, UUID uuid, Player player, Cancellable e, InteractionHandler handler) {
-        if (itemStack == null) return;
-        var item = cooldownManager.getCooldownItem(itemStack);
-        if (item != null && item.handlers().contains(handler)) {
-            handleCooldown(uuid, player, item, e);
-        }
-        var preventable = preventionManager.getPreventableItem(itemStack);
-        if (preventable != null && preventable.handlers().contains(handler)) {
-            handlePreventable(preventable, player, e);
-        }
-    }
-
-    private void handlePreventable(IPreventableItem preventable, Player player, Cancellable e) {
-        if (player.hasPermission("greatcombat.prevention.bypass")) return;
-        Messages messages = configManager.getMessages();
-        messages.onInteract().execute(player, preventable.translation());
-        e.setCancelled(true);
-    }
-
-    private void handleCooldown(UUID uuid, Player player, ICooldownItem item, Cancellable e) {
-        if (player.hasPermission("greatcombat.cooldowns.bypass")) return;
-        if (cooldownManager.hasCooldown(uuid, item)) {
-            int time = cooldownManager.getCooldownTime(uuid, item);
-            Messages messages = configManager.getMessages();
-            messages.onItemCooldown().execute(player, Time.format(time), item.translation());
-            e.setCancelled(true);
-        } else cooldownManager.putCooldown(uuid, player, item);
     }
 }

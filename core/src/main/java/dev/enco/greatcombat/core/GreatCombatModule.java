@@ -6,6 +6,7 @@ import dev.enco.greatcombat.api.managers.*;
 import dev.enco.greatcombat.core.manager.CombatManager;
 import dev.enco.greatcombat.core.powerups.PowerupsManager;
 import dev.enco.greatcombat.core.regions.RegionManager;
+import dev.enco.greatcombat.core.restrictions.InteractionManager;
 import dev.enco.greatcombat.core.restrictions.cooldowns.CooldownManager;
 import dev.enco.greatcombat.core.restrictions.meta.MetaManager;
 import dev.enco.greatcombat.core.restrictions.prevention.PreventionManager;
@@ -32,5 +33,6 @@ public class GreatCombatModule extends AbstractModule {
         bind(ICombatManager.class).to(CombatManager.class);
         bind(IRegionManager.class).to(RegionManager.class);
         bind(GreatCombatPlugin.class).to(GreatCombat.class);
+        bind(IInteractionManager.class).to(InteractionManager.class);
     }
 }

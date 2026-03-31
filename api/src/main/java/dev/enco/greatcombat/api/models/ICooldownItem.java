@@ -1,6 +1,5 @@
 package dev.enco.greatcombat.api.models;
 
-import java.util.EnumSet;
 import java.util.Set;
 
 /**
@@ -33,7 +32,7 @@ public interface ICooldownItem {
      *
      * @return set of handlers
      */
-    EnumSet<InteractionHandler> handlers();
+    Set<String> handlers();
 
     /**
      * Returns cooldown duration in seconds.

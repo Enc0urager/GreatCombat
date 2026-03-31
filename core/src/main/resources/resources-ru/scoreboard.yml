@@ -8,7 +8,7 @@ lines:
   - '&cПротивники:'
   - '{opponents}'
   - ''
-opponent: '&f{player} &c{health}❤ &9{ping}⇄'
+opponent: '&f{0} &c{1}❤ &9{2}⇄'
 empty: '&7Отсутствуют'
 # Не менять !!!
 config-version: 2

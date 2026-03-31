@@ -1,7 +1,7 @@
 package dev.enco.greatcombat.api;
 
-import dev.enco.greatcombat.api.managers.IManager;
 import com.google.inject.ConfigurationException;
+import dev.enco.greatcombat.api.managers.IManager;
 
 /**
  * Core API interface representing the GreatCombat plugin.

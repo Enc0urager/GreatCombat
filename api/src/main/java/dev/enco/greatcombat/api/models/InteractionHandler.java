@@ -1,56 +1,59 @@
 package dev.enco.greatcombat.api.models;
 
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 /**
- * Enum representing different types of item interactions that can be handled.
+ * Represents a specific interaction rule mapped to a Bukkit Event.
+ * <p>
+ * This handler defines when an interaction is active and how to extract
+ * necessary data (Player and ItemStack) from the event for cooldown
+ * and prevention checks.
+ *
+ * @param <T> The specific Bukkit {@link Event} this handler processes.
  */
-public enum InteractionHandler {
+public interface InteractionHandler<T extends Event> {
     /**
-     * Item consumption (eating, drinking)
+     * Gets the unique identifier of this interaction handler.
+     * <p>
+     * This name is used in configuration files (e.g., "RIGHT_CLICK_AIR")
+     * to bind items to specific actions.
+     *
+     * @return The unique string name of the interaction.
      */
-    CONSUME,
+    String name();
 
     /**
-     * Right click in air
+     * Gets the condition that must be met for this handler to trigger.
+     * <p>
+     * For example, in a {@link org.bukkit.event.player.PlayerInteractEvent},
+     * the predicate might check if the action is a right-click.
+     *
+     * @return A predicate to test the event.
      */
-    RIGHT_CLICK_AIR,
+    Predicate<T> predicate();
 
     /**
-     * Right click on block
+     * Gets the function used to extract the {@link Player} from the event.
+     * <p>
+     * This ensures the Core can identify who performed the action regardless
+     * of the event type.
+     *
+     * @return A function that maps the event to a Player.
      */
-    RIGHT_CLICK_BLOCK,
+    Function<T, Player> playerExtractor();
 
     /**
-     * Left click in air
+     * Gets the function used to extract the {@link ItemStack} from the event.
+     * <p>
+     * This allows the Core to determine which item is being checked for
+     * cooldowns or restrictions.
+     *
+     * @return A function that maps the event to an ItemStack.
      */
-    LEFT_CLICK_AIR,
-
-    /**
-     * Left click on block
-     */
-    LEFT_CLICK_BLOCK,
-
-    /**
-     * Block breaking
-     */
-    BLOCK_BREAK,
-
-    /**
-     * Mainhand item resurrection (totem)
-     */
-    RESURRECT_MAINHAND,
-
-    /**
-     * Offhand item resurrection (totem)
-     */
-    RESURRECT_OFFHAND,
-
-    /**
-     * Bow shooting
-     */
-    BOW_SHOOT,
-
-    /**
-     * Projectile lauch
-     */
-    PROJECTILE_LAUNCH
+    Function<T, ItemStack> itemExtractor();
 }

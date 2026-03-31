@@ -33,7 +33,7 @@ public interface IPreventableItem {
      *
      * @return set of handlers
      */
-    EnumSet<InteractionHandler> handlers();
+    Set<String> handlers();
 
     /**
      * Returns metadata checkers used for matching items.

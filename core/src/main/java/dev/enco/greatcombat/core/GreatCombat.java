@@ -4,10 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import dev.enco.greatcombat.api.GreatCombatPlugin;
 import dev.enco.greatcombat.api.GreatCombatProvider;
-import dev.enco.greatcombat.api.managers.ICombatManager;
-import dev.enco.greatcombat.api.managers.IManager;
-import dev.enco.greatcombat.api.managers.IRegionManager;
-import dev.enco.greatcombat.api.managers.ITaskManager;
+import dev.enco.greatcombat.api.managers.*;
 import dev.enco.greatcombat.core.commands.MainCommand;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.config.settings.Locale;
@@ -62,6 +59,7 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
             RegionProvider provider = RegionProvider.valueOf(rm.toUpperCase());
             regionManager.setListener(injector.getInstance(provider.getClazz()));
         } catch (IllegalArgumentException ignored) {}
+        getManager(IInteractionManager.class).registerDefaults();
         Locale locale = configManager.getLocale();
         Logger.info(locale.onEnable());
         Logger.info(locale.authorVersion() + this.getDescription().getVersion());

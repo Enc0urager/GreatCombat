@@ -11,7 +11,6 @@ import dev.enco.greatcombat.api.managers.ICooldownManager;
 import dev.enco.greatcombat.api.managers.IMetaManager;
 import dev.enco.greatcombat.api.managers.ITaskManager;
 import dev.enco.greatcombat.api.models.ICooldownItem;
-import dev.enco.greatcombat.api.models.InteractionHandler;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.restrictions.CheckedMeta;
 import dev.enco.greatcombat.core.restrictions.WrappedItem;
@@ -62,11 +61,7 @@ public class CooldownManager implements ICooldownManager {
         for (var key : section.getKeys(false)) {
             var itemSection = section.getConfigurationSection(key);
 
-            var handlers = EnumUtils.toEnumSet(
-                    itemSection.getStringList("handlers"),
-                    InteractionHandler.class,
-                    handler -> Logger.warn(MessageFormat.format(locale.handlerDoesNotExist(), handler))
-            );
+            var handlers = new HashSet<>(itemSection.getStringList("handlers"));
 
             var metas = EnumUtils.toEnumSet(
                     itemSection.getStringList("checked-meta"),

@@ -5,7 +5,6 @@ import com.google.inject.Singleton;
 import dev.enco.greatcombat.api.managers.IMetaManager;
 import dev.enco.greatcombat.api.managers.IPreventionManager;
 import dev.enco.greatcombat.api.models.IPreventableItem;
-import dev.enco.greatcombat.api.models.InteractionHandler;
 import dev.enco.greatcombat.api.models.PreventionType;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.restrictions.CheckedMeta;
@@ -19,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Singleton
@@ -48,11 +48,7 @@ public class PreventionManager implements IPreventionManager {
         for (var key : section.getKeys(false)) {
             var itemSection = section.getConfigurationSection(key);
 
-            var handlers = EnumUtils.toEnumSet(
-                    itemSection.getStringList("handlers"),
-                    InteractionHandler.class,
-                    handler -> Logger.warn(MessageFormat.format(locale.handlerDoesNotExist(), handler))
-            );
+            var handlers = new HashSet<>(itemSection.getStringList("handlers"));
 
             var metas = EnumUtils.toEnumSet(
                     itemSection.getStringList("checked-meta"),

@@ -15,7 +15,6 @@ public class Vanilla implements PowerupProvider {
     @Inject
     public Vanilla(ConfigManager configManager) {
         this.configManager = configManager;
-        setup();
     }
 
     @Override

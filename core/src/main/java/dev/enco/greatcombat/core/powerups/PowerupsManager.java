@@ -31,17 +31,18 @@ public class PowerupsManager implements IPowerupsManager {
     @Override
     public void setPowerupProvider(PowerupProvider provider) {
         this.provider = provider;
+        provider.setup();
+        for (PowerupType type : PowerupType.values())
+            type.initialize(provider);
     }
 
     public void setServerManager(String manager) {
         var pm = Bukkit.getPluginManager();
-        provider = switch (manager) {
+        setPowerupProvider(switch (manager) {
             case "CMI" -> new CMI(configManager);
             case "Essentials" -> new EssentialsX(configManager);
             default -> new Vanilla(configManager);
-        };
-        for (PowerupType type : PowerupType.values())
-            type.initialize(provider);
+        });
     }
 
     @Override

@@ -20,7 +20,6 @@ public class CMI implements PowerupProvider {
 
     public CMI(ConfigManager configManager) {
         this.configManager = configManager;
-        setup();
     }
 
     @Override

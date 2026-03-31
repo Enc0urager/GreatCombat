@@ -22,7 +22,6 @@ public class EssentialsX implements PowerupProvider {
     @Inject
     public EssentialsX(ConfigManager configManager) {
         this.configManager = configManager;
-        setup();
     }
 
     @Override

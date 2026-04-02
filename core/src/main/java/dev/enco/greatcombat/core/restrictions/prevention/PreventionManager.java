@@ -7,8 +7,7 @@ import dev.enco.greatcombat.api.managers.IPreventionManager;
 import dev.enco.greatcombat.api.models.IPreventableItem;
 import dev.enco.greatcombat.api.models.PreventionType;
 import dev.enco.greatcombat.core.config.ConfigManager;
-import dev.enco.greatcombat.core.restrictions.DefaultCheckers;
-import dev.enco.greatcombat.core.restrictions.MetaHandle;
+import dev.enco.greatcombat.core.restrictions.CheckerHandle;
 import dev.enco.greatcombat.core.restrictions.WrappedItem;
 import dev.enco.greatcombat.core.utils.EnumUtils;
 import dev.enco.greatcombat.core.utils.ItemUtils;
@@ -53,10 +52,10 @@ public class PreventionManager implements IPreventionManager {
 
             List<String> metaKeys = itemSection.getStringList("checked-meta");
             int size = metaKeys.size();
-            MetaHandle[] handles = new MetaHandle[size];
+            CheckerHandle[] handles = new CheckerHandle[size];
 
             for (int i = 0; i < size; i++) {
-                handles[i] = (MetaHandle) metaManager.getByID(metaKeys.get(i));
+                handles[i] = (CheckerHandle) metaManager.getByID(metaKeys.get(i));
             }
 
             var types = EnumUtils.toEnumSet(

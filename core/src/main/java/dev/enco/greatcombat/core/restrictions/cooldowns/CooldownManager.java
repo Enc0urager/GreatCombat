@@ -12,19 +12,15 @@ import dev.enco.greatcombat.api.managers.IMetaManager;
 import dev.enco.greatcombat.api.managers.ITaskManager;
 import dev.enco.greatcombat.api.models.ICooldownItem;
 import dev.enco.greatcombat.core.config.ConfigManager;
-import dev.enco.greatcombat.core.restrictions.DefaultCheckers;
-import dev.enco.greatcombat.core.restrictions.MetaHandle;
+import dev.enco.greatcombat.core.restrictions.CheckerHandle;
 import dev.enco.greatcombat.core.restrictions.WrappedItem;
-import dev.enco.greatcombat.core.utils.EnumUtils;
 import dev.enco.greatcombat.core.utils.ItemUtils;
 import dev.enco.greatcombat.core.utils.LangUtils;
 import dev.enco.greatcombat.core.utils.colorizer.Colorizer;
-import dev.enco.greatcombat.core.utils.logger.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -63,10 +59,10 @@ public class CooldownManager implements ICooldownManager {
 
             List<String> metaKeys = itemSection.getStringList("checked-meta");
             int size = metaKeys.size();
-            MetaHandle[] handles = new MetaHandle[size];
+            CheckerHandle[] handles = new CheckerHandle[size];
 
             for (int i = 0; i < size; i++) {
-                handles[i] = (MetaHandle) metaManager.getByID(metaKeys.get(i));
+                handles[i] = (CheckerHandle) metaManager.getByID(metaKeys.get(i));
             }
 
             int time = itemSection.getInt("time");

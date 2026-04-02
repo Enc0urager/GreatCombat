@@ -2,7 +2,7 @@ package dev.enco.greatcombat.core.restrictions.prevention;
 
 import dev.enco.greatcombat.api.models.IPreventableItem;
 import dev.enco.greatcombat.api.models.PreventionType;
-import dev.enco.greatcombat.core.restrictions.MetaHandle;
+import dev.enco.greatcombat.core.restrictions.CheckerHandle;
 import dev.enco.greatcombat.core.restrictions.WrappedItem;
 
 import java.util.EnumSet;
@@ -13,6 +13,6 @@ public record PreventableItem(
         String translation,
         EnumSet<PreventionType> types,
         Set<String> handlers,
-        MetaHandle[] checkedMetas,
+        CheckerHandle[] checkedMetas,
         boolean setMaterialCooldown
 ) implements IPreventableItem {}

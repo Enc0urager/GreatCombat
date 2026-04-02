@@ -7,13 +7,13 @@ import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.api.models.MetaChecker;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.restrictions.DefaultCheckers;
-import dev.enco.greatcombat.core.restrictions.MetaHandle;
+import dev.enco.greatcombat.core.restrictions.CheckerHandle;
 import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
 public class MetaManager implements IMetaManager {
-    private final Map<String, MetaHandle> registry = new HashMap<>();
+    private final Map<String, CheckerHandle> registry = new HashMap<>();
 
     @Inject
     public MetaManager(ConfigManager configManager) {
@@ -34,8 +34,8 @@ public class MetaManager implements IMetaManager {
     }
 
     @Override
-    public MetaHandle getByID(String name) {
-        return registry.computeIfAbsent(name.toUpperCase(), MetaHandle::new);
+    public CheckerHandle getByID(String name) {
+        return registry.computeIfAbsent(name.toUpperCase(), CheckerHandle::new);
     }
 
     @Override

@@ -6,7 +6,7 @@ import dev.enco.greatcombat.core.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class MetaHandle implements MetaChecker {
+public class CheckerHandle implements MetaChecker {
     private final String name;
     private MetaChecker delegate;
     private boolean requiresMeta;

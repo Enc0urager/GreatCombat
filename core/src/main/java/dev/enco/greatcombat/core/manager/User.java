@@ -17,9 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
-
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Entity for managing combat state, opponents, timer, and visual effects.
@@ -38,10 +36,12 @@ public class User implements IUser {
     private final IScoreboardManager scoreboardManager;
 
     public String getOpponentsFormatted(String delimiter) {
-        return opponents.stream()
-                .map(IUser::asPlayer).map(Player::getName)
-                .collect(Collectors.joining(delimiter));
-
+        StringBuilder sb = new StringBuilder();
+        for (IUser u : opponents) {
+            if (!sb.isEmpty()) sb.append(delimiter);
+            sb.append(u.asPlayer().getName());
+        }
+        return sb.toString();
     }
 
     /**

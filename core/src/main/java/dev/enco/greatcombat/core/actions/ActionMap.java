@@ -9,6 +9,10 @@ public class ActionMap {
     private final Context[][] contexts;
     private final int size;
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
     public ActionMap(ActionType[] types, Context[][] contexts) {
         this.types = types;
         this.contexts = contexts;

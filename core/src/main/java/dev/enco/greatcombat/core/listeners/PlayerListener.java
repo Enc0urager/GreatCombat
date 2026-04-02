@@ -9,6 +9,7 @@ import dev.enco.greatcombat.api.managers.IPreventionManager;
 import dev.enco.greatcombat.api.models.ICooldownItem;
 import dev.enco.greatcombat.api.models.IPreventableItem;
 import dev.enco.greatcombat.api.models.PreventionType;
+import dev.enco.greatcombat.core.actions.ActionMap;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.config.settings.Commands;
 import dev.enco.greatcombat.core.config.settings.Messages;
@@ -201,8 +202,10 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onHeld(PlayerItemHeldEvent e) {
+        ActionMap actionMap = configManager.getMessages().onItemHeld();
+        if (actionMap.isEmpty()) return;
         var player = e.getPlayer();
         var uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {

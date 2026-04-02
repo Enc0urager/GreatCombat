@@ -55,7 +55,7 @@ public class PlayerListener implements Listener {
                 combatManager.startCombat(damager, target);
             }
         }
-        if (e.getEntity() instanceof EnderCrystal crystal) {
+        else if (e.getEntity() instanceof EnderCrystal crystal) {
             Player exploder = getDamager(e.getDamager());
             if (exploder != null) crystal.setMetadata("exploder", new FixedMetadataValue(plugin, exploder.getUniqueId()));
         }

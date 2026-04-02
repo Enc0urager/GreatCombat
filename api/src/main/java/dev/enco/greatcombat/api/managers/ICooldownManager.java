@@ -1,6 +1,8 @@
 package dev.enco.greatcombat.api.managers;
 
 import dev.enco.greatcombat.api.models.ICooldownItem;
+import dev.enco.greatcombat.api.models.IWrappedItem;
+import dev.enco.greatcombat.api.models.WrappedTask;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,6 +16,14 @@ public interface ICooldownManager extends IManager {
      * @return CooldownItem if found, null otherwise
      */
     ICooldownItem getCooldownItem(ItemStack i);
+
+    /**
+     * Retrieves the CooldownItem associated with the given IWrappedItem.
+     *
+     * @param i The IWrappedItem to check for cooldown
+     * @return CooldownItem if found, null otherwise
+     */
+    ICooldownItem getCooldownItem(IWrappedItem i);
 
     /**
      * Checks if a player has an active cooldown for the specified item.

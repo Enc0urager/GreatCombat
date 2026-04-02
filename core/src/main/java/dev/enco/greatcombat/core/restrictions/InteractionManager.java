@@ -98,7 +98,8 @@ public class InteractionManager implements IInteractionManager {
     }
 
     private boolean runCoreChecks(Player player, ItemStack is, InteractionHandler<?> handler) {
-        var cooldownItem = cooldownManager.getCooldownItem(is);
+        WrappedItem wrapped = WrappedItem.wrap(is);
+        var cooldownItem = cooldownManager.getCooldownItem(wrapped);
         if (cooldownItem != null && cooldownItem.handlers().contains(handler.name())) {
             if (player.hasPermission("greatcombat.cooldowns.bypass")) return false;
             if (cooldownManager.hasCooldown(player.getUniqueId(), cooldownItem)) {
@@ -108,7 +109,7 @@ public class InteractionManager implements IInteractionManager {
             }
             cooldownManager.putCooldown(player.getUniqueId(), player, cooldownItem);
         }
-        var preventionItem = preventionManager.getPreventableItem(is);
+        var preventionItem = preventionManager.getPreventableItem(wrapped);
         if (preventionItem != null && preventionItem.handlers().contains(handler.name())) {
             if (player.hasPermission("greatcombat.prevention.bypass")) return false;
             configManager.getMessages().onInteract().execute(player, preventionItem.translation());

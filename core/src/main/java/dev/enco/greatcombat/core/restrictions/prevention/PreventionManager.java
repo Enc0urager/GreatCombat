@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import dev.enco.greatcombat.api.managers.IMetaManager;
 import dev.enco.greatcombat.api.managers.IPreventionManager;
 import dev.enco.greatcombat.api.models.IPreventableItem;
+import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.api.models.PreventionType;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.restrictions.CheckerHandle;
@@ -35,6 +36,11 @@ public class PreventionManager implements IPreventionManager {
     @Override
     public IPreventableItem getPreventableItem(ItemStack itemStack) {
         var wrapped = WrappedItem.wrap(itemStack);
+        return getPreventableItem(wrapped);
+    }
+
+    @Override
+    public IPreventableItem getPreventableItem(IWrappedItem wrapped) {
         for (IPreventableItem item : preventableItems)
             if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
                 return item;

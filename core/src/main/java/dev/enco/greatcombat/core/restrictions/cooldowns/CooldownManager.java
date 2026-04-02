@@ -11,6 +11,7 @@ import dev.enco.greatcombat.api.managers.ICooldownManager;
 import dev.enco.greatcombat.api.managers.IMetaManager;
 import dev.enco.greatcombat.api.managers.ITaskManager;
 import dev.enco.greatcombat.api.models.ICooldownItem;
+import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.restrictions.CheckerHandle;
 import dev.enco.greatcombat.core.restrictions.WrappedItem;
@@ -41,6 +42,11 @@ public class CooldownManager implements ICooldownManager {
     @Override
     public ICooldownItem getCooldownItem(ItemStack i) {
         var wrapped = WrappedItem.wrap(i);
+        return getCooldownItem(wrapped);
+    }
+
+    @Override
+    public ICooldownItem getCooldownItem(IWrappedItem wrapped) {
         for (var item : itemsCooldowns.keySet())
             if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
                 return item;

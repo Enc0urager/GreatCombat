@@ -1,6 +1,7 @@
 package dev.enco.greatcombat.api.managers;
 
 import dev.enco.greatcombat.api.models.IPreventableItem;
+import dev.enco.greatcombat.api.models.IWrappedItem;
 import org.bukkit.inventory.ItemStack;
 
 public interface IPreventionManager extends IManager {
@@ -11,4 +12,12 @@ public interface IPreventionManager extends IManager {
      * @return PreventableItem if found, null otherwise
      */
     IPreventableItem getPreventableItem(ItemStack itemStack);
+
+    /**
+     * Retrieves the PreventableItem associated with the given IWrappedItem.
+     *
+     * @param i The WrappedItem to check for prevention
+     * @return PreventableItem if found, null otherwise
+     */
+    IPreventableItem getPreventableItem(IWrappedItem i);
 }

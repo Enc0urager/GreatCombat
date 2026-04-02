@@ -78,8 +78,9 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         var player = e.getPlayer();
         var uuid = player.getUniqueId();
-        if (combatManager.isInCombat(uuid)) {
-            pm.callEvent(new PlayerLeaveInCombatEvent(combatManager.getUser(uuid)));
+        var user = combatManager.getUser(uuid);
+        if (user != null) {
+            pm.callEvent(new PlayerLeaveInCombatEvent(user));
         }
     }
 
@@ -87,8 +88,9 @@ public class PlayerListener implements Listener {
     public void onKick(PlayerKickEvent e) {
         var player = e.getPlayer();
         var uuid = player.getUniqueId();
-        if (combatManager.isInCombat(uuid)) {
-            pm.callEvent(new PlayerKickInCombatEvent(combatManager.getUser(uuid), ChatColor.stripColor(e.getReason())));
+        var user = combatManager.getUser(uuid);
+        if (user != null) {
+            pm.callEvent(new PlayerKickInCombatEvent(user,  ChatColor.stripColor(e.getReason())));
         }
     }
 
@@ -214,7 +216,7 @@ public class PlayerListener implements Listener {
             var item = cooldownManager.getCooldownItem(is);
             if (item == null) return;
             if (cooldownManager.hasCooldown(uuid, item)) {
-                configManager.getMessages().onItemHeld().execute(
+                actionMap.execute(
                         player,
                         item.translation(),
                         Time.format(

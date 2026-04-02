@@ -24,6 +24,7 @@ import java.util.UUID;
  */
 @Data
 public class User implements IUser {
+    private final Player player;
     private ObjectSet<IUser> opponents = new ObjectOpenHashSet<>();
     private long startPvpTime;
     private final UUID playerUUID;
@@ -51,7 +52,7 @@ public class User implements IUser {
      */
     @Override
     public Player asPlayer() {
-        return Bukkit.getPlayer(playerUUID);
+        return player;
     }
 
     /**

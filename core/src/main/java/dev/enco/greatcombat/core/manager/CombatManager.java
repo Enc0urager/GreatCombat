@@ -153,10 +153,12 @@ public class CombatManager implements ICombatManager {
     public IUser getOrCreateUser(UUID uuid) {
         var user = getUser(uuid);
         if (user != null) return user;
+        Player player = Bukkit.getPlayer(uuid);
         User u = new User(
+                player,
                 uuid,
                 this,
-                taskManager.getEntityScheduler(Bukkit.getPlayer(uuid)),
+                taskManager.getEntityScheduler(player),
                 configManager,
                 scoreboardManager
         );

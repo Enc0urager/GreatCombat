@@ -78,7 +78,7 @@ public class InteractionManager implements IInteractionManager {
                 new Listener() {},
                 EventPriority.HIGHEST,
                 (listener, event) -> {
-                    if (eventClass.isInstance(event)) {
+                    if (eventClass == event.getClass()) {
                         processEvent((T) event);
                     }
                 },

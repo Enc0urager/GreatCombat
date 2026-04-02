@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 public class CheckerHandle implements MetaChecker {
     private final String name;
     private MetaChecker delegate;
-    private boolean requiresMeta;
 
     public void bind(MetaChecker checker) {
         this.delegate = checker;
@@ -26,6 +25,6 @@ public class CheckerHandle implements MetaChecker {
 
     @Override
     public boolean requiresMeta() {
-        return requiresMeta;
+        return delegate.requiresMeta();
     }
 }

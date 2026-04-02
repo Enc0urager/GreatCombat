@@ -83,16 +83,19 @@ public class CombatManager implements ICombatManager {
      */
     @Override
     public void startCombat(Player damager, Player target) {
-        if (damager.getName().equals(target.getName())) return;
+        if (damager == target) return;
 
         var damagerUUID = damager.getUniqueId();
         var targetUUID = target.getUniqueId();
 
-        boolean isDamagerInCombat = isInCombat(damagerUUID);
-        boolean isTargetInCombat = isInCombat(targetUUID);
+        var damagerUser = playersInCombat.get(damagerUUID);
+        var targetUser = playersInCombat.get(targetUUID);
 
-        var damagerUser = this.getOrCreateUser(damagerUUID);
-        var targetUser = this.getOrCreateUser(targetUUID);
+        boolean isDamagerInCombat = damagerUser != null;
+        boolean isTargetInCombat = targetUser != null;
+
+        if (!isDamagerInCombat) damagerUser = getOrCreateUser(damagerUUID);
+        if (!isTargetInCombat) targetUser = getOrCreateUser(targetUUID);
 
         boolean alreadyOpponents = damagerUser.containsOpponent(targetUser);
 

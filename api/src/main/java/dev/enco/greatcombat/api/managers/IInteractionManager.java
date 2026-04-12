@@ -49,7 +49,7 @@ public interface IInteractionManager extends IManager {
     <T extends Event> Stream<InteractionHandler<T>> getHandlers(T event);
 
     /**
-     * Returns a stream of handlers where the condition ({@link InteractionHandler#predicate()}) is met.
+     * Returns the first handler where the condition ({@link InteractionHandler#predicate()}) is met.
      * <p>
      * Used to determine which specific action occurred (e.g., Right Click vs Left Click)
      * within a single base Bukkit event.
@@ -58,7 +58,7 @@ public interface IInteractionManager extends IManager {
      * @param <T>   The event type.
      * @return      A Stream of active handlers for the current event state.
      */
-    <T extends Event> Stream<InteractionHandler<T>> getPredicatedHandlers(T event);
+    <T extends Event> InteractionHandler<T> getFirstPredicatedHandler(T event);
 
     /**
      * Executes a specific action (consumer) for all active handlers of the event.

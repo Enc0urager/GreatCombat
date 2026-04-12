@@ -2,6 +2,7 @@ package dev.enco.greatcombat.core.restrictions;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import dev.enco.greatcombat.api.managers.ICombatManager;
 import dev.enco.greatcombat.api.managers.ICooldownManager;
 import dev.enco.greatcombat.api.managers.IInteractionManager;
 import dev.enco.greatcombat.api.managers.IPreventionManager;
@@ -38,6 +39,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class InteractionManager implements IInteractionManager {
     private final JavaPlugin plugin;
+    private final ICombatManager combatManager;
     private final ICooldownManager cooldownManager;
     private final IPreventionManager preventionManager;
     private final ConfigManager configManager;
@@ -87,14 +89,15 @@ public class InteractionManager implements IInteractionManager {
     }
 
     private <T extends Event> void processEvent(T event) {
-        getPredicatedHandlers(event)
-                .forEach(h -> {
-                    Player player = h.playerExtractor().apply(event);
-                    ItemStack itemStack = h.itemExtractor().apply(event);
-                    if (player == null || itemStack == null) return;
-                    boolean cancelled = runCoreChecks(player, itemStack, h);
-                    if (cancelled && event instanceof Cancellable c) c.setCancelled(true);
-                });
+        InteractionHandler<T> h = getFirstPredicatedHandler(event);
+        if (h == null) return;
+        Player player = h.playerExtractor().apply(event);
+        if (player == null) return;
+        if (!combatManager.isInCombat(player.getUniqueId())) return;
+        ItemStack itemStack = h.itemExtractor().apply(event);
+        if (itemStack == null) return;
+        boolean cancelled = runCoreChecks(player, itemStack, h);
+        if (cancelled && event instanceof Cancellable c) c.setCancelled(true);
     }
 
     private boolean runCoreChecks(Player player, ItemStack is, InteractionHandler<?> handler) {
@@ -124,14 +127,13 @@ public class InteractionManager implements IInteractionManager {
     }
 
     @Override
-    public <T extends Event> Stream<InteractionHandler<T>> getPredicatedHandlers(T event) {
-        return getHandlers(event).filter(h -> h.predicate().test(event));
+    public <T extends Event> InteractionHandler<T> getFirstPredicatedHandler(T event) {
+        return getHandlers(event).filter(h -> h.predicate().test(event)).findFirst().orElse(null);
     }
 
     @Override
     public <T extends Event> void handle(T event, Consumer<T> consumer) {
-        getPredicatedHandlers(event)
-                .forEach(h -> consumer.accept(event));
+        consumer.accept(event);
     }
 
     @SuppressWarnings("unchecked")

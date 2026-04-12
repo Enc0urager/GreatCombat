@@ -182,7 +182,7 @@ public class ConfigManager {
         }
         settings = new Settings(
                 config.getInt("pvp-time"),
-                EnumUtils.toEnumSet(config.getStringList("allowed-teleportations-cause"), PlayerTeleportEvent.TeleportCause.class, c -> Logger.warn("Unknown teleport cause")),
+                EnumUtils.toEnumSet(config.getStringList("allowed-teleportations-cause"), PlayerTeleportEvent.TeleportCause.class, c -> Logger.warn("Unknown teleport cause " + c)),
                 ImmutableSet.copyOf(config.getStringList("ignored-worlds")),
                 config.getBoolean("kill-on-leave"),
                 config.getBoolean("kill-on-kick"),

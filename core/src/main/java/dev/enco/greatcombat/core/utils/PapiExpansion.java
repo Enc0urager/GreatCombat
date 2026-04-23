@@ -1,5 +1,6 @@
 package dev.enco.greatcombat.core.utils;
 
+import com.google.inject.Inject;
 import dev.enco.greatcombat.api.managers.ICombatManager;
 import dev.enco.greatcombat.api.models.IUser;
 import dev.enco.greatcombat.core.config.ConfigManager;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.UUID;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @Inject)
 public class PapiExpansion extends PlaceholderExpansion {
     private final ICombatManager combatManager;
     private final ConfigManager configManager;

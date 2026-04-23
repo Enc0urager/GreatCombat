@@ -76,7 +76,7 @@ public class CooldownManager implements ICooldownManager {
             var translation = Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), itemStack));
 
             CooldownItem item = new CooldownItem(
-                    WrappedItem.withMeta(itemStack),
+                    WrappedItem.wrap(itemStack),
                     translation,
                     handles,
                     handlers,

@@ -72,7 +72,7 @@ public class PreventionManager implements IPreventionManager {
 
             var item = ItemUtils.decode(itemSection.getString("base64"));
             itemsList.add(new PreventableItem(
-                    WrappedItem.withMeta(item),
+                    WrappedItem.wrap(item),
                     Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), item)),
                     types,
                     handlers,

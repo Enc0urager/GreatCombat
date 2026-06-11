@@ -6,6 +6,7 @@ import dev.enco.greatcombat.core.scheduler.tasks.FoliaTask;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
 public class EntityScheduler implements IScheduler {
@@ -13,7 +14,7 @@ public class EntityScheduler implements IScheduler {
     private final Player player;
 
     @Override
-    public void run(Runnable task) {
+    public void run(@NotNull Runnable task) {
         player.getScheduler().run(
                 plugin,
                 t -> task.run(),
@@ -22,12 +23,12 @@ public class EntityScheduler implements IScheduler {
     }
 
     @Override
-    public void runAsync(Runnable task) {
+    public void runAsync(@NotNull Runnable task) {
         run(task);
     }
 
     @Override
-    public void runLater(Runnable task, long delay) {
+    public void runLater(@NotNull Runnable task, long delay) {
         player.getScheduler().runDelayed(
                 plugin,
                 t -> task.run(),
@@ -37,12 +38,12 @@ public class EntityScheduler implements IScheduler {
     }
 
     @Override
-    public void runLaterAsync(Runnable task, long delay) {
+    public void runLaterAsync(@NotNull Runnable task, long delay) {
         runLater(task, delay);
     }
 
     @Override
-    public WrappedTask<?> runRepeating(Runnable task, long delay, long period) {
+    public @NotNull WrappedTask<?> runRepeating(@NotNull Runnable task, long delay, long period) {
         return new FoliaTask(
                 player.getScheduler().runAtFixedRate(
                         plugin,
@@ -55,7 +56,7 @@ public class EntityScheduler implements IScheduler {
     }
 
     @Override
-    public WrappedTask<?> runRepeatingAsync(Runnable task, long delay, long period) {
+    public @NotNull WrappedTask<?> runRepeatingAsync(@NotNull Runnable task, long delay, long period) {
         return runRepeating(task, delay, period);
     }
 }

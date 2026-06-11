@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Event called when one player joins another player's existing combat.
@@ -27,7 +28,10 @@ public class CombatJoinEvent extends CombatDamageEvent {
      * @param target User who received damage
      * @param damagerJoiner True if damager was the joiner, false if target was the joiner
      */
-    public CombatJoinEvent(IUser damager, IUser target, boolean damagerJoiner) {
+    public CombatJoinEvent(@NotNull IUser damager,
+                           @NotNull IUser target,
+                           boolean damagerJoiner
+    ) {
         super(damager, target);
         this.damagerJoiner = damagerJoiner;
     }
@@ -40,12 +44,16 @@ public class CombatJoinEvent extends CombatDamageEvent {
      * @param damagerJoiner True if damager was the joiner, false if target was the joiner
      * @param cause Specific cause of damage
      */
-    public CombatJoinEvent(IUser damager, IUser target, boolean damagerJoiner, EntityDamageEvent.DamageCause cause) {
+    public CombatJoinEvent(@NotNull IUser damager,
+                           @NotNull IUser target,
+                           boolean damagerJoiner,
+                           @Nullable EntityDamageEvent.DamageCause cause
+    ) {
         super(damager, target, cause);
         this.damagerJoiner = damagerJoiner;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 

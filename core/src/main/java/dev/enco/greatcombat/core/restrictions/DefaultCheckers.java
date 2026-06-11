@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -14,35 +15,35 @@ public enum DefaultCheckers implements MetaChecker {
 
     SIMILAR(false) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return f.itemStack().isSimilar(s.itemStack());
         }
     },
 
     META(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return f.itemMeta().equals(s.itemMeta());
         }
     },
 
     MATERIAL(false) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return f.itemStack().getType().equals(s.itemStack().getType());
         }
     },
 
     ITEM_FLAGS(false) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return f.itemStack().getItemFlags().equals(s.itemStack().getItemFlags());
         }
     },
 
     DISPLAY_NAME(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return Objects.equals(
                     f.itemMeta().getDisplayName(),
                     s.itemMeta().getDisplayName()
@@ -52,7 +53,7 @@ public enum DefaultCheckers implements MetaChecker {
 
     LORE(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             var l1 = f.itemMeta().getLore();
             var l2 = s.itemMeta().getLore();
             return Objects.equals(l1, l2);
@@ -61,7 +62,7 @@ public enum DefaultCheckers implements MetaChecker {
 
     ENCHANTMENTS(false) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return f.itemStack().getEnchantments()
                     .equals(s.itemStack().getEnchantments());
         }
@@ -69,7 +70,7 @@ public enum DefaultCheckers implements MetaChecker {
 
     ATTRIBUTES(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return Objects.equals(
                     f.itemMeta().getAttributeModifiers(),
                     s.itemMeta().getAttributeModifiers()
@@ -79,7 +80,7 @@ public enum DefaultCheckers implements MetaChecker {
 
     PDC(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return f.itemMeta().getPersistentDataContainer()
                     .equals(s.itemMeta().getPersistentDataContainer());
         }
@@ -87,14 +88,14 @@ public enum DefaultCheckers implements MetaChecker {
 
     UNBREAKABLE(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             return f.itemMeta().isUnbreakable() == s.itemMeta().isUnbreakable();
         }
     },
 
     POTION_EFFECTS(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             if (!(f.itemMeta() instanceof PotionMeta fm) ||
                     !(s.itemMeta() instanceof PotionMeta sm)) {
                 return false;
@@ -105,7 +106,7 @@ public enum DefaultCheckers implements MetaChecker {
 
     POTION_BASE(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             if (!(f.itemMeta() instanceof PotionMeta fm) ||
                     !(s.itemMeta() instanceof PotionMeta sm)) {
                 return false;
@@ -121,7 +122,7 @@ public enum DefaultCheckers implements MetaChecker {
 
     COLOR(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             if (!(f.itemMeta() instanceof LeatherArmorMeta fm) ||
                     !(s.itemMeta() instanceof LeatherArmorMeta sm)) {
                 return false;
@@ -132,7 +133,7 @@ public enum DefaultCheckers implements MetaChecker {
 
     CUSTOM_MODEL_DATA(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             var fm = f.itemMeta();
             var sm = s.itemMeta();
 
@@ -144,7 +145,7 @@ public enum DefaultCheckers implements MetaChecker {
 
     SKULL(true) {
         @Override
-        public boolean matches(IWrappedItem f, IWrappedItem s) {
+        public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
             if (!(f.itemMeta() instanceof SkullMeta fm) ||
                     !(s.itemMeta() instanceof SkullMeta sm)) {
                 return false;

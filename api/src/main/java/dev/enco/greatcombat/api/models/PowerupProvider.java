@@ -1,5 +1,7 @@
 package dev.enco.greatcombat.api.models;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Interface defining the contract for server management systems that handle powerup operations.
  * Provides methods for setup and access to powerup checkers and disablers for various powerup types.
@@ -17,29 +19,29 @@ public interface PowerupProvider {
      *
      * @return Powerup for handling flight operations
      */
-    Powerup flyPowerup();
+    @NotNull Powerup flyPowerup();
     /**
      * Gets the god powerup implementation.
      *
      * @return Powerup for handling god operations
      */
-    Powerup godPowerup();
+    @NotNull Powerup godPowerup();
     /**
      * Gets the vanish powerup implementation.
      *
      * @return Powerup for handling vanish operations
      */
-    Powerup vanishPowerup();
+    @NotNull Powerup vanishPowerup();
     /**
      * Gets the gamemode powerup implementation.
      *
      * @return Powerup for handling gamemode operations
      */
-    Powerup gamemodePowerup();
+    @NotNull Powerup gamemodePowerup();
     /**
      * Gets the walkspeed powerup implementation.
      *
      * @return Powerup for handling walkspeed operations
      */
-    Powerup walkspeedPowerup();
+    @NotNull Powerup walkspeedPowerup();
 }

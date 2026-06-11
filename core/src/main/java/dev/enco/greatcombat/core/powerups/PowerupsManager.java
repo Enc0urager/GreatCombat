@@ -12,6 +12,7 @@ import dev.enco.greatcombat.core.powerups.impl.Vanilla;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
 
@@ -29,7 +30,7 @@ public class PowerupsManager implements IPowerupsManager {
     }
 
     @Override
-    public void setPowerupProvider(PowerupProvider provider) {
+    public void setPowerupProvider(@NotNull PowerupProvider provider) {
         this.provider = provider;
         provider.setup();
         for (PowerupType type : PowerupType.values())
@@ -46,7 +47,7 @@ public class PowerupsManager implements IPowerupsManager {
     }
 
     @Override
-    public boolean hasPowerups(Player player, EnumSet<PowerupType> checks) {
+    public boolean hasPowerups(@NotNull Player player, @NotNull EnumSet<PowerupType> checks) {
         if (player.hasPermission("greatcombat.powerups.bypass")) return false;
 
         for (PowerupType check : checks)
@@ -56,7 +57,7 @@ public class PowerupsManager implements IPowerupsManager {
     }
 
     @Override
-    public void disablePowerups(Player player, EnumSet<PowerupType> checks) {
+    public void disablePowerups(@NotNull Player player, @NotNull EnumSet<PowerupType> checks) {
         if (player.hasPermission("greatcombat.powerups.bypass")) return;
         for (PowerupType check : checks)
             check.getPowerup().disablePowerup(player);

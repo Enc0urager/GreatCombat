@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Extension of Bukkit {@link Listener} with utility methods
@@ -15,7 +16,7 @@ public interface IRegionListener extends Listener {
      *
      * @param plugin plugin instance
      */
-    default void registerListener(JavaPlugin plugin) {
+    default void registerListener(@NotNull JavaPlugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 

@@ -3,6 +3,8 @@ package dev.enco.greatcombat.api.models;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -25,7 +27,7 @@ public interface InteractionHandler<T extends Event> {
      *
      * @return The unique string name of the interaction.
      */
-    String name();
+    @NotNull String name();
 
     /**
      * Gets the condition that must be met for this handler to trigger.
@@ -35,7 +37,7 @@ public interface InteractionHandler<T extends Event> {
      *
      * @return A predicate to test the event.
      */
-    Predicate<T> predicate();
+    @NotNull Predicate<T> predicate();
 
     /**
      * Gets the function used to extract the {@link Player} from the event.
@@ -45,7 +47,7 @@ public interface InteractionHandler<T extends Event> {
      *
      * @return A function that maps the event to a Player.
      */
-    Function<T, Player> playerExtractor();
+    @NotNull Function<T, @NotNull Player> playerExtractor();
 
     /**
      * Gets the function used to extract the {@link ItemStack} from the event.
@@ -55,5 +57,5 @@ public interface InteractionHandler<T extends Event> {
      *
      * @return A function that maps the event to an ItemStack.
      */
-    Function<T, ItemStack> itemExtractor();
+    @NotNull Function<T, @Nullable ItemStack> itemExtractor();
 }

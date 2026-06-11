@@ -1,6 +1,8 @@
 package dev.enco.greatcombat.api.models;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Enum representing different types of powerups that can be managed by the plugin.
@@ -19,7 +21,7 @@ public enum PowerupType {
     GAMEMODE,
     WALKSPEED;
 
-    private Powerup powerup;
+    private @Nullable Powerup powerup;
 
     /**
      * Initializes the powerup type with specific checker and disabler implementations
@@ -30,7 +32,7 @@ public enum PowerupType {
      *
      * @see PowerupProvider
      */
-    public void initialize(PowerupProvider serverManager) {
+    public void initialize(@NotNull PowerupProvider serverManager) {
         switch (this) {
             case FLY:
                 this.powerup = serverManager.flyPowerup();

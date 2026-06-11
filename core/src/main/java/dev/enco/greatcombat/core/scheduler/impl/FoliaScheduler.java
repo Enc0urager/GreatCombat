@@ -6,6 +6,7 @@ import dev.enco.greatcombat.core.scheduler.tasks.FoliaTask;
 import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +22,7 @@ public class FoliaScheduler implements IScheduler {
     }
 
     @Override
-    public void run(Runnable task) {
+    public void run(@NotNull Runnable task) {
         globalScheduler.run(
                 plugin,
                 t -> task.run()
@@ -29,7 +30,7 @@ public class FoliaScheduler implements IScheduler {
     }
 
     @Override
-    public void runAsync(Runnable task) {
+    public void runAsync(@NotNull Runnable task) {
         asyncScheduler.runNow(
                 plugin,
                 t -> task.run()
@@ -37,7 +38,7 @@ public class FoliaScheduler implements IScheduler {
     }
 
     @Override
-    public void runLater(Runnable task, long delay) {
+    public void runLater(@NotNull Runnable task, long delay) {
         globalScheduler.runDelayed(
                 plugin,
                 t -> task.run(), delay
@@ -45,7 +46,7 @@ public class FoliaScheduler implements IScheduler {
     }
 
     @Override
-    public void runLaterAsync(Runnable task, long delay) {
+    public void runLaterAsync(@NotNull Runnable task, long delay) {
         asyncScheduler.runDelayed(
                 plugin,
                 t -> task.run(),
@@ -55,7 +56,7 @@ public class FoliaScheduler implements IScheduler {
     }
 
     @Override
-    public WrappedTask<?> runRepeating(Runnable task, long delay, long period) {
+    public @NotNull WrappedTask<?> runRepeating(@NotNull Runnable task, long delay, long period) {
         return new FoliaTask(
                 globalScheduler.runAtFixedRate(
                         plugin,
@@ -67,7 +68,7 @@ public class FoliaScheduler implements IScheduler {
     }
 
     @Override
-    public WrappedTask<?> runRepeatingAsync(Runnable task, long delay, long period) {
+    public @NotNull WrappedTask<?> runRepeatingAsync(@NotNull Runnable task, long delay, long period) {
         return new FoliaTask(
                 asyncScheduler.runAtFixedRate(
                         plugin,

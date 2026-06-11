@@ -17,6 +17,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.UUID;
 
 /**
@@ -36,7 +38,7 @@ public class User implements IUser {
     private final ConfigManager configManager;
     private final IScoreboardManager scoreboardManager;
 
-    public String getOpponentsFormatted(String delimiter) {
+    public @NotNull String getOpponentsFormatted(@NotNull String delimiter) {
         StringBuilder sb = new StringBuilder();
         for (IUser u : opponents) {
             if (!sb.isEmpty()) sb.append(delimiter);
@@ -109,7 +111,7 @@ public class User implements IUser {
      * @param opponent the user to add as an opponent
      */
     @Override
-    public void addOpponent(IUser opponent) {
+    public void addOpponent(@NotNull IUser opponent) {
         this.opponents.add(opponent);
     }
 
@@ -119,7 +121,7 @@ public class User implements IUser {
      * @param opponent the user to remove from opponents
      */
     @Override
-    public void removeOpponent(IUser opponent) {
+    public void removeOpponent(@NotNull IUser opponent) {
         this.opponents.remove(opponent);
     }
 
@@ -151,7 +153,7 @@ public class User implements IUser {
      * @return true if the user is an opponent, false otherwise
      */
     @Override
-    public boolean containsOpponent(IUser user) {
+    public boolean containsOpponent(@NotNull IUser user) {
         return this.opponents.contains(user);
     }
 

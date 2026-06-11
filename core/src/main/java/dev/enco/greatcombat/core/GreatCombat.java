@@ -17,6 +17,7 @@ import dev.enco.greatcombat.core.utils.logger.Logger;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
@@ -26,7 +27,7 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
     private Injector injector;
 
     @Override
-    public <T extends IManager> T getManager(Class<T> clazz) {
+    public <T extends IManager> @NotNull T getManager(@NotNull Class<T> clazz) {
         return injector.getInstance(clazz);
     }
 

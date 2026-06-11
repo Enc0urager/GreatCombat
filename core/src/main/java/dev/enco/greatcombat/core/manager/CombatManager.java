@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -50,7 +51,7 @@ public class CombatManager implements ICombatManager {
      * @return true if player in combat, false otherwise
      */
     @Override
-    public boolean isInCombat(UUID uuid) {
+    public boolean isInCombat(@NotNull UUID uuid) {
         return playersInCombat.containsKey(uuid);
     }
 
@@ -60,7 +61,7 @@ public class CombatManager implements ICombatManager {
      * @param user User that will be removed
      */
     @Override
-    public void removeFromCombatMap(IUser user) {
+    public void removeFromCombatMap(@NotNull IUser user) {
         this.playersInCombat.remove(user.getPlayerUUID());
     }
 
@@ -71,7 +72,7 @@ public class CombatManager implements ICombatManager {
      * @return User or null if not in combat
      */
     @Override
-    public IUser getUser(UUID uuid) {
+    public IUser getUser(@NotNull UUID uuid) {
         return playersInCombat.get(uuid);
     }
 
@@ -82,7 +83,7 @@ public class CombatManager implements ICombatManager {
      * @param target player receiving the damage
      */
     @Override
-    public void startCombat(Player damager, Player target) {
+    public void startCombat(@NotNull Player damager, @NotNull Player target) {
         if (damager == target) return;
 
         var damagerUUID = damager.getUniqueId();
@@ -137,7 +138,7 @@ public class CombatManager implements ICombatManager {
      * @apiNote This method don't call any events, use {@link #startCombat(Player, Player)} for 2 players instead
      */
     @Override
-    public void startSingle(Player player) {
+    public void startSingle(@NotNull Player player) {
         UUID playerUUID = player.getUniqueId();
         IUser user = getOrCreateUser(playerUUID);
         user.refresh(System.currentTimeMillis());
@@ -150,7 +151,7 @@ public class CombatManager implements ICombatManager {
      * @return existing or new User
      */
     @Override
-    public IUser getOrCreateUser(UUID uuid) {
+    public @NotNull IUser getOrCreateUser(@NotNull UUID uuid) {
         var user = getUser(uuid);
         if (user != null) return user;
         Player player = Bukkit.getPlayer(uuid);
@@ -172,7 +173,7 @@ public class CombatManager implements ICombatManager {
      * @param user User for whom combat ends
      */
     @Override
-    public void stopCombat(IUser user) {
+    public void stopCombat(@NotNull IUser user) {
         pm.callEvent(new CombatEndEvent(user));
     }
 }

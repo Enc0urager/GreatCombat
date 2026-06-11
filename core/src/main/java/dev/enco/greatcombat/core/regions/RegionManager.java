@@ -6,6 +6,7 @@ import dev.enco.greatcombat.api.managers.IRegionManager;
 import dev.enco.greatcombat.api.models.IRegionListener;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 @Singleton
 @RequiredArgsConstructor(onConstructor_ = @Inject)
@@ -14,7 +15,7 @@ public class RegionManager implements IRegionManager {
     private IRegionListener listener;
 
     @Override
-    public void setListener(IRegionListener listener) {
+    public void setListener(@NotNull IRegionListener listener) {
         if (listener == null) throw new IllegalArgumentException("IRegionListener cannot be null");
         if (this.listener != null) this.listener.unregisterListener();
         this.listener = listener;

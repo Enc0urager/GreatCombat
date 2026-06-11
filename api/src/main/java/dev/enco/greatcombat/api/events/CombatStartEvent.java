@@ -5,20 +5,25 @@ import lombok.Getter;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class CombatStartEvent extends CombatDamageEvent {
-    private static final HandlerList handlers = new HandlerList();
+    private static final @NotNull HandlerList handlers = new HandlerList();
 
-    public CombatStartEvent(IUser damager, IUser target) {
+    public CombatStartEvent(@NotNull IUser damager,
+                            @NotNull IUser target
+    ) {
         super(damager, target);
     }
 
-    public CombatStartEvent(IUser damager, IUser target, EntityDamageEvent.DamageCause cause) {
+    public CombatStartEvent(@NotNull IUser damager,
+                            @NotNull IUser target,
+                            @Nullable EntityDamageEvent.DamageCause cause) {
         super(damager, target, cause);
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 

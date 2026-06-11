@@ -1,5 +1,7 @@
 package dev.enco.greatcombat.api.models;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Strategy interface for comparing metadata between two {@link IWrappedItem}s.
  * <p>
@@ -13,7 +15,9 @@ public interface MetaChecker {
      * @param second the second item
      * @return true if the items match, false otherwise
      */
-    boolean matches(IWrappedItem first, IWrappedItem second);
+    boolean matches(@NotNull IWrappedItem first,
+                    @NotNull IWrappedItem second);
+
     /**
      * Indicates whether this checker requires both items to have item meta.
      * <p>

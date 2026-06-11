@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class InteractionManager implements IInteractionManager {
     private final ReferenceSet<Class<? extends Event>> registeredListeners = new ReferenceOpenHashSet<>();
 
     @Override
-    public <T extends Event> void registerMapping(Class<T> eventClass, InteractionHandler<T> handler) {
+    public <T extends Event> void registerMapping(@NotNull Class<T> eventClass, @NotNull InteractionHandler<T> handler) {
         //1.16 кал
         List<InteractionHandler<?>> handlers = handlerMap.get(eventClass);
         if (handlers == null) {
@@ -64,12 +65,12 @@ public class InteractionManager implements IInteractionManager {
     }
 
     @Override
-    public <T extends Event> InteractionHandler<T> newHandler(String name, Predicate<T> predicate, Function<T, Player> playerExt, Function<T, ItemStack> itemExt) {
+    public <T extends Event> InteractionHandler<T> newHandler(@NotNull String name, @NotNull Predicate<T> predicate, @NotNull Function<T, Player> playerExt, @NotNull Function<T, ItemStack> itemExt) {
         return new InteractionHandler<T>() {
-            @Override public String name() { return name; }
-            @Override public Predicate<T> predicate() { return predicate; }
-            @Override public Function<T, Player> playerExtractor() { return playerExt; }
-            @Override public Function<T, ItemStack> itemExtractor() { return itemExt; }
+            @Override public @NotNull String name() { return name; }
+            @Override public @NotNull Predicate<T> predicate() { return predicate; }
+            @Override public @NotNull Function<T, Player> playerExtractor() { return playerExt; }
+            @Override public @NotNull Function<T, ItemStack> itemExtractor() { return itemExt; }
         };
     }
 
@@ -122,17 +123,17 @@ public class InteractionManager implements IInteractionManager {
     }
 
     @Override
-    public <T extends Event> Stream<InteractionHandler<T>> getHandlers(T event) {
+    public <T extends Event> @NotNull Stream<InteractionHandler<T>> getHandlers(@NotNull T event) {
         return cast(handlerMap.get(event.getClass()));
     }
 
     @Override
-    public <T extends Event> InteractionHandler<T> getFirstPredicatedHandler(T event) {
+    public <T extends Event> InteractionHandler<T> getFirstPredicatedHandler(@NotNull T event) {
         return getHandlers(event).filter(h -> h.predicate().test(event)).findFirst().orElse(null);
     }
 
     @Override
-    public <T extends Event> void handle(T event, Consumer<T> consumer) {
+    public <T extends Event> void handle(@NotNull T event, @NotNull Consumer<T> consumer) {
         consumer.accept(event);
     }
 

@@ -4,6 +4,7 @@ import dev.enco.greatcombat.api.models.IUser;
 import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Event calls when a player is kicked from the server while in combat.
@@ -12,17 +13,17 @@ import org.bukkit.event.HandlerList;
  */
 @Getter
 public class PlayerKickInCombatEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
+    private static final @NotNull HandlerList handlers = new HandlerList();
 
     /**
      * User who was kicked
      */
-    private final IUser user;
+    private final @NotNull IUser user;
 
     /**
      * The reason for the kick
      */
-    private final String reason;
+    private final @NotNull String reason;
 
     /**
      * Constructs a new PlayerKickInCombatEvent.
@@ -30,17 +31,19 @@ public class PlayerKickInCombatEvent extends Event {
      * @param user User who was kicked
      * @param reason The reason for the kick
      */
-    public PlayerKickInCombatEvent(IUser user, String reason) {
+    public PlayerKickInCombatEvent(@NotNull IUser user,
+                                   @NotNull String reason
+    ) {
         this.user = user;
         this.reason = reason;
     }
 
     @Override
-    public HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 }

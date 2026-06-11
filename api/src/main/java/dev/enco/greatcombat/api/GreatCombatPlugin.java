@@ -2,6 +2,7 @@ package dev.enco.greatcombat.api;
 
 import com.google.inject.ConfigurationException;
 import dev.enco.greatcombat.api.managers.IManager;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Core API interface representing the GreatCombat plugin.
@@ -19,5 +20,5 @@ public interface GreatCombatPlugin {
      * @return the manager instance associated with the given class
      * @throws ConfigurationException if the manager is not bound
      */
-    <T extends IManager> T getManager(Class<T> clazz);
+    <T extends IManager> @NotNull T getManager(@NotNull Class<T> clazz);
 }

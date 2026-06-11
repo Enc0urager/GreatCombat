@@ -1,5 +1,7 @@
 package dev.enco.greatcombat.api;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Static provider for accessing the {@link GreatCombatPlugin} instance.
  */
@@ -30,7 +32,7 @@ public final class GreatCombatProvider {
      * @return the initialized plugin instance
      * @throws IllegalStateException if the plugin has not been initialized yet
      */
-    public static GreatCombatPlugin getPlugin() {
+    public static @NotNull GreatCombatPlugin getPlugin() {
         if (!isLoaded()) throw new IllegalStateException("GreatCombat isn't loaded yet!");
         return plugin;
     }

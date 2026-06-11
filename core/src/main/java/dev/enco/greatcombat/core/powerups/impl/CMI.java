@@ -60,7 +60,7 @@ public class CMI implements PowerupProvider {
     }
 
     @Override
-    public Powerup flyPowerup() {
+    public @NotNull Powerup flyPowerup() {
         return this.flyPowerup;
     }
 
@@ -84,7 +84,7 @@ public class CMI implements PowerupProvider {
     }
 
     @Override
-    public Powerup godPowerup() {
+    public @NotNull Powerup godPowerup() {
         return this.godPowerup;
     }
 
@@ -108,7 +108,7 @@ public class CMI implements PowerupProvider {
 
 
     @Override
-    public Powerup vanishPowerup() {
+    public @NotNull Powerup vanishPowerup() {
         return this.vanishPowerup;
     }
 
@@ -130,7 +130,7 @@ public class CMI implements PowerupProvider {
     }
 
     @Override
-    public Powerup gamemodePowerup() {
+    public @NotNull Powerup gamemodePowerup() {
         return this.gamemodePowerup;
     }
 
@@ -151,7 +151,7 @@ public class CMI implements PowerupProvider {
     }
 
     @Override
-    public Powerup walkspeedPowerup() {
+    public @NotNull Powerup walkspeedPowerup() {
         return walkspeedPowerup;
     }
 }

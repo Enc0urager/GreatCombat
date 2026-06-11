@@ -21,15 +21,15 @@ public class CombatPreStartEvent extends Event implements Cancellable {
     /**
      * The player who initiated the damage
      */
-    private final Player damager;
+    private final @NotNull Player damager;
     /**
      * The player who received the damage
      */
-    private final Player target;
-    private static final HandlerList handlers = new HandlerList();
+    private final @NotNull Player target;
+    private static final @NotNull HandlerList handlers = new HandlerList();
     private boolean cancelled = false;
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 

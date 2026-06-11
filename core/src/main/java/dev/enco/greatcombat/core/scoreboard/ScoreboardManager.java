@@ -10,6 +10,7 @@ import dev.enco.greatcombat.core.config.settings.Locale;
 import dev.enco.greatcombat.core.config.settings.Scoreboard;
 import dev.enco.greatcombat.core.utils.Placeholders;
 import dev.enco.greatcombat.core.utils.logger.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class ScoreboardManager implements IScoreboardManager {
      * @param scoreboardProvider The scoreboard provider instance to use
      */
     @Override
-    public void setProvider(ScoreboardProvider scoreboardProvider) {
+    public void setProvider(@NotNull ScoreboardProvider scoreboardProvider) {
         provider = scoreboardProvider;
     }
 
@@ -76,7 +77,7 @@ public class ScoreboardManager implements IScoreboardManager {
      * @param time The formatted time string to display on the scoreboard
      */
     @Override
-    public void setScoreboard(IUser user, String time) {
+    public void setScoreboard(@NotNull IUser user, @NotNull String time) {
         Scoreboard boardSettings = configManager.getScoreboard();
         if (boardSettings.enable()) {
             provider.setScoreboard(user, boardSettings.title(), getLines(user, time));
@@ -90,7 +91,7 @@ public class ScoreboardManager implements IScoreboardManager {
      * @param user User to reset the scoreboard for
      */
     @Override
-    public void resetScoreboard(IUser user) {
+    public void resetScoreboard(@NotNull IUser user) {
         Scoreboard boardSettings = configManager.getScoreboard();
         if (boardSettings.enable()) {
             provider.resetScoreboard(user);

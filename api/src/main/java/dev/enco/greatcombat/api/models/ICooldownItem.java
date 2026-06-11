@@ -1,5 +1,7 @@
 package dev.enco.greatcombat.api.models;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Set;
 
 /**
@@ -11,28 +13,28 @@ public interface ICooldownItem {
      *
      * @return wrapped item
      */
-    IWrappedItem wrappedItem();
+    @NotNull IWrappedItem wrappedItem();
 
     /**
      * Returns localized translation key or display string.
      *
      * @return translation
      */
-    String translation();
+    @NotNull String translation();
 
     /**
      * Returns metadata checkers used for matching items.
      *
      * @return array of meta-checkers
      */
-    MetaChecker[] checkedMetas();
+    @NotNull MetaChecker[] checkedMetas();
 
     /**
      * Returns interaction handlers that trigger cooldown.
      *
      * @return set of handlers
      */
-    Set<String> handlers();
+    @NotNull Set<String> handlers();
 
     /**
      * Returns cooldown duration in seconds.
@@ -53,5 +55,5 @@ public interface ICooldownItem {
      *
      * @return set of linked item IDs
      */
-    Set<String> linkedItems();
+    @NotNull Set<String> linkedItems();
 }

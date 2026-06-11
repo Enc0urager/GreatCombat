@@ -9,7 +9,6 @@ import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.config.settings.Locale;
 import dev.enco.greatcombat.core.utils.logger.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,7 +48,7 @@ public class EssentialsX implements PowerupProvider {
     }
 
     @Override
-    public Powerup flyPowerup() {
+    public @NotNull Powerup flyPowerup() {
         return this.flyPowerup;
     }
 
@@ -72,7 +71,7 @@ public class EssentialsX implements PowerupProvider {
     }
 
     @Override
-    public Powerup godPowerup() {
+    public @NotNull Powerup godPowerup() {
         return this.godPowerup;
     }
 
@@ -95,7 +94,7 @@ public class EssentialsX implements PowerupProvider {
     }
 
     @Override
-    public Powerup vanishPowerup() {
+    public @NotNull Powerup vanishPowerup() {
         return this.vanishPowerup;
     }
 
@@ -106,7 +105,7 @@ public class EssentialsX implements PowerupProvider {
     }
 
     @Override
-    public Powerup gamemodePowerup() {
+    public @NotNull Powerup gamemodePowerup() {
         return this.gamemodePowerup;
     }
 
@@ -117,7 +116,7 @@ public class EssentialsX implements PowerupProvider {
     }
 
     @Override
-    public Powerup walkspeedPowerup() {
+    public @NotNull Powerup walkspeedPowerup() {
         return walkspeedPowerup;
     }
 }

@@ -1,6 +1,8 @@
 package dev.enco.greatcombat.api.models;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.UUID;
@@ -17,14 +19,14 @@ public interface IUser {
      *
      * @return the Player associated with this user's UUID
      */
-    Player asPlayer();
+    @Nullable Player asPlayer();
 
     /**
      * Returns the UUID of the player.
      *
      * @return player's UUID
      */
-    UUID getPlayerUUID();
+    @NotNull UUID getPlayerUUID();
 
     /**
      * Removes this user from all opponents' opponent lists
@@ -55,14 +57,14 @@ public interface IUser {
      *
      * @param opponent the user to add as an opponent
      */
-    void addOpponent(IUser opponent);
+    void addOpponent(@NotNull IUser opponent);
 
     /**
      * Removes an opponent from this user's opponent list
      *
      * @param opponent the user to remove from opponents
      */
-    void removeOpponent(IUser opponent);
+    void removeOpponent(@NotNull IUser opponent);
 
     /**
      * Creates a bossbar for this user if bossbars are enabled in configuration
@@ -75,7 +77,7 @@ public interface IUser {
      * @param user the user to check
      * @return true if the user is an opponent, false otherwise
      */
-    boolean containsOpponent(IUser user);
+    boolean containsOpponent(@NotNull IUser user);
 
     /**
      * Calculates the remaining combat time in milliseconds
@@ -96,14 +98,14 @@ public interface IUser {
      *
      * @return set of opponents
      */
-    Set<IUser> getOpponents();
+    @NotNull Set<IUser> getOpponents();
 
     /**
      * Returns the scheduled task associated with this user.
      *
      * @return runnable task
      */
-    WrappedTask<?> getRunnable();
+    @Nullable WrappedTask<?> getRunnable();
 
     /**
      * Sets the PvP start time.
@@ -118,5 +120,5 @@ public interface IUser {
      * @param delimiter delimiter between names
      * @return formatted string
      */
-    String getOpponentsFormatted(String delimiter);
+    @NotNull String getOpponentsFormatted(@NotNull String delimiter);
 }

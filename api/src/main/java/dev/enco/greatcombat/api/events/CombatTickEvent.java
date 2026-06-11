@@ -4,6 +4,7 @@ import dev.enco.greatcombat.api.models.IUser;
 import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Event called periodically specific player in combat.
@@ -13,27 +14,27 @@ import org.bukkit.event.HandlerList;
  */
 @Getter
 public class CombatTickEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
+    private static final @NotNull HandlerList handlers = new HandlerList();
     /**
      * User whose combat timer is ticking
      */
-    private final IUser user;
+    private final @NotNull IUser user;
 
     /**
      * Constructs a new CombatTickEvent.
      *
      * @param user User whose combat timer is ticking
      */
-    public CombatTickEvent(IUser user) {
+    public CombatTickEvent(@NotNull IUser user) {
         this.user = user;
     }
 
     @Override
-    public HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 }

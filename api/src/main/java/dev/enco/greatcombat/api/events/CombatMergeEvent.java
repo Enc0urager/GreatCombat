@@ -4,6 +4,7 @@ import dev.enco.greatcombat.api.models.IUser;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Event calls when two players who are already in separate combats engage each other.
@@ -19,7 +20,9 @@ public class CombatMergeEvent extends CombatDamageEvent {
      * @param damager User who dealt damage
      * @param target User who received damage
      */
-    public CombatMergeEvent(IUser damager, IUser target) {
+    public CombatMergeEvent(@NotNull IUser damager,
+                            @NotNull IUser target
+    ) {
         super(damager, target);
     }
 
@@ -30,11 +33,13 @@ public class CombatMergeEvent extends CombatDamageEvent {
      * @param target User who received damage
      * @param cause Specific cause of damage
      */
-    public CombatMergeEvent(IUser damager, IUser target, EntityDamageEvent.DamageCause cause) {
+    public CombatMergeEvent(@NotNull IUser damager,
+                            @NotNull IUser target,
+                            @Nullable EntityDamageEvent.DamageCause cause) {
         super(damager, target, cause);
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 

@@ -6,8 +6,10 @@ import dev.enco.greatcombat.api.managers.IMetaManager;
 import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.api.models.MetaChecker;
 import dev.enco.greatcombat.core.config.ConfigManager;
-import dev.enco.greatcombat.core.restrictions.DefaultCheckers;
 import dev.enco.greatcombat.core.restrictions.CheckerHandle;
+import dev.enco.greatcombat.core.restrictions.DefaultCheckers;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,17 +31,17 @@ public class MetaManager implements IMetaManager {
     }
 
     @Override
-    public void registerChecker(String name, MetaChecker checker) {
+    public void registerChecker(@NotNull String name, @NotNull MetaChecker checker) {
         getByID(name).bind(checker);
     }
 
     @Override
-    public CheckerHandle getByID(String name) {
+    public CheckerHandle getByID(@NotNull String name) {
         return registry.computeIfAbsent(name.toUpperCase(), CheckerHandle::new);
     }
 
     @Override
-    public boolean isSimilar(IWrappedItem f, IWrappedItem s, MetaChecker[] checkedMetas) {
+    public boolean isSimilar(@NotNull IWrappedItem f, @NotNull IWrappedItem s, MetaChecker[] checkedMetas) {
         for (MetaChecker checker : checkedMetas) {
             if (checker.requiresMeta()) {
                 if (f.hasMeta() != s.hasMeta()) return false;

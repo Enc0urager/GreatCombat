@@ -2,6 +2,7 @@ package dev.enco.greatcombat.api.managers;
 
 import dev.enco.greatcombat.api.models.IScheduler;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public interface ITaskManager extends IManager {
     /**
@@ -15,12 +16,12 @@ public interface ITaskManager extends IManager {
      *
      * @return Folia or Bukkit scheduler
      */
-    IScheduler getGlobalScheduler();
+    @NotNull IScheduler getGlobalScheduler();
     /**
      * Returns entity-specific scheduler optimized for player-bound tasks.
      *
      * @param player Player to bind scheduler to
      * @return Entity scheduler for Folia, global scheduler for Bukkit
      */
-    IScheduler getEntityScheduler(Player player);
+    @NotNull IScheduler getEntityScheduler(@NotNull Player player);
 }

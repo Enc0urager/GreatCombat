@@ -4,6 +4,8 @@ import dev.enco.greatcombat.api.models.InteractionHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -25,7 +27,8 @@ public interface IInteractionManager extends IManager {
      * @param handler    The handler instance containing filtering and data extraction logic.
      * @param <T>        The event type extending {@link Event}.
      */
-    <T extends Event> void registerMapping(Class<T> eventClass, InteractionHandler<T> handler);
+    <T extends Event> void registerMapping(@NotNull Class<T> eventClass,
+                                           @NotNull InteractionHandler<T> handler);
 
     /**
      * Creates a new instance of an interaction handler.
@@ -37,7 +40,10 @@ public interface IInteractionManager extends IManager {
      * @param <T>       The event type.
      * @return          A new {@link InteractionHandler} instance.
      */
-    <T extends Event> InteractionHandler<T> newHandler(String name, Predicate<T> predicate, Function<T, Player> playerExt, Function<T, ItemStack> itemExt);
+    <T extends Event> InteractionHandler<T> newHandler(@NotNull String name,
+                                                       @NotNull Predicate<T> predicate,
+                                                       @NotNull Function<T, @NotNull Player> playerExt,
+                                                       @NotNull Function<T, @Nullable ItemStack> itemExt);
 
     /**
      * Returns a stream of all registered handlers for a specific event type.
@@ -46,7 +52,7 @@ public interface IInteractionManager extends IManager {
      * @param <T>   The event type.
      * @return      A Stream of handlers mapped to the class of the provided event.
      */
-    <T extends Event> Stream<InteractionHandler<T>> getHandlers(T event);
+    <T extends Event> @NotNull Stream<InteractionHandler<T>> getHandlers(@NotNull T event);
 
     /**
      * Returns the first handler where the condition ({@link InteractionHandler#predicate()}) is met.
@@ -58,7 +64,7 @@ public interface IInteractionManager extends IManager {
      * @param <T>   The event type.
      * @return      A Stream of active handlers for the current event state.
      */
-    <T extends Event> InteractionHandler<T> getFirstPredicatedHandler(T event);
+    <T extends Event> @Nullable InteractionHandler<T> getFirstPredicatedHandler(@NotNull T event);
 
     /**
      * Executes a specific action (consumer) for all active handlers of the event.
@@ -67,7 +73,8 @@ public interface IInteractionManager extends IManager {
      * @param consumer The action to perform on the event.
      * @param <T>      The event type.
      */
-    <T extends Event> void handle(T event, Consumer<T> consumer);
+    <T extends Event> void handle(@NotNull T event,
+                                  @NotNull Consumer<T> consumer);
 
     /**
      * Registers the default interactions provided by the core.

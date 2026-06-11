@@ -2,6 +2,8 @@ package dev.enco.greatcombat.api.managers;
 
 import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.api.models.MetaChecker;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface IMetaManager extends IManager {
     /**
@@ -12,9 +14,24 @@ public interface IMetaManager extends IManager {
      * @param checkedMetas The array of metadata types to check
      * @return true if items match all specified metadata checks, false otherwise
      */
-    boolean isSimilar(IWrappedItem f, IWrappedItem s, MetaChecker[] checkedMetas);
+    boolean isSimilar(@NotNull IWrappedItem f,
+                      @NotNull IWrappedItem s,
+                      @NotNull MetaChecker[] checkedMetas);
 
-    void registerChecker(String id, MetaChecker checker);
+    /**
+     * Registers a meta checker under the specified id
+     *
+     * @param id unique checker id
+     * @param checker checker implementation to register
+     */
+    void registerChecker(@NotNull String id,
+                         @NotNull MetaChecker checker);
 
-    MetaChecker getByID(String id);
+    /**
+     * Retrieves a registered meta checker by its id
+     *
+     * @param id checker id
+     * @return associated registered checker instance or null overwise
+     */
+    @Nullable MetaChecker getByID(@NotNull String id);
 }

@@ -10,6 +10,7 @@ import dev.enco.greatcombat.core.scheduler.impl.FoliaScheduler;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Task scheduler manager that automatically detects platform (Folia/Bukkit)
@@ -49,7 +50,7 @@ public class TaskManager implements ITaskManager {
      * @return Entity scheduler for Folia, global scheduler for Bukkit
      */
     @Override
-    public IScheduler getEntityScheduler(Player player) {
+    public @NotNull IScheduler getEntityScheduler(@NotNull Player player) {
         if (IS_FOLIA) return new EntityScheduler(plugin, player);
         return globalScheduler;
     }

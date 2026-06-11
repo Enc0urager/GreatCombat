@@ -5,6 +5,8 @@ import lombok.Getter;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Abstract base class for all damage-relates events.
@@ -15,9 +17,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
  */
 @Getter
 public abstract class CombatDamageEvent extends Event implements Cancellable {
-    protected final IUser damager;
-    protected final IUser target;
-    protected EntityDamageEvent.DamageCause cause;
+    protected final @NotNull IUser damager;
+    protected final @NotNull IUser target;
+    protected @Nullable EntityDamageEvent.DamageCause cause;
     protected boolean cancelled;
 
     /**
@@ -26,7 +28,9 @@ public abstract class CombatDamageEvent extends Event implements Cancellable {
      * @param damager User who dealt damage
      * @param target User who received damage
      */
-    public CombatDamageEvent(IUser damager, IUser target) {
+    public CombatDamageEvent(@NotNull IUser damager,
+                             @NotNull IUser target
+    ) {
         this.damager = damager;
         this.target = target;
     }
@@ -38,7 +42,10 @@ public abstract class CombatDamageEvent extends Event implements Cancellable {
      * @param target User who received damage
      * @param cause Specific cause of damage
      */
-    public CombatDamageEvent(IUser damager, IUser target, EntityDamageEvent.DamageCause cause) {
+    public CombatDamageEvent(@NotNull IUser damager,
+                             @NotNull IUser target,
+                             @Nullable EntityDamageEvent.DamageCause cause
+    ) {
         this.damager = damager;
         this.target = target;
         this.cause = cause;

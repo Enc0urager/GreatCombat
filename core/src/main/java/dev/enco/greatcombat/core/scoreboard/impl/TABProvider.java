@@ -5,12 +5,13 @@ import dev.enco.greatcombat.api.models.ScoreboardProvider;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.scoreboard.Scoreboard;
 import me.neznamy.tab.api.scoreboard.ScoreboardManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class TABProvider implements ScoreboardProvider {
     @Override
-    public void setScoreboard(IUser user, String title, List<String> lines) {
+    public void setScoreboard(@NotNull IUser user, @NotNull String title, @NotNull List<String> lines) {
         TabAPI tabAPI = TabAPI.getInstance();
         ScoreboardManager scoreboardManager = tabAPI.getScoreboardManager();
         Scoreboard sb = scoreboardManager.createScoreboard(
@@ -22,7 +23,7 @@ public class TABProvider implements ScoreboardProvider {
     }
 
     @Override
-    public void resetScoreboard(IUser user) {
+    public void resetScoreboard(@NotNull IUser user) {
         TabAPI tabAPI = TabAPI.getInstance();
         ScoreboardManager scoreboardManager = tabAPI.getScoreboardManager();
         var uuid = user.getPlayerUUID();

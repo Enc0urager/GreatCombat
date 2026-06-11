@@ -5,6 +5,7 @@ import dev.enco.greatcombat.api.models.ScoreboardProvider;
 import fr.mrmicky.fastboard.FastBoard;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +14,7 @@ public class FastBoardProvider implements ScoreboardProvider {
     private final Reference2ObjectMap<UUID, FastBoard> boards = new Reference2ObjectOpenHashMap<>();
 
     @Override
-    public void setScoreboard(IUser user, String title, List<String> lines) {
+    public void setScoreboard(@NotNull IUser user, @NotNull String title, @NotNull List<String> lines) {
         var uuid = user.getPlayerUUID();
         var board = boards.get(uuid);
         if (board == null) {
@@ -25,7 +26,7 @@ public class FastBoardProvider implements ScoreboardProvider {
     }
 
     @Override
-    public void resetScoreboard(IUser user) {
+    public void resetScoreboard(@NotNull IUser user) {
         var uuid = user.getPlayerUUID();
         var board = boards.get(uuid);
         if (board != null) {

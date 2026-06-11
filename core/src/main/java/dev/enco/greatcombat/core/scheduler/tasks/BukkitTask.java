@@ -3,6 +3,7 @@ package dev.enco.greatcombat.core.scheduler.tasks;
 import dev.enco.greatcombat.api.models.WrappedTask;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
 public class BukkitTask implements WrappedTask<BukkitRunnable> {
@@ -14,7 +15,7 @@ public class BukkitTask implements WrappedTask<BukkitRunnable> {
     }
 
     @Override
-    public BukkitRunnable getRunnable() {
+    public @NotNull BukkitRunnable getRunnable() {
         return runnable;
     }
 }

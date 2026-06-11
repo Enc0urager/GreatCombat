@@ -21,6 +21,7 @@ import dev.enco.greatcombat.core.utils.colorizer.Colorizer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -40,13 +41,13 @@ public class CooldownManager implements ICooldownManager {
     }
 
     @Override
-    public ICooldownItem getCooldownItem(ItemStack i) {
+    public ICooldownItem getCooldownItem(@NotNull ItemStack i) {
         var wrapped = WrappedItem.wrap(i);
         return getCooldownItem(wrapped);
     }
 
     @Override
-    public ICooldownItem getCooldownItem(IWrappedItem wrapped) {
+    public ICooldownItem getCooldownItem(@NotNull IWrappedItem wrapped) {
         for (var item : itemsCooldowns.keySet())
             if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
                 return item;
@@ -101,12 +102,12 @@ public class CooldownManager implements ICooldownManager {
     }
 
     @Override
-    public boolean hasCooldown(UUID playerUUID, ICooldownItem item) {
+    public boolean hasCooldown(@NotNull UUID playerUUID, @NotNull ICooldownItem item) {
         return itemsCooldowns.get(item).getIfPresent(playerUUID) != null;
     }
 
     @Override
-    public int getCooldownTime(UUID playerUUID, ICooldownItem item) {
+    public int getCooldownTime(@NotNull UUID playerUUID, @NotNull ICooldownItem item) {
         long startTime = itemsCooldowns.get(item).getIfPresent(playerUUID);
         long leftTime = System.currentTimeMillis() - startTime;
         long remainingTime = item.time() * 1000L - leftTime;
@@ -114,7 +115,7 @@ public class CooldownManager implements ICooldownManager {
     }
 
     @Override
-    public void putCooldown(UUID playerUUID, Player player, ICooldownItem item) {
+    public void putCooldown(@NotNull UUID playerUUID, @NotNull Player player, @NotNull ICooldownItem item) {
         setCooldown(playerUUID, player, item);
         for (var id : item.linkedItems()) setCooldown(playerUUID, player, idsRefs.get(id));
     }
@@ -130,7 +131,7 @@ public class CooldownManager implements ICooldownManager {
     }
 
     @Override
-    public void clearPlayerCooldowns(Player player) {
+    public void clearPlayerCooldowns(@NotNull Player player) {
         for (var entry: itemsCooldowns.entrySet()) {
             player.setCooldown(entry.getKey().wrappedItem().itemStack().getType(), 0);
             entry.getValue().invalidate(player.getUniqueId());

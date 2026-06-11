@@ -3,6 +3,8 @@ package dev.enco.greatcombat.api.managers;
 import dev.enco.greatcombat.api.models.IPreventableItem;
 import dev.enco.greatcombat.api.models.IWrappedItem;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface IPreventionManager extends IManager {
     /**
@@ -11,7 +13,7 @@ public interface IPreventionManager extends IManager {
      * @param itemStack The ItemStack to check for prevention
      * @return PreventableItem if found, null otherwise
      */
-    IPreventableItem getPreventableItem(ItemStack itemStack);
+    @Nullable IPreventableItem getPreventableItem(@NotNull ItemStack itemStack);
 
     /**
      * Retrieves the PreventableItem associated with the given IWrappedItem.
@@ -19,5 +21,5 @@ public interface IPreventionManager extends IManager {
      * @param i The WrappedItem to check for prevention
      * @return PreventableItem if found, null otherwise
      */
-    IPreventableItem getPreventableItem(IWrappedItem i);
+    @Nullable IPreventableItem getPreventableItem(@NotNull IWrappedItem i);
 }

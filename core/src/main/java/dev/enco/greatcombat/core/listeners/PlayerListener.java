@@ -5,10 +5,6 @@ import dev.enco.greatcombat.api.events.PlayerKickInCombatEvent;
 import dev.enco.greatcombat.api.events.PlayerLeaveInCombatEvent;
 import dev.enco.greatcombat.api.managers.ICombatManager;
 import dev.enco.greatcombat.api.managers.ICooldownManager;
-import dev.enco.greatcombat.api.managers.IPreventionManager;
-import dev.enco.greatcombat.api.models.ICooldownItem;
-import dev.enco.greatcombat.api.models.IPreventableItem;
-import dev.enco.greatcombat.api.models.PreventionType;
 import dev.enco.greatcombat.core.actions.ActionMap;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.config.settings.Commands;
@@ -24,16 +20,14 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityToggleGlideEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.EnumSet;
 import java.util.UUID;
 
 @RequiredArgsConstructor(onConstructor_ = @Inject)
@@ -42,7 +36,6 @@ public class PlayerListener implements Listener {
     private final ICombatManager combatManager;
     private final ConfigManager configManager;
     private final ICooldownManager cooldownManager;
-    private final IPreventionManager preventionManager;
     private final PluginManager pm = Bukkit.getPluginManager();
 
     @EventHandler(

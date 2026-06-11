@@ -4,6 +4,7 @@ import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.api.models.MetaChecker;
 import dev.enco.greatcombat.core.utils.logger.Logger;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
 public class CheckerHandle implements MetaChecker {
@@ -15,7 +16,7 @@ public class CheckerHandle implements MetaChecker {
     }
 
     @Override
-    public boolean matches(IWrappedItem first, IWrappedItem second) {
+    public boolean matches(@NotNull IWrappedItem first, @NotNull IWrappedItem second) {
         if (delegate == null) {
             Logger.warn("Delegating MetaChecker for " + name + " is not initialized yet! Make sure, that you initialized it using IMetaManager#registerChecker");
             return false;

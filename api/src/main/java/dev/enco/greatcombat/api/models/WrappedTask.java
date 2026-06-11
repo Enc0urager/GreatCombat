@@ -1,5 +1,7 @@
 package dev.enco.greatcombat.api.models;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A generic wrapper interface for scheduled tasks that provides a unified way
  * to manage and cancel tasks across different scheduling implementations.
@@ -19,5 +21,5 @@ public interface WrappedTask<T> {
      * @see org.bukkit.scheduler.BukkitRunnable
      * @see io.papermc.paper.threadedregions.scheduler.ScheduledTask
      */
-    T getRunnable();
+    @NotNull T getRunnable();
 }

@@ -1,6 +1,8 @@
 package dev.enco.greatcombat.api.managers;
 
 import dev.enco.greatcombat.api.models.IRegionListener;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Manager responsible for handling region listeners registration
@@ -15,12 +17,12 @@ public interface IRegionManager extends IManager {
      * @param listener the {@link IRegionListener} to register
      * @throws IllegalArgumentException if listener is null
      */
-    void setListener(IRegionListener listener);
+    void setListener(@NotNull IRegionListener listener);
 
     /**
      * Returns the currently registered region listener.
      *
      * @return the currently active {@link IRegionListener}, or null if none is set
      */
-    IRegionListener getListener();
+    @Nullable IRegionListener getListener();
 }

@@ -3,6 +3,7 @@ package dev.enco.greatcombat.core.scheduler.tasks;
 import dev.enco.greatcombat.api.models.WrappedTask;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
 public class FoliaTask implements WrappedTask<ScheduledTask> {
@@ -14,7 +15,7 @@ public class FoliaTask implements WrappedTask<ScheduledTask> {
     }
 
     @Override
-    public ScheduledTask getRunnable() {
+    public @NotNull ScheduledTask getRunnable() {
         return task;
     }
 }

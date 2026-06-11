@@ -2,6 +2,8 @@ package dev.enco.greatcombat.api.models;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Abstraction representing a wrapped {@link ItemStack} with cached item meta.
@@ -15,13 +17,13 @@ public interface IWrappedItem {
      *
      * @return the original item stack
      */
-    ItemStack itemStack();
+    @NotNull ItemStack itemStack();
     /**
      * Returns the associated {@link ItemMeta}.
      *
      * @return the item meta, or null if not present
      */
-    ItemMeta itemMeta();
+    @Nullable ItemMeta itemMeta();
     /**
      * Indicates whether this item has metadata.
      *

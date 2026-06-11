@@ -1,5 +1,7 @@
 package dev.enco.greatcombat.api.models;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -12,35 +14,35 @@ public interface IPreventableItem {
      *
      * @return wrapped item
      */
-    IWrappedItem wrappedItem();
+    @NotNull IWrappedItem wrappedItem();
 
     /**
      * Returns localized translation key or display string.
      *
      * @return translation
      */
-    String translation();
+    @NotNull String translation();
 
     /**
      * Returns prevention types applied to this item.
      *
      * @return set of prevention types
      */
-    EnumSet<PreventionType> types();
+    @NotNull EnumSet<PreventionType> types();
 
     /**
      * Returns interaction handlers that trigger prevention.
      *
      * @return set of handlers
      */
-    Set<String> handlers();
+    @NotNull Set<String> handlers();
 
     /**
      * Returns metadata checkers used for matching items.
      *
      * @return array of meta-checkers
      */
-    MetaChecker[] checkedMetas();
+    @NotNull MetaChecker[] checkedMetas();
 
     /**
      * Indicates whether a visual material cooldown should be applied.

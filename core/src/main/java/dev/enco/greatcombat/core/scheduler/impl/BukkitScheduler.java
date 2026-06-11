@@ -7,33 +7,34 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
 public class BukkitScheduler implements IScheduler {
     private final JavaPlugin plugin;
 
     @Override
-    public void run(Runnable task) {
+    public void run(@NotNull Runnable task) {
         Bukkit.getScheduler().runTask(plugin, task);
     }
 
     @Override
-    public void runAsync(Runnable task) {
+    public void runAsync(@NotNull Runnable task) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, task);
     }
 
     @Override
-    public void runLater(Runnable task, long delay) {
+    public void runLater(@NotNull Runnable task, long delay) {
         Bukkit.getScheduler().runTaskLater(plugin, task, delay);
     }
 
     @Override
-    public void runLaterAsync(Runnable task, long delay) {
+    public void runLaterAsync(@NotNull Runnable task, long delay) {
         Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, task, delay);
     }
 
     @Override
-    public WrappedTask<?> runRepeating(Runnable task, long delay, long period) {
+    public @NotNull WrappedTask<?> runRepeating(@NotNull Runnable task, long delay, long period) {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -45,7 +46,7 @@ public class BukkitScheduler implements IScheduler {
     }
 
     @Override
-    public WrappedTask<?> runRepeatingAsync(Runnable task, long delay, long period) {
+    public @NotNull WrappedTask<?> runRepeatingAsync(@NotNull Runnable task, long delay, long period) {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {

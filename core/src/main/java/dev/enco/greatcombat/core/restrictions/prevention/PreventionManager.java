@@ -16,6 +16,7 @@ import dev.enco.greatcombat.core.utils.LangUtils;
 import dev.enco.greatcombat.core.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.core.utils.logger.Logger;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -34,13 +35,13 @@ public class PreventionManager implements IPreventionManager {
     }
 
     @Override
-    public IPreventableItem getPreventableItem(ItemStack itemStack) {
+    public IPreventableItem getPreventableItem(@NotNull ItemStack itemStack) {
         var wrapped = WrappedItem.wrap(itemStack);
         return getPreventableItem(wrapped);
     }
 
     @Override
-    public IPreventableItem getPreventableItem(IWrappedItem wrapped) {
+    public IPreventableItem getPreventableItem(@NotNull IWrappedItem wrapped) {
         for (IPreventableItem item : preventableItems)
             if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
                 return item;

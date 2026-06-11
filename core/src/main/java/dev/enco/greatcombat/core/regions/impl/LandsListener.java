@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class LandsListener implements IRegionListener {
     private LandsIntegration api;
 
     @Override
-    public void registerListener(JavaPlugin plugin) {
+    public void registerListener(@NotNull JavaPlugin plugin) {
         api = LandsIntegration.of(plugin);
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }

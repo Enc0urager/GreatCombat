@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.event.WrappedDisallowedPVPEvent;
+import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class WorldGuardListener implements IRegionListener {
@@ -18,7 +19,7 @@ public class WorldGuardListener implements IRegionListener {
     private final ConfigManager configManager;
 
     @Override
-    public void registerListener(JavaPlugin plugin) {
+    public void registerListener(@NotNull JavaPlugin plugin) {
         WorldGuardWrapper.getInstance().registerEvents(plugin);
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }

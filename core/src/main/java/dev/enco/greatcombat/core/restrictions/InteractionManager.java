@@ -19,6 +19,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -93,7 +94,6 @@ public class InteractionManager implements IInteractionManager {
         InteractionHandler<T> h = getFirstPredicatedHandler(event);
         if (h == null) return;
         Player player = h.playerExtractor().apply(event);
-        if (player == null) return;
         if (!combatManager.isInCombat(player.getUniqueId())) return;
         ItemStack itemStack = h.itemExtractor().apply(event);
         if (itemStack == null) return;
@@ -178,5 +178,16 @@ public class InteractionManager implements IInteractionManager {
                 "PROJECTILE_LAUNCH", e -> e.getEntity().getShooter() instanceof Player,
                 e -> (Player) e.getEntity().getShooter(),
                 e -> ((Player) e.getEntity().getShooter()).getInventory().getItemInMainHand()));
+
+        registerMapping(EntityDamageByEntityEvent.class, newHandler(
+                "PLAYER_HIT_ENTITY", e -> e.getDamager() instanceof Player,
+                e -> (Player) e.getDamager(),
+                e -> ((Player) e.getDamager()).getInventory().getItemInMainHand()));
+
+        registerMapping(EntityDamageByEntityEvent.class, newHandler(
+                "PLAYER_HIT_PLAYER", e -> e.getDamager() instanceof Player
+                        && e.getEntity() instanceof Player,
+                e -> (Player) e.getDamager(),
+                e -> ((Player) e.getDamager()).getInventory().getItemInMainHand()));
     }
 }

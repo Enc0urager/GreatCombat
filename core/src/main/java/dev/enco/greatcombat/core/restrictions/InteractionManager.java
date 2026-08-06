@@ -13,6 +13,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -189,5 +190,12 @@ public class InteractionManager implements IInteractionManager {
                         && e.getEntity() instanceof Player,
                 e -> (Player) e.getDamager(),
                 e -> ((Player) e.getDamager()).getInventory().getItemInMainHand()));
+
+        registerMapping(EntityDamageByEntityEvent.class, newHandler(
+                "PLAYER_HIT_PROJECTILE",
+                e -> e.getDamager() instanceof Projectile p
+                        && p.getShooter() instanceof Player,
+                e -> (Player) ((Projectile) e.getDamager()).getShooter(),
+                e -> ((Player) ((Projectile) e.getDamager()).getShooter()).getInventory().getItemInMainHand()));
     }
 }

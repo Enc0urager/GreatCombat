@@ -57,5 +57,5 @@ public interface InteractionHandler<T extends Event> {
      *
      * @return A function that maps the event to an ItemStack.
      */
-    @NotNull Function<T, @Nullable ItemStack> itemExtractor();
+    @NotNull Function<T, @Nullable ItemStack>[] itemExtractor();
 }

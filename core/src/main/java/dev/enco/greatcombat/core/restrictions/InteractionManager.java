@@ -67,13 +67,14 @@ public class InteractionManager implements IInteractionManager {
         }
     }
 
+    @SafeVarargs
     @Override
-    public <T extends Event> InteractionHandler<T> newHandler(@NotNull String name, @NotNull Predicate<T> predicate, @NotNull Function<T, Player> playerExt, @NotNull Function<T, ItemStack> itemExt) {
+    public final <T extends Event> InteractionHandler<T> newHandler(@NotNull String name, @NotNull Predicate<T> predicate, @NotNull Function<T, Player> playerExt, @NotNull Function<T, ItemStack>... itemExt) {
         return new InteractionHandler<T>() {
             @Override public @NotNull String name() { return name; }
             @Override public @NotNull Predicate<T> predicate() { return predicate; }
             @Override public @NotNull Function<T, Player> playerExtractor() { return playerExt; }
-            @Override public @NotNull Function<T, ItemStack> itemExtractor() { return itemExt; }
+            @Override public @NotNull Function<T, ItemStack>[] itemExtractor() { return itemExt; }
         };
     }
 
@@ -97,10 +98,15 @@ public class InteractionManager implements IInteractionManager {
         if (h == null) return;
         Player player = h.playerExtractor().apply(event);
         if (!combatManager.isInCombat(player.getUniqueId())) return;
-        ItemStack itemStack = h.itemExtractor().apply(event);
-        if (itemStack == null) return;
-        boolean cancelled = runCoreChecks(player, itemStack, h);
-        if (cancelled && event instanceof Cancellable c) c.setCancelled(true);
+        for (var itemExt : h.itemExtractor()) {
+            ItemStack itemStack = itemExt.apply(event);
+            if (itemStack == null) continue;
+            boolean cancelled = runCoreChecks(player, itemStack, h);
+            if (cancelled && event instanceof Cancellable c) {
+                c.setCancelled(true);
+                return;
+            }
+        }
     }
 
     private boolean runCoreChecks(Player player, ItemStack is, InteractionHandler<?> handler) {
@@ -165,12 +171,10 @@ public class InteractionManager implements IInteractionManager {
                 "BLOCK_BREAK", e -> true, BlockBreakEvent::getPlayer, e -> e.getPlayer().getInventory().getItemInMainHand()));
 
         registerMapping(EntityResurrectEvent.class, newHandler(
-                "RESURRECT_MAINHAND", e -> e.getEntity() instanceof Player,
-                e -> (Player) e.getEntity(), e -> ((Player) e.getEntity()).getInventory().getItemInMainHand()));
-
-        registerMapping(EntityResurrectEvent.class, newHandler(
-                "RESURRECT_OFFHAND", e -> e.getEntity() instanceof Player,
-                e -> (Player) e.getEntity(), e -> ((Player) e.getEntity()).getInventory().getItemInOffHand()));
+                "RESURRECT", e -> e.getEntity() instanceof Player,
+                e -> (Player) e.getEntity(),
+                e -> ((Player) e.getEntity()).getInventory().getItemInMainHand(),
+                e -> ((Player) e.getEntity()).getInventory().getItemInOffHand()));
 
         registerMapping(EntityShootBowEvent.class, newHandler(
                 "BOW_SHOOT", e -> e.getEntity() instanceof Player,
@@ -179,7 +183,8 @@ public class InteractionManager implements IInteractionManager {
         registerMapping(ProjectileLaunchEvent.class, newHandler(
                 "PROJECTILE_LAUNCH", e -> e.getEntity().getShooter() instanceof Player,
                 e -> (Player) e.getEntity().getShooter(),
-                e -> ((Player) e.getEntity().getShooter()).getInventory().getItemInMainHand()));
+                e -> ((Player) e.getEntity().getShooter()).getInventory().getItemInMainHand(),
+                e -> ((Player) e.getEntity().getShooter()).getInventory().getItemInOffHand()));
 
         registerMapping(EntityDamageByEntityEvent.class, newHandler(
                 "PLAYER_HIT_ENTITY", e -> e.getDamager() instanceof Player,
@@ -193,7 +198,7 @@ public class InteractionManager implements IInteractionManager {
                 e -> ((Player) e.getDamager()).getInventory().getItemInMainHand()));
 
         registerMapping(EntityDamageByEntityEvent.class, newHandler(
-                "PLAYER_HIT_PROJECTILE",
+                "PROJECTILE_HIT_PLAYER",
                 e -> e.getDamager() instanceof Projectile p
                         && p.getShooter() instanceof Player,
                 e -> (Player) ((Projectile) e.getDamager()).getShooter(),

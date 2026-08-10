@@ -33,17 +33,17 @@ public interface IInteractionManager extends IManager {
     /**
      * Creates a new instance of an interaction handler.
      *
+     * @param <T>       The event type.
      * @param name      Unique name of the handler (used in configs, e.g., "RIGHT_CLICK_AIR").
      * @param predicate Condition under which the handler is considered active for the event.
      * @param playerExt Function to extract the {@link Player} from the event object.
      * @param itemExt   Function to extract the {@link ItemStack} from the event object.
-     * @param <T>       The event type.
-     * @return          A new {@link InteractionHandler} instance.
+     * @return A new {@link InteractionHandler} instance.
      */
     <T extends Event> InteractionHandler<T> newHandler(@NotNull String name,
                                                        @NotNull Predicate<T> predicate,
                                                        @NotNull Function<T, @NotNull Player> playerExt,
-                                                       @NotNull Function<T, @Nullable ItemStack> itemExt);
+                                                       @NotNull Function<T, @Nullable ItemStack>... itemExt);
 
     /**
      * Returns a stream of all registered handlers for a specific event type.

@@ -25,9 +25,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -152,6 +150,13 @@ public class InteractionManager implements IInteractionManager {
     }
 
     public void registerDefaults() {
+        registerMapping(EntityDamageByEntityEvent.class, newHandler(
+                "SHIELD_BLOCK",
+                e -> e.getEntity() instanceof Player && ((Player)e.getEntity()).isBlocking(),
+                e -> (Player)e.getEntity(),
+                e -> ((Player) e.getEntity()).getInventory().getItemInMainHand(),
+                e -> ((Player) e.getEntity()).getInventory().getItemInOffHand()));
+
         registerMapping(PlayerItemConsumeEvent.class, newHandler(
                 "CONSUME", e -> true, PlayerEvent::getPlayer, PlayerItemConsumeEvent::getItem));
 
@@ -209,5 +214,12 @@ public class InteractionManager implements IInteractionManager {
                     }
                     return ((Player) projectile.getShooter()).getInventory().getItemInMainHand();
                 }));
+
+        registerMapping(PlayerRiptideEvent.class, newHandler(
+                "RIPTIDE", e -> true, PlayerRiptideEvent::getPlayer, PlayerRiptideEvent::getItem));
+
+        registerMapping(PlayerFishEvent.class, newHandler(
+                "FISHING",e -> true, PlayerEvent::getPlayer,
+                e -> e.getPlayer().getInventory().getItemInMainHand()));
     }
 }

@@ -36,7 +36,7 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
         Logger.setup(this);
         injector = Guice.createInjector(new GreatCombatModule(this));
         configManager = injector.getInstance(ConfigManager.class);
-        if (!configManager.checkAndCreateLangFiles()) return;
+        configManager.checkAndCreateLangFiles();
         configManager.load();
         combatManager = getManager(ICombatManager.class);
         PlayerListener playerListener = injector.getInstance(PlayerListener.class);

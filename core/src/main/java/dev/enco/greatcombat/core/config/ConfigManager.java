@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.enco.greatcombat.api.managers.IRegionManager;
+import dev.enco.greatcombat.api.managers.ITaskManager;
 import dev.enco.greatcombat.api.models.PowerupType;
 import dev.enco.greatcombat.core.actions.ActionFactory;
 import dev.enco.greatcombat.core.config.settings.*;
@@ -19,6 +20,7 @@ import dev.enco.greatcombat.core.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.core.utils.logger.Logger;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.time.ZoneId;
 import java.util.*;
 
 @Singleton
@@ -36,6 +39,7 @@ import java.util.*;
 @Getter
 public class ConfigManager {
     private final IRegionManager regionManager;
+    private final ITaskManager taskManager;
     private final JavaPlugin plugin;
     private boolean checkUpdates, metricsEnable, elytraGlideAllowed, usingPapi;
     private Commands commands;
@@ -92,24 +96,41 @@ public class ConfigManager {
         Logger.info(locale.configLoaded() + (System.currentTimeMillis() - start) + " ms.");
     }
 
-    public boolean checkAndCreateLangFiles() {
+    @SneakyThrows
+    public void checkAndCreateLangFiles() {
         File languageFile = new File(plugin.getDataFolder(), "locale.yml");
-        if (!languageFile.exists()) {
-            plugin.saveResource("locale.yml", false);
-            Logger.error("Выберите язык в файле locale.yml и перезапустите сервер");
-            Logger.error("Change language in file locale.yml and reboot server");
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
-            return false;
+        boolean firstLoad = !languageFile.exists();
+        if (firstLoad) plugin.saveResource("locale.yml", false);
+        FileConfiguration langConfig = YamlConfiguration.loadConfiguration(languageFile);
+        if (firstLoad) {
+            if (isRussian()) {
+                langConfig.set("locale", "ru");
+                langConfig.save(languageFile);
+            } else {
+                taskManager.getGlobalScheduler().runLater(() -> {
+                    Logger.error("=================================================================");
+                    Logger.error("English is the default language. Edit the file locale.yml");
+                    Logger.error("To change the language of comments and messages to Russian");
+                    Logger.error("==================================================================");
+                }, 20L);
+            }
         }
-        FileConfiguration landConfig = YamlConfiguration.loadConfiguration(languageFile);
-        String lang = landConfig.getString("locale");
-        boolean safe = landConfig.getBoolean("replace");
+        String lang = langConfig.getString("locale");
+        boolean safe = langConfig.getBoolean("replace");
         final var folder = plugin.getDataFolder();
         FilesHandler.addConfigFile2List(new ConfigFile("messages", folder, lang, safe));
         FilesHandler.addConfigFile2List(new ConfigFile("config", folder, lang, safe));
         FilesHandler.addConfigFile2List(new ConfigFile("scoreboard", folder, lang, safe));
         FilesHandler.addConfigFile2List(new ConfigFile("logger", folder, lang, safe));
-        return true;
+    }
+
+    private boolean isRussian() {
+        ZoneId zone = ZoneId.systemDefault();
+        String id = zone.getId();
+        return id.startsWith("Europe/Moscow")
+                || id.startsWith("Europe/Kiev")
+                || id.startsWith("Europe/Minsk")
+                || id.startsWith("Asia/Yekaterinburg");
     }
 
     private void setupLogger() {

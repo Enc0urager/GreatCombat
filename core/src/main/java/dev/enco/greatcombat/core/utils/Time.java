@@ -30,7 +30,7 @@ public class Time {
 
     private void appendTimeUnit(StringBuilder sb, int value, String form1, String form3, String form5) {
         if (value > 0)
-            sb.append(String.format("%d %s ", value, getCorrectForm(value, form1, form3, form5)));
+            sb.append(String.format("%d %s ", value, getCorrectForm(value, form1, form3, form5))); // Это пиздец.
     }
 
     private String getCorrectForm(int value, String form1, String form3, String form5) {

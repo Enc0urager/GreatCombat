@@ -17,7 +17,7 @@ import java.text.MessageFormat;
  * Utility class for handling item name translations using LangHelper library.
  */
 @UtilityClass
-public class LangUtils {
+public class LangUtils { // Покумекать с бумычем по поводу ленгхелпера и улучшения интеграции, жопой чую, где-то тут есть проёбы
     private boolean USE_LANG_HELPER;
     /**
      * The TranslationManager instance

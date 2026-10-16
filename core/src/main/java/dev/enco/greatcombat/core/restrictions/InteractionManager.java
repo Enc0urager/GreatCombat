@@ -48,7 +48,7 @@ public class InteractionManager implements IInteractionManager {
     private final IPreventionManager preventionManager;
     private final ConfigManager configManager;
     private final Reference2ObjectMap<Class<? extends Event>, List<InteractionHandler<?>>> handlerMap = new Reference2ObjectOpenHashMap<>();
-    private final Object2ObjectMap<String, InteractionHandler<?>> nameMap = new Object2ObjectOpenHashMap<>();
+    private final Object2ObjectMap<String, InteractionHandler<?>> nameMap = new Object2ObjectOpenHashMap<>(); // Это зачем-то нужно, но надо понять зачем
     private final ReferenceSet<Class<? extends Event>> registeredListeners = new ReferenceOpenHashSet<>();
 
     @Override

@@ -60,7 +60,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    private Player getDamager(Entity damager) {
+    private Player getDamager(Entity damager) { // Screw you legacy shit, when I'll move to java 21 I'll kill you, I promise!
         Settings settings = configManager.getSettings();
         if (damager instanceof Player pl) return pl;
         if (damager instanceof Projectile pr && pr.getShooter() instanceof Player pl)

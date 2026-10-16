@@ -18,8 +18,8 @@ import java.util.*;
  */
 @UtilityClass
 public class ItemUtils {
-    private final Base64.Encoder encoder = Base64.getEncoder();
-    private final Base64.Decoder decoder = Base64.getDecoder();
+    private final Base64.Encoder encoder = Base64.getEncoder(); // This makes almost negative sense
+    private final Base64.Decoder decoder = Base64.getDecoder(); // This makes almost negative sense
 
     /**
      * Encodes an ItemStack to a Base64 string.

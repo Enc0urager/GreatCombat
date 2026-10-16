@@ -59,7 +59,7 @@ public class CooldownManager implements ICooldownManager {
 
     public void setupCooldownItems(ConfigManager configManager) {
         FileConfiguration config = configManager.getMainConfig();
-        final Locale locale = configManager.getLocale();
+        final Locale locale = configManager.getLocale(); // Что касается ленгхелпера
         ConfigurationSection section = config.getConfigurationSection("items-cooldowns");
         Map<ICooldownItem, Cache<UUID, Long>> temp = new HashMap<>();
         for (String key : section.getKeys(false)) {

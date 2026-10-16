@@ -54,6 +54,7 @@ public class PapiExpansion extends PlaceholderExpansion {
                 args = Arrays.copyOfRange(args, 2, args.length);
             }
 
+            // Я думаю, что тут точно можно что-то ускорить, но я не знаю что
             switch (args[0]) {
                 case "time": {
                     int sec = (int) (user.getRemaining() / 1000L);

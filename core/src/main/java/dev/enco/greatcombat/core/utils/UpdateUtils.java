@@ -27,7 +27,7 @@ public class UpdateUtils {
 
     // Нагло спизжено отсюда -
     // https://github.com/Overwrite987/UltimateServerProtector/blob/main/src/main/java/ru/overwrite/protect/bukkit/commands/subcommands/UpdateSubcommand.java
-    public void update(JavaPlugin plugin, String ver, CommandSender sender) {
+    public void update(JavaPlugin plugin, String ver, CommandSender sender) { // Чуит моя жопа, что я у себя это улучшал
         String currentJarName = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
         String downloadUrl = "https://github.com/Enc0urager/GreatCombat/releases/download/" + ver + "/" + "GreatCombat-" + ver + ".jar";
         File updateFolder = new File("plugins");

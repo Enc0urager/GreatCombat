@@ -16,6 +16,8 @@ import dev.enco.greatcombat.core.utils.UpdateUtils;
 import dev.enco.greatcombat.core.utils.logger.Logger;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,11 +43,11 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
         combatManager = getManager(ICombatManager.class);
         PlayerListener playerListener = injector.getInstance(PlayerListener.class);
         CombatListener combatListener = injector.getInstance(CombatListener.class);
-        var pm = getServer().getPluginManager();
+        PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(playerListener, this);
         pm.registerEvents(combatListener, this);
-        var command = getCommand("greatcombat");
-        var cmd = new MainCommand(configManager, injector);
+        PluginCommand command = getCommand("greatcombat");
+        MainCommand cmd = new MainCommand(configManager, injector);
         command.setExecutor(cmd);
         command.setTabCompleter(cmd);
         if (configManager.isMetricsEnable()) {
@@ -70,7 +72,7 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
                 if (getDescription().getVersion().equals(version)) {
                     Logger.info(locale.updatesNotFound());
                 } else {
-                    for (var s : locale.updatesFound()) Logger.info(s);
+                    for (String s : locale.updatesFound()) Logger.info(s);
                 }
             }), 30L);
         }

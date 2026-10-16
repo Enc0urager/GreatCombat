@@ -10,7 +10,7 @@ public record MaterialContext(
         Material material
 ) implements Context {
     public static MaterialContext validate(String s, Locale locale) {
-        var args = s.split(";");
+        String[] args = s.split(";");
         try {
             if (args.length >= 1)
                 return new MaterialContext(Material.valueOf(args[0].toUpperCase()));

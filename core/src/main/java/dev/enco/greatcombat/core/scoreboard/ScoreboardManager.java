@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Utility class for managing scoreboard operations during combat.
@@ -109,7 +110,7 @@ public class ScoreboardManager implements IScoreboardManager {
     private List<String> getLines(IUser user, String time) {
         Scoreboard boardSettings = configManager.getScoreboard();
         List<String> replaced = new ArrayList<>();
-        for (var line : boardSettings.lines()) {
+        for (String line : boardSettings.lines()) {
             if (line.contains("{opponents}")) replaced.addAll(getOpponents(user));
             else {
                 replaced.add(Placeholders.replace(user.asPlayer(), line.replace("{time}", time)));
@@ -128,9 +129,9 @@ public class ScoreboardManager implements IScoreboardManager {
     private List<String> getOpponents(IUser user) {
         Scoreboard boardSettings = configManager.getScoreboard();
         List<String> opponentsList = new ArrayList<>();
-        var opponents = user.getOpponents();
+        Set<IUser> opponents = user.getOpponents();
         if (opponents.isEmpty()) opponentsList.add(boardSettings.empty());
-        for (var opponent : opponents) {
+        for (IUser opponent : opponents) {
             opponentsList.add(Placeholders.replaceInBoard(opponent.asPlayer(), boardSettings.opponent()));
         }
         return opponentsList;

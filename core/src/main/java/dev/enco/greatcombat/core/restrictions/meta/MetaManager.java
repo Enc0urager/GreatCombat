@@ -23,10 +23,10 @@ public class MetaManager implements IMetaManager {
     }
 
     private void registerDefaults(ConfigManager configManager) {
-        for (var meta : DefaultCheckers.values())
+        for (DefaultCheckers meta : DefaultCheckers.values())
             registerChecker(meta.name(), meta);
 
-        for (var name : configManager.getCheckers())
+        for (String name : configManager.getCheckers())
             registerChecker(name, null);
     }
 

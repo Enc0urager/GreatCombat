@@ -54,7 +54,7 @@ public class ItemUtils {
         int size = inventory.getSize();
 
         for (int i = 0; i < size; i++) {
-            var stack = inventory.getItem(i);
+            ItemStack stack = inventory.getItem(i);
             if (stack != null && stack.getType() == material) {
                 result.add(stack.clone());
                 inventory.setItem(i, null);
@@ -71,11 +71,11 @@ public class ItemUtils {
      * @param items  Array of items to give
      */
     public void giveOrDrop(Player player, ItemStack[] items) {
-        var over = player.getInventory().addItem(items);
+        Map<Integer, ItemStack> over = player.getInventory().addItem(items);
         if (!over.isEmpty()) {
             World world = player.getWorld();
             Location location = player.getLocation();
-            for (var stack : over.values())
+            for (ItemStack stack : over.values())
                 world.dropItemNaturally(location, stack);
         }
     }
@@ -90,7 +90,7 @@ public class ItemUtils {
      */
     public void removeItems(Player player, Material material) {
         UUID uuid = player.getUniqueId();
-        var matMap = stored.getOrDefault(uuid, new EnumMap<>(Material.class));
+        EnumMap<Material, ItemStack[]> matMap = stored.getOrDefault(uuid, new EnumMap<>(Material.class));
         matMap.put(material, findAndRemove(player.getInventory(), material));
         stored.put(uuid, matMap);
     }
@@ -102,9 +102,9 @@ public class ItemUtils {
      */
     public void backItems(Player player) {
         UUID uuid = player.getUniqueId();
-        var matMap = stored.get(uuid);
+        EnumMap<Material, ItemStack[]> matMap = stored.get(uuid);
         if (matMap == null) return;
-        for (var i : matMap.values()) giveOrDrop(player, i);
+        for (ItemStack[] i : matMap.values()) giveOrDrop(player, i);
         stored.remove(uuid);
     }
 }

@@ -5,6 +5,8 @@ import dev.enco.greatcombat.api.events.PlayerKickInCombatEvent;
 import dev.enco.greatcombat.api.events.PlayerLeaveInCombatEvent;
 import dev.enco.greatcombat.api.managers.ICombatManager;
 import dev.enco.greatcombat.api.managers.ICooldownManager;
+import dev.enco.greatcombat.api.models.ICooldownItem;
+import dev.enco.greatcombat.api.models.IUser;
 import dev.enco.greatcombat.core.actions.ActionMap;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.config.settings.Commands;
@@ -24,10 +26,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @RequiredArgsConstructor(onConstructor_ = @Inject)
@@ -44,7 +49,7 @@ public class PlayerListener implements Listener {
     )
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player target) {
-            var damager = getDamager(e.getDamager());
+            Player damager = getDamager(e.getDamager());
             if (damager != null) {
                 combatManager.startCombat(damager, target);
             }
@@ -69,9 +74,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        var player = e.getPlayer();
-        var uuid = player.getUniqueId();
-        var user = combatManager.getUser(uuid);
+        Player player = e.getPlayer();
+        UUID uuid = player.getUniqueId();
+        IUser user = combatManager.getUser(uuid);
         if (user != null) {
             pm.callEvent(new PlayerLeaveInCombatEvent(user));
         }
@@ -79,9 +84,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onKick(PlayerKickEvent e) {
-        var player = e.getPlayer();
-        var uuid = player.getUniqueId();
-        var user = combatManager.getUser(uuid);
+        Player player = e.getPlayer();
+        UUID uuid = player.getUniqueId();
+        IUser user = combatManager.getUser(uuid);
         if (user != null) {
             pm.callEvent(new PlayerKickInCombatEvent(user, ChatColor.stripColor(e.getReason())));
         }
@@ -91,10 +96,10 @@ public class PlayerListener implements Listener {
             priority = EventPriority.LOWEST
     )
     public void onPreprocess(PlayerCommandPreprocessEvent e) {
-        var player = e.getPlayer();
+        Player player = e.getPlayer();
         if (player.hasPermission("greatcombat.commands.bypass")) return;
         handlePlayerCommand(player, e.getMessage(), e);
-        var uuid = player.getUniqueId();
+        UUID uuid = player.getUniqueId();
         Commands commands = configManager.getCommands();
         Messages messages = configManager.getMessages();
         if (combatManager.isInCombat(uuid) && !commands.commands().isEmpty()) {
@@ -121,8 +126,8 @@ public class PlayerListener implements Listener {
     }
 
     private boolean matchSubcommands(String command, String subCommand, Commands commands) {
-        var cmds = commands.commands();
-        var subCmds = cmds.get(command);
+        Map<String, Set<String>> cmds = commands.commands();
+        Set<String> subCmds = cmds.get(command);
         if (subCmds == null) return false;
         if (subCmds.isEmpty()) return true;
         if (subCommand == null) return false;
@@ -132,7 +137,7 @@ public class PlayerListener implements Listener {
     private void handlePlayerCommand(Player sender, String command, Cancellable e) {
         Commands commands = configManager.getCommands();
         Messages messages = configManager.getMessages();
-        for (var s : commands.playerCommands()) {
+        for (String s : commands.playerCommands()) {
             if (command.startsWith(s)) {
                 try {
                     String targetName = command.replace(s, "").split(" ")[1];
@@ -162,13 +167,13 @@ public class PlayerListener implements Listener {
             priority = EventPriority.LOWEST
     )
     public void onSend(PlayerCommandSendEvent e) {
-        var player = e.getPlayer();
+        Player player = e.getPlayer();
         if (player.hasPermission("greatcombat.commands.bypass")) return;
-        var uuid = player.getUniqueId();
+        UUID uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             Commands commands = configManager.getCommands();
             if (commands.changeComplete()) {
-                var cmds = commands.commands();
+                Map<String, Set<String>> cmds = commands.commands();
                 if (!cmds.isEmpty()) {
                     switch (commands.changeType()) {
                         case WHITELIST: {
@@ -191,8 +196,8 @@ public class PlayerListener implements Listener {
             ignoreCancelled = true
     )
     public void onDeath(PlayerDeathEvent e) {
-        var player = e.getEntity();
-        var uuid = player.getUniqueId();
+        Player player = e.getEntity();
+        UUID uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             combatManager.stopCombat(combatManager.getUser(uuid));
         }
@@ -202,12 +207,12 @@ public class PlayerListener implements Listener {
     public void onHeld(PlayerItemHeldEvent e) {
         ActionMap actionMap = configManager.getMessages().onItemHeld();
         if (actionMap.isEmpty()) return;
-        var player = e.getPlayer();
-        var uuid = player.getUniqueId();
+        Player player = e.getPlayer();
+        UUID uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
-            var is = player.getInventory().getItem(e.getNewSlot());
+            ItemStack is = player.getInventory().getItem(e.getNewSlot());
             if (is == null) return;
-            var item = cooldownManager.getCooldownItem(is);
+            ICooldownItem item = cooldownManager.getCooldownItem(is);
             if (item == null) return;
             if (cooldownManager.hasCooldown(uuid, item)) {
                 actionMap.execute(
@@ -226,7 +231,7 @@ public class PlayerListener implements Listener {
         if (configManager.isElytraGlideAllowed()) return;
         if (!(e.getEntity() instanceof Player player)) return;
         if (player.hasPermission("greatcombat.glide.bypass")) return;
-        var chestplate = player.getInventory().getChestplate();
+        ItemStack chestplate = player.getInventory().getChestplate();
         if (chestplate == null || chestplate.getType() != Material.ELYTRA) return;
         if (combatManager.isInCombat(player.getUniqueId())) e.setCancelled(true);
     }

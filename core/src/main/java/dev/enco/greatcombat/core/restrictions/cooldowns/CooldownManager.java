@@ -13,12 +13,15 @@ import dev.enco.greatcombat.api.managers.ITaskManager;
 import dev.enco.greatcombat.api.models.ICooldownItem;
 import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.core.config.ConfigManager;
+import dev.enco.greatcombat.core.config.settings.Locale;
 import dev.enco.greatcombat.core.restrictions.CheckerHandle;
 import dev.enco.greatcombat.core.restrictions.WrappedItem;
 import dev.enco.greatcombat.core.utils.ItemUtils;
 import dev.enco.greatcombat.core.utils.LangUtils;
 import dev.enco.greatcombat.core.utils.colorizer.Colorizer;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -42,27 +45,27 @@ public class CooldownManager implements ICooldownManager {
 
     @Override
     public ICooldownItem getCooldownItem(@NotNull ItemStack i) {
-        var wrapped = WrappedItem.wrap(i);
+        WrappedItem wrapped = WrappedItem.wrap(i);
         return getCooldownItem(wrapped);
     }
 
     @Override
     public ICooldownItem getCooldownItem(@NotNull IWrappedItem wrapped) {
-        for (var item : itemsCooldowns.keySet())
+        for (ICooldownItem item : itemsCooldowns.keySet())
             if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
                 return item;
         return null;
     }
 
     public void setupCooldownItems(ConfigManager configManager) {
-        var config = configManager.getMainConfig();
-        final var locale = configManager.getLocale();
-        var section = config.getConfigurationSection("items-cooldowns");
+        FileConfiguration config = configManager.getMainConfig();
+        final Locale locale = configManager.getLocale();
+        ConfigurationSection section = config.getConfigurationSection("items-cooldowns");
         Map<ICooldownItem, Cache<UUID, Long>> temp = new HashMap<>();
-        for (var key : section.getKeys(false)) {
-            var itemSection = section.getConfigurationSection(key);
+        for (String key : section.getKeys(false)) {
+            ConfigurationSection itemSection = section.getConfigurationSection(key);
 
-            var handlers = new HashSet<>(itemSection.getStringList("handlers"));
+            Set<String> handlers = new HashSet<>(itemSection.getStringList("handlers"));
 
             List<String> metaKeys = itemSection.getStringList("checked-meta");
             int size = metaKeys.size();
@@ -73,8 +76,8 @@ public class CooldownManager implements ICooldownManager {
             }
 
             int time = itemSection.getInt("time");
-            var itemStack = ItemUtils.decode(itemSection.getString("base64"));
-            var translation = Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), itemStack));
+            ItemStack itemStack = ItemUtils.decode(itemSection.getString("base64"));
+            String translation = Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), itemStack));
 
             CooldownItem item = new CooldownItem(
                     WrappedItem.wrap(itemStack),
@@ -117,7 +120,7 @@ public class CooldownManager implements ICooldownManager {
     @Override
     public void putCooldown(@NotNull UUID playerUUID, @NotNull Player player, @NotNull ICooldownItem item) {
         setCooldown(playerUUID, player, item);
-        for (var id : item.linkedItems()) setCooldown(playerUUID, player, idsRefs.get(id));
+        for (String id : item.linkedItems()) setCooldown(playerUUID, player, idsRefs.get(id));
     }
 
     private void setCooldown(UUID playerUUID, Player player, ICooldownItem item) {
@@ -132,7 +135,7 @@ public class CooldownManager implements ICooldownManager {
 
     @Override
     public void clearPlayerCooldowns(@NotNull Player player) {
-        for (var entry : itemsCooldowns.entrySet()) {
+        for (Map.Entry<ICooldownItem, Cache<UUID, Long>> entry : itemsCooldowns.entrySet()) {
             player.setCooldown(entry.getKey().wrappedItem().itemStack().getType(), 0);
             entry.getValue().invalidate(player.getUniqueId());
         }

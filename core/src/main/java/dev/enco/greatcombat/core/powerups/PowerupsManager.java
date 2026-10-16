@@ -12,6 +12,7 @@ import dev.enco.greatcombat.core.powerups.impl.Vanilla;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
@@ -38,7 +39,7 @@ public class PowerupsManager implements IPowerupsManager {
     }
 
     public void setServerManager(String manager) {
-        var pm = Bukkit.getPluginManager();
+        PluginManager pm = Bukkit.getPluginManager();
         setPowerupProvider(switch (manager) {
             case "CMI" -> new CMI(configManager);
             case "Essentials" -> new EssentialsX(configManager);

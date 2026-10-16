@@ -39,7 +39,7 @@ public class LandsListener implements IRegionListener {
         UUID uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             IUser user = combatManager.getUser(uuid);
-            for (var opponent : user.getOpponents()) {
+            for (IUser opponent : user.getOpponents()) {
                 LandPlayer lPlayer = api.getLandPlayer(opponent.getPlayerUUID());
                 if (!area.canPvP(landPlayer, lPlayer, false)) {
                     e.setCancelled(true);

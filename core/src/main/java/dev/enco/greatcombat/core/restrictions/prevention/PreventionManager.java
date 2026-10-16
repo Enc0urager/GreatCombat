@@ -8,6 +8,7 @@ import dev.enco.greatcombat.api.models.IPreventableItem;
 import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.api.models.PreventionType;
 import dev.enco.greatcombat.core.config.ConfigManager;
+import dev.enco.greatcombat.core.config.settings.Locale;
 import dev.enco.greatcombat.core.restrictions.CheckerHandle;
 import dev.enco.greatcombat.core.restrictions.WrappedItem;
 import dev.enco.greatcombat.core.utils.EnumUtils;
@@ -15,13 +16,12 @@ import dev.enco.greatcombat.core.utils.ItemUtils;
 import dev.enco.greatcombat.core.utils.LangUtils;
 import dev.enco.greatcombat.core.utils.colorizer.Colorizer;
 import dev.enco.greatcombat.core.utils.logger.Logger;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Singleton
 public class PreventionManager implements IPreventionManager {
@@ -36,7 +36,7 @@ public class PreventionManager implements IPreventionManager {
 
     @Override
     public IPreventableItem getPreventableItem(@NotNull ItemStack itemStack) {
-        var wrapped = WrappedItem.wrap(itemStack);
+        WrappedItem wrapped = WrappedItem.wrap(itemStack);
         return getPreventableItem(wrapped);
     }
 
@@ -49,13 +49,13 @@ public class PreventionManager implements IPreventionManager {
     }
 
     public void load(ConfigManager configManager) {
-        var section = configManager.getMainConfig().getConfigurationSection("preventable-items");
-        final var locale = configManager.getLocale();
+        ConfigurationSection section = configManager.getMainConfig().getConfigurationSection("preventable-items");
+        final Locale locale = configManager.getLocale();
         List<PreventableItem> itemsList = new ArrayList<>();
-        for (var key : section.getKeys(false)) {
-            var itemSection = section.getConfigurationSection(key);
+        for (String key : section.getKeys(false)) {
+            ConfigurationSection itemSection = section.getConfigurationSection(key);
 
-            var handlers = new HashSet<>(itemSection.getStringList("handlers"));
+            Set<String> handlers = new HashSet<>(itemSection.getStringList("handlers"));
 
             List<String> metaKeys = itemSection.getStringList("checked-meta");
             int size = metaKeys.size();
@@ -65,13 +65,13 @@ public class PreventionManager implements IPreventionManager {
                 handles[i] = (CheckerHandle) metaManager.getByID(metaKeys.get(i));
             }
 
-            var types = EnumUtils.toEnumSet(
+            EnumSet<PreventionType> types = EnumUtils.toEnumSet(
                     itemSection.getStringList("types"),
                     PreventionType.class,
                     type -> Logger.warn(MessageFormat.format(locale.blockerDoesNotExist(), type))
             );
 
-            var item = ItemUtils.decode(itemSection.getString("base64"));
+            ItemStack item = ItemUtils.decode(itemSection.getString("base64"));
             itemsList.add(new PreventableItem(
                     WrappedItem.wrap(item),
                     Colorizer.colorize(LangUtils.getTranslation(itemSection.getString("translation"), item)),

@@ -7,6 +7,7 @@ import dev.enco.greatcombat.api.managers.ICooldownManager;
 import dev.enco.greatcombat.api.managers.IPowerupsManager;
 import dev.enco.greatcombat.api.managers.IScoreboardManager;
 import dev.enco.greatcombat.api.models.IUser;
+import dev.enco.greatcombat.api.models.WrappedTask;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.config.settings.Messages;
 import dev.enco.greatcombat.core.config.settings.Powerups;
@@ -17,6 +18,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+
+import java.util.Set;
 
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class CombatListener implements Listener {
@@ -129,14 +132,14 @@ public class CombatListener implements Listener {
             priority = EventPriority.MONITOR
     )
     public void onEndCombat(CombatEndEvent e) {
-        var user = e.getUser();
-        var runnable = user.getRunnable();
+        IUser user = e.getUser();
+        WrappedTask<?> runnable = user.getRunnable();
         if (runnable != null) runnable.cancel();
         user.removeFromOpponentsMaps();
         user.deleteBossbar();
         scoreboardManager.resetScoreboard(user);
         combatManager.removeFromCombatMap(user);
-        var player = user.asPlayer();
+        Player player = user.asPlayer();
         Messages messages = configManager.getMessages();
         messages.onStop().execute(player);
         cooldownManager.clearPlayerCooldowns(player);
@@ -146,9 +149,9 @@ public class CombatListener implements Listener {
             priority = EventPriority.MONITOR
     )
     public void onCombatQuit(PlayerLeaveInCombatEvent e) {
-        var user = e.getUser();
+        IUser user = e.getUser();
         combatManager.stopCombat(user);
-        var player = user.asPlayer();
+        Player player = user.asPlayer();
         Messages messages = configManager.getMessages();
         Settings settings = configManager.getSettings();
         if (settings.killOnLeave() && !player.hasPermission("greatcombat.kill.bypass")) {
@@ -161,13 +164,13 @@ public class CombatListener implements Listener {
             priority = EventPriority.MONITOR
     )
     public void onCombatKick(PlayerKickInCombatEvent e) {
-        var user = e.getUser();
+        IUser user = e.getUser();
         combatManager.stopCombat(user);
-        var player = user.asPlayer();
+        Player player = user.asPlayer();
         Messages messages = configManager.getMessages();
         Settings settings = configManager.getSettings();
         if (settings.killOnKick() && !player.hasPermission("greatcombat.kill.bypass")) {
-            var kickmessages = settings.kickMessages();
+            Set<String> kickmessages = settings.kickMessages();
             if (kickmessages.isEmpty() || kickmessages.contains(e.getReason())) {
                 player.setHealth(0);
                 messages.onPvpLeave().execute(player, player.getName());
@@ -179,7 +182,7 @@ public class CombatListener implements Listener {
             priority = EventPriority.MONITOR
     )
     public void onCombatTick(CombatTickEvent e) {
-        var user = e.getUser();
+        IUser user = e.getUser();
         long remainingTime = user.getRemaining();
         Messages messages = configManager.getMessages();
         Settings settings = configManager.getSettings();

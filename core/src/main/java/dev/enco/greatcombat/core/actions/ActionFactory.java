@@ -12,6 +12,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -38,13 +39,13 @@ public class ActionFactory {
     public ActionMap from(Locale locale, List<String> settings) {
         if (settings == null || settings.isEmpty()) return ActionMap.EMPTY;
         Map<ActionType, List<Context>> actions = new EnumMap<>(ActionType.class);
-        for (var s : settings) {
-            var matcher = ACTION_PATTERN.matcher(s);
+        for (String s : settings) {
+            Matcher matcher = ACTION_PATTERN.matcher(s);
             if (!matcher.matches()) {
                 Logger.warn(locale.illegalActionPattern() + s);
                 continue;
             }
-            var typeName = matcher.group(1);
+            String typeName = matcher.group(1);
             ActionType type;
             try {
                 type = ActionType.valueOf(typeName);
@@ -53,7 +54,7 @@ public class ActionFactory {
                 continue;
             }
 
-            var contextStr = matcher.group(2).trim();
+            String contextStr = matcher.group(2).trim();
             List<Context> contexts = actions.computeIfAbsent(type, k -> new ArrayList<>());
 
             BiFunction<String, Locale, ? extends Context> validator =
@@ -66,7 +67,7 @@ public class ActionFactory {
         Context[][] contexts = new Context[actions.size()][];
 
         int i = 0;
-        for (var entry : actions.entrySet()) {
+        for (Map.Entry<ActionType, List<Context>> entry : actions.entrySet()) {
             types[i] = entry.getKey();
             List<Context> contextList = entry.getValue();
             contexts[i] = contextList.toArray(new Context[0]);

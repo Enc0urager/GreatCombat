@@ -7,6 +7,7 @@ import dev.enco.greatcombat.api.managers.ICombatManager;
 import dev.enco.greatcombat.api.managers.IScoreboardManager;
 import dev.enco.greatcombat.api.managers.ITaskManager;
 import dev.enco.greatcombat.api.models.IUser;
+import dev.enco.greatcombat.api.models.WrappedTask;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
@@ -35,10 +36,10 @@ public class CombatManager implements ICombatManager {
      */
     @Override
     public void stop() {
-        for (var user : playersInCombat.values()) {
+        for (IUser user : playersInCombat.values()) {
             user.deleteBossbar();
             scoreboardManager.resetScoreboard(user);
-            var runnable = user.getRunnable();
+            WrappedTask<?> runnable = user.getRunnable();
             if (runnable != null) runnable.cancel();
         }
         playersInCombat.clear();
@@ -86,11 +87,11 @@ public class CombatManager implements ICombatManager {
     public void startCombat(@NotNull Player damager, @NotNull Player target) {
         if (damager == target) return;
 
-        var damagerUUID = damager.getUniqueId();
-        var targetUUID = target.getUniqueId();
+        UUID damagerUUID = damager.getUniqueId();
+        UUID targetUUID = target.getUniqueId();
 
-        var damagerUser = playersInCombat.get(damagerUUID);
-        var targetUser = playersInCombat.get(targetUUID);
+        IUser damagerUser = playersInCombat.get(damagerUUID);
+        IUser targetUser = playersInCombat.get(targetUUID);
 
         boolean isDamagerInCombat = damagerUser != null;
         boolean isTargetInCombat = targetUser != null;
@@ -150,7 +151,7 @@ public class CombatManager implements ICombatManager {
      */
     @Override
     public @NotNull IUser getOrCreateUser(@NotNull UUID uuid) {
-        var user = getUser(uuid);
+        IUser user = getUser(uuid);
         if (user != null) return user;
         Player player = Bukkit.getPlayer(uuid);
         User u = new User(

@@ -11,7 +11,7 @@ public class BroadcastMessageAction implements Action<StringContext> {
     @Override
     public void execute(@NotNull Player player, StringContext context, String... replacement) {
         String message = Placeholders.replaceInMessage(player, context.string(), (Object[]) replacement);
-        for (var p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(message);
         }
     }

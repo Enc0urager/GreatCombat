@@ -15,7 +15,7 @@ public class SternalBoardProvider implements ScoreboardProvider {
 
     @Override
     public void setScoreboard(@NotNull IUser user, @NotNull String title, @NotNull List<String> lines) {
-        var uuid = user.getPlayerUUID();
+        UUID uuid = user.getPlayerUUID();
         SternalBoardHandler handler = handlers.get(uuid);
         if (handler == null) {
             handler = new SternalBoardHandler(user.asPlayer());
@@ -27,8 +27,8 @@ public class SternalBoardProvider implements ScoreboardProvider {
 
     @Override
     public void resetScoreboard(@NotNull IUser user) {
-        var uuid = user.getPlayerUUID();
-        var handler = handlers.get(uuid);
+        UUID uuid = user.getPlayerUUID();
+        SternalBoardHandler handler = handlers.get(uuid);
         if (handler != null) {
             handler.delete();
             handlers.remove(uuid);

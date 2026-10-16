@@ -17,7 +17,7 @@ public class Time {
         int min = (sec % 3600) / 60;
         int s = sec % 60;
 
-        var sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
         TimeFormats minutesForms = configManager.getMinutesFormats();
         TimeFormats hoursForms = configManager.getHoursFormats();

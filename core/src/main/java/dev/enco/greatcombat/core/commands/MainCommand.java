@@ -27,7 +27,7 @@ public class MainCommand implements TabExecutor {
             return true;
         }
         try {
-            var arg = CommandArg.valueOf(args[0].toUpperCase());
+            CommandArg arg = CommandArg.valueOf(args[0].toUpperCase());
             injector.getInstance(arg.getClazz()).onCommand(sender, Arrays.copyOfRange(args, 1, args.length));
         } catch (IllegalArgumentException e) {
             sendHelpMessage(sender);
@@ -37,7 +37,7 @@ public class MainCommand implements TabExecutor {
 
     private void sendHelpMessage(CommandSender sender) {
         final Locale locale = configManager.getLocale();
-        for (var s : locale.commandHelp()) sender.sendMessage(s);
+        for (String s : locale.commandHelp()) sender.sendMessage(s);
     }
 
     @Override
@@ -45,11 +45,11 @@ public class MainCommand implements TabExecutor {
         if (!sender.hasPermission("greatcombat.admin")) return null;
         if (args.length == 1) {
             List<String> result = new ArrayList<>();
-            for (var cmd : CommandArg.values()) result.add(cmd.name().toLowerCase());
+            for (CommandArg cmd : CommandArg.values()) result.add(cmd.name().toLowerCase());
             return result;
         }
         try {
-            var arg = CommandArg.valueOf(args[0].toUpperCase());
+            CommandArg arg = CommandArg.valueOf(args[0].toUpperCase());
             return injector.getInstance(arg.getClazz()).onTab();
         } catch (IllegalArgumentException e) {
             return List.of();

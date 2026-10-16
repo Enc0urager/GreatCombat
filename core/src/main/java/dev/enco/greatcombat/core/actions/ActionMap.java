@@ -23,7 +23,7 @@ public class ActionMap {
         for (int i = 0; i < size; i++) {
             ActionType type = types[i];
             Context[] typeContexts = contexts[i];
-            var action = type.getAction();
+            Action<Context> action = type.getAction();
             for (Context context : typeContexts)
                 action.execute(player, context, replacements);
         }

@@ -9,6 +9,7 @@ import dev.enco.greatcombat.core.config.settings.Locale;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +29,7 @@ public class CombatSubcommand implements Subcommand {
             sender.sendMessage(locale.notSpecifiedPlayer());
             return true;
         }
-        var player1 = Bukkit.getPlayer(args[0]);
+        Player player1 = Bukkit.getPlayer(args[0]);
         if (player1 == null) {
             sender.sendMessage(MessageFormat.format(locale.playerNotFound(), args[0]));
             return true;
@@ -38,7 +39,7 @@ public class CombatSubcommand implements Subcommand {
             sender.sendMessage(locale.combatStarted());
             return true;
         }
-        var player2 = Bukkit.getPlayer(args[1]);
+        Player player2 = Bukkit.getPlayer(args[1]);
         if (player2 == null) {
             sender.sendMessage(MessageFormat.format(locale.playerNotFound(), args[1]));
             return true;

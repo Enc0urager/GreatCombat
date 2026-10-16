@@ -33,7 +33,7 @@ public record WrappedItem(
      * @return WrappedItem containing the item and its metadata
      */
     public static WrappedItem withMeta(ItemStack itemStack) {
-        var meta = itemStack.getItemMeta();
+        ItemMeta meta = itemStack.getItemMeta();
         return new WrappedItem(
                 itemStack,
                 meta,

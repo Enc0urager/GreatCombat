@@ -12,7 +12,7 @@ public class BroadcastTitleAction implements Action<TitleContext> {
     public void execute(@NotNull Player player, TitleContext context, String... replacement) {
         String title = Placeholders.replaceInMessage(player, context.title(), (Object[]) replacement);
         String subtitle = Placeholders.replaceInMessage(player, context.subtitle(), (Object[]) replacement);
-        for (var p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendTitle(title, subtitle, context.fadeIn(), context.fadeIn(), context.fadeOut());
         }
     }

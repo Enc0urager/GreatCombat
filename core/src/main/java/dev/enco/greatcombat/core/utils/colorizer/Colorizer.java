@@ -25,7 +25,7 @@ public class Colorizer {
 
     public List<String> colorizeAll(List<String> list) {
         List<String> colored = new ArrayList<>();
-        for (var str : list) colored.add(colorize(str));
+        for (String str : list) colored.add(colorize(str));
         return colored;
     }
 }

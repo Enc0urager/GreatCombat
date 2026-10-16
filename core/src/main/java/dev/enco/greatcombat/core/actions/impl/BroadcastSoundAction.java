@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class BroadcastSoundAction implements Action<SoundContext> {
     @Override
     public void execute(@NotNull Player player, SoundContext context, String... replacement) {
-        for (var p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             p.playSound(p.getLocation(), context.sound(), context.volume(), context.pitch());
         }
     }

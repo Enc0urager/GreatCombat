@@ -31,9 +31,9 @@ public record TitleContext(
      */
     public static TitleContext validate(String s, Locale locale) {
         s = Colorizer.colorize(s);
-        var args = s.split(";");
-        var title = args.length > 0 ? args[0] : "";
-        var subTitle = args.length > 1 ? args[1] : "";
+        String[] args = s.split(";");
+        String title = args.length > 0 ? args[0] : "";
+        String subTitle = args.length > 1 ? args[1] : "";
         int fadeIn = args.length > 2 ? Integer.parseInt(args[2]) : 10;
         int stayIn = args.length > 3 ? Integer.parseInt(args[3]) : 70;
         int fadeOut = args.length > 4 ? Integer.parseInt(args[4]) : 20;

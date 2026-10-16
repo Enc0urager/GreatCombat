@@ -3,11 +3,13 @@ package dev.enco.greatcombat.core.restrictions;
 import dev.enco.greatcombat.api.models.IWrappedItem;
 import dev.enco.greatcombat.api.models.MetaChecker;
 import lombok.Getter;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -54,8 +56,8 @@ public enum DefaultCheckers implements MetaChecker {
     LORE(true) {
         @Override
         public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
-            var l1 = f.itemMeta().getLore();
-            var l2 = s.itemMeta().getLore();
+            List<String> l1 = f.itemMeta().getLore();
+            List<String> l2 = s.itemMeta().getLore();
             return Objects.equals(l1, l2);
         }
     },
@@ -134,8 +136,8 @@ public enum DefaultCheckers implements MetaChecker {
     CUSTOM_MODEL_DATA(true) {
         @Override
         public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
-            var fm = f.itemMeta();
-            var sm = s.itemMeta();
+            ItemMeta fm = f.itemMeta();
+            ItemMeta sm = s.itemMeta();
 
             return fm.hasCustomModelData() == sm.hasCustomModelData()
                     && (!fm.hasCustomModelData()

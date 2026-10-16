@@ -15,8 +15,8 @@ public class FastBoardProvider implements ScoreboardProvider {
 
     @Override
     public void setScoreboard(@NotNull IUser user, @NotNull String title, @NotNull List<String> lines) {
-        var uuid = user.getPlayerUUID();
-        var board = boards.get(uuid);
+        UUID uuid = user.getPlayerUUID();
+        FastBoard board = boards.get(uuid);
         if (board == null) {
             board = new FastBoard(user.asPlayer());
             boards.put(uuid, board);
@@ -27,8 +27,8 @@ public class FastBoardProvider implements ScoreboardProvider {
 
     @Override
     public void resetScoreboard(@NotNull IUser user) {
-        var uuid = user.getPlayerUUID();
-        var board = boards.get(uuid);
+        UUID uuid = user.getPlayerUUID();
+        FastBoard board = boards.get(uuid);
         if (board != null) {
             board.delete();
             boards.remove(uuid);

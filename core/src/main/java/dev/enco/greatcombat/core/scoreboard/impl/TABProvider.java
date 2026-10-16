@@ -8,6 +8,7 @@ import me.neznamy.tab.api.scoreboard.ScoreboardManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.UUID;
 
 public class TABProvider implements ScoreboardProvider {
     @Override
@@ -26,7 +27,7 @@ public class TABProvider implements ScoreboardProvider {
     public void resetScoreboard(@NotNull IUser user) {
         TabAPI tabAPI = TabAPI.getInstance();
         ScoreboardManager scoreboardManager = tabAPI.getScoreboardManager();
-        var uuid = user.getPlayerUUID();
+        UUID uuid = user.getPlayerUUID();
         scoreboardManager.resetScoreboard(tabAPI.getPlayer(uuid));
     }
 }

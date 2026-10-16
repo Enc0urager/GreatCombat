@@ -28,7 +28,7 @@ public record SoundContext(
      * @return New SoundContext with parsed parameters, or null if validation fails
      */
     public static SoundContext validate(String s, Locale locale) {
-        var args = s.split(";");
+        String[] args = s.split(";");
         Sound sound = null;
         try {
             if (args.length >= 1) {

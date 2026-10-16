@@ -6,6 +6,8 @@ import dev.enco.greatcombat.api.managers.ICombatManager;
 import dev.enco.greatcombat.api.managers.ICooldownManager;
 import dev.enco.greatcombat.api.managers.IInteractionManager;
 import dev.enco.greatcombat.api.managers.IPreventionManager;
+import dev.enco.greatcombat.api.models.ICooldownItem;
+import dev.enco.greatcombat.api.models.IPreventableItem;
 import dev.enco.greatcombat.api.models.InteractionHandler;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.utils.Time;
@@ -112,7 +114,7 @@ public class InteractionManager implements IInteractionManager {
         if (h == null) return;
         Player player = h.playerExtractor().apply(event);
         if (!combatManager.isInCombat(player.getUniqueId())) return;
-        for (var itemExt : h.itemExtractor()) {
+        for (Function<T, ItemStack> itemExt : h.itemExtractor()) {
             ItemStack itemStack = itemExt.apply(event);
             if (itemStack == null) continue;
             boolean cancelled = runCoreChecks(player, itemStack, h);
@@ -125,7 +127,7 @@ public class InteractionManager implements IInteractionManager {
 
     private boolean runCoreChecks(Player player, ItemStack is, InteractionHandler<?> handler) {
         WrappedItem wrapped = WrappedItem.wrap(is);
-        var cooldownItem = cooldownManager.getCooldownItem(wrapped);
+        ICooldownItem cooldownItem = cooldownManager.getCooldownItem(wrapped);
         if (cooldownItem != null && cooldownItem.handlers().contains(handler.name())) {
             if (player.hasPermission("greatcombat.cooldowns.bypass")) return false;
             if (cooldownManager.hasCooldown(player.getUniqueId(), cooldownItem)) {
@@ -135,7 +137,7 @@ public class InteractionManager implements IInteractionManager {
             }
             cooldownManager.putCooldown(player.getUniqueId(), player, cooldownItem);
         }
-        var preventionItem = preventionManager.getPreventableItem(wrapped);
+        IPreventableItem preventionItem = preventionManager.getPreventableItem(wrapped);
         if (preventionItem != null && preventionItem.handlers().contains(handler.name())) {
             if (player.hasPermission("greatcombat.prevention.bypass")) return false;
             configManager.getMessages().onInteract().execute(player, preventionItem.translation());

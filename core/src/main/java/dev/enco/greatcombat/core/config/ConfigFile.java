@@ -48,8 +48,8 @@ public class ConfigFile {
             this.file = new File(this.folder, this.name + ".yml");
         }
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
-        var inputStreamReader = new InputStreamReader(plugin.getResource(filePath), StandardCharsets.UTF_8);
-        var configuration = YamlConfiguration.loadConfiguration(inputStreamReader);
+        InputStreamReader inputStreamReader = new InputStreamReader(plugin.getResource(filePath), StandardCharsets.UTF_8);
+        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(inputStreamReader);
         this.fileConfiguration.setDefaults(configuration);
     }
 
@@ -80,10 +80,10 @@ public class ConfigFile {
 
             if (name.equals("config") && (ver == null || ver < 4)) {
                 if (fileConfiguration.isList("commands.commands")) {
-                    var list = fileConfiguration.getList("commands.commands");
+                    List<?> list = fileConfiguration.getList("commands.commands");
                     if (list != null && !list.isEmpty()) {
                         List<Map<String, List<String>>> newList = new ArrayList<>();
-                        for (var obj : list) {
+                        for (Object obj : list) {
                             if (obj instanceof String cmd) {
                                 Map<String, List<String>> map = new HashMap<>();
                                 map.put(cmd, new ArrayList<>());

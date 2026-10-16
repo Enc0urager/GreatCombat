@@ -11,6 +11,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +25,7 @@ public class CopySubcommand implements Subcommand {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (sender instanceof Player pl) {
-            var item = pl.getInventory().getItemInMainHand();
+            ItemStack item = pl.getInventory().getItemInMainHand();
             final Locale locale = configManager.getLocale();
             if (item == null) {
                 pl.sendMessage(locale.emptyItem());

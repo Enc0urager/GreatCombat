@@ -3,12 +3,14 @@ package dev.enco.greatcombat.core.commands.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.enco.greatcombat.api.managers.ICombatManager;
+import dev.enco.greatcombat.api.models.IUser;
 import dev.enco.greatcombat.core.commands.Subcommand;
 import dev.enco.greatcombat.core.config.ConfigManager;
 import dev.enco.greatcombat.core.config.settings.Locale;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,12 +30,12 @@ public class StopSubcommand implements Subcommand {
             sender.sendMessage(locale.notSpecifiedPlayer());
             return true;
         }
-        var player = Bukkit.getPlayer(args[0]);
+        Player player = Bukkit.getPlayer(args[0]);
         if (player == null) {
             sender.sendMessage(MessageFormat.format(locale.playerNotFound(), args[0]));
             return true;
         }
-        var user = combatManager.getUser(player.getUniqueId());
+        IUser user = combatManager.getUser(player.getUniqueId());
         if (user == null) {
             sender.sendMessage(locale.playerNotInCombat());
             return true;

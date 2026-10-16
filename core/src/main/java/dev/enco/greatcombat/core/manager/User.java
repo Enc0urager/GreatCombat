@@ -62,7 +62,7 @@ public class User implements IUser {
      */
     @Override
     public void removeFromOpponentsMaps() {
-        for (var user : opponents) user.removeOpponent(this);
+        for (IUser user : opponents) user.removeOpponent(this);
     }
 
     /**

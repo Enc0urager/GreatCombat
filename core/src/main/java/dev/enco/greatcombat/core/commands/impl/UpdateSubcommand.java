@@ -24,18 +24,16 @@ public class UpdateSubcommand implements Subcommand {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        taskManager.getGlobalScheduler().runAsync(() -> {
-            UpdateUtils.check(configManager.getLocale(), ver -> {
-                String current = plugin.getDescription().getVersion();
-                Locale locale = configManager.getLocale();
-                if (ver.equals(current)) {
-                    sender.sendMessage(locale.updatesNotFound());
-                    return;
-                }
-                UpdateUtils.update(plugin, ver, sender);
-                sender.sendMessage(locale.updated());
-            });
-        });
+        taskManager.getGlobalScheduler().runAsync(() -> UpdateUtils.check(configManager.getLocale(), ver -> {
+            String current = plugin.getDescription().getVersion();
+            Locale locale = configManager.getLocale();
+            if (ver.equals(current)) {
+                sender.sendMessage(locale.updatesNotFound());
+                return;
+            }
+            UpdateUtils.update(plugin, ver, sender);
+            sender.sendMessage(locale.updated());
+        }));
         return true;
     }
 

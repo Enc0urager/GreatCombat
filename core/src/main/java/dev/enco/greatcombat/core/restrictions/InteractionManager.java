@@ -68,11 +68,26 @@ public class InteractionManager implements IInteractionManager {
     @SafeVarargs
     @Override
     public final <T extends Event> InteractionHandler<T> newHandler(@NotNull String name, @NotNull Predicate<T> predicate, @NotNull Function<T, Player> playerExt, @NotNull Function<T, ItemStack>... itemExt) {
-        return new InteractionHandler<T>() {
-            @Override public @NotNull String name() { return name; }
-            @Override public @NotNull Predicate<T> predicate() { return predicate; }
-            @Override public @NotNull Function<T, Player> playerExtractor() { return playerExt; }
-            @Override public @NotNull Function<T, ItemStack>[] itemExtractor() { return itemExt; }
+        return new InteractionHandler<>() {
+            @Override
+            public @NotNull String name() {
+                return name;
+            }
+
+            @Override
+            public @NotNull Predicate<T> predicate() {
+                return predicate;
+            }
+
+            @Override
+            public @NotNull Function<T, Player> playerExtractor() {
+                return playerExt;
+            }
+
+            @Override
+            public @NotNull Function<T, ItemStack>[] itemExtractor() {
+                return itemExt;
+            }
         };
     }
 

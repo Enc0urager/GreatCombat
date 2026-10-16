@@ -8,9 +8,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @UtilityClass
 public class Logger {
-    private static final String INFO_PREFIX = "§7(§aGreatCombat§7) §aINFO §f";
-    private static final String WARN_PREFIX = "§7(§eGreatCombat§7) §6WARN §e";
-    private static final String ERROR_PREFIX = "§7(§cGreatCombat§7) §4ERROR §c";
+    private final String INFO_PREFIX = "§7(§aGreatCombat§7) §aINFO §f";
+    private final String WARN_PREFIX = "§7(§eGreatCombat§7) §6WARN §e";
+    private final String ERROR_PREFIX = "§7(§cGreatCombat§7) §4ERROR §c";
     private ILogger logger;
 
     public void setup(JavaPlugin plugin) {

@@ -7,10 +7,7 @@ import dev.enco.greatcombat.core.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
@@ -20,8 +17,8 @@ import java.util.regex.Pattern;
  */
 @UtilityClass
 public class ActionFactory {
-    private static final Pattern ACTION_PATTERN = Pattern.compile("\\[(\\S+)] ?(.*)");
-    private static final ImmutableMap<Class<? extends Context>, BiFunction<String, Locale, ? extends Context>> VALIDATORS = ImmutableMap.of(
+    private final Pattern ACTION_PATTERN = Pattern.compile("\\[(\\S+)] ?(.*)");
+    private final ImmutableMap<Class<? extends Context>, BiFunction<String, Locale, ? extends Context>> VALIDATORS = ImmutableMap.of(
             StringContext.class, StringContext::validate,
             TitleContext.class, TitleContext::validate,
             SoundContext.class, SoundContext::validate,
@@ -37,7 +34,7 @@ public class ActionFactory {
      */
     public ActionMap from(Locale locale, List<String> settings) {
         if (settings == null || settings.isEmpty()) return ActionMap.EMPTY;
-        Map<ActionType, List<Context>> actions = new HashMap<>();
+        Map<ActionType, List<Context>> actions = new EnumMap<>(ActionType.class);
         for (var s : settings) {
             var matcher = ACTION_PATTERN.matcher(s);
             if (!matcher.matches()) {

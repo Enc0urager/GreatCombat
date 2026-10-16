@@ -30,7 +30,7 @@ public enum DefaultCheckers implements MetaChecker {
     MATERIAL(false) {
         @Override
         public boolean matches(@NotNull IWrappedItem f, @NotNull IWrappedItem s) {
-            return f.itemStack().getType().equals(s.itemStack().getType());
+            return f.itemStack().getType() == s.itemStack().getType();
         }
     },
 
@@ -113,7 +113,7 @@ public enum DefaultCheckers implements MetaChecker {
             }
 
             try {
-                return Objects.equals(fm.getBasePotionType(), sm.getBasePotionType());
+                return fm.getBasePotionType() == sm.getBasePotionType();
             } catch (NoSuchMethodError e) {
                 return Objects.equals(fm.getBasePotionData(), sm.getBasePotionData());
             }

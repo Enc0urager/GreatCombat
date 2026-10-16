@@ -118,7 +118,7 @@ public class CMI implements PowerupProvider {
         this.gamemodePowerup = new Powerup() {
             @Override
             public boolean hasPowerup(@NotNull Player player) {
-                return !player.getGameMode().equals(GameMode.SURVIVAL);
+                return player.getGameMode() != GameMode.SURVIVAL;
             }
 
             @Override

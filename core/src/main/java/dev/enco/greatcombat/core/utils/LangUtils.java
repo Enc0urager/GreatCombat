@@ -18,7 +18,7 @@ import java.text.MessageFormat;
  */
 @UtilityClass
 public class LangUtils {
-    private static boolean USE_LANG_HELPER;
+    private boolean USE_LANG_HELPER;
     /** The TranslationManager instance */
     private Object manager;
 

@@ -16,9 +16,9 @@ import java.util.Locale;
  */
 @UtilityClass
 public class Placeholders {
-    private static final DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-    private static final DecimalFormat df = new DecimalFormat("#.#", symbols);
-    @Setter private static boolean usingPapi;
+    private final DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+    private final DecimalFormat df = new DecimalFormat("#.#", symbols);
+    @Setter private boolean usingPapi;
 
     /**
      * Replaces placeholders in a string specifically for scoreboard display.

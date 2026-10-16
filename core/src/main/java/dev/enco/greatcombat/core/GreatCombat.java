@@ -65,15 +65,13 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
         Logger.info(locale.onEnable());
         Logger.info(locale.authorVersion() + this.getDescription().getVersion());
         if (configManager.isCheckUpdates()) {
-            getManager(ITaskManager.class).getGlobalScheduler().runLaterAsync(() -> {
-                UpdateUtils.check(locale, version -> {
-                    if (getDescription().getVersion().equals(version)) {
-                        Logger.info(locale.updatesNotFound());
-                    } else {
-                        for (var s : locale.updatesFound()) Logger.info(s);
-                    }
-                });
-            }, 30L);
+            getManager(ITaskManager.class).getGlobalScheduler().runLaterAsync(() -> UpdateUtils.check(locale, version -> {
+                if (getDescription().getVersion().equals(version)) {
+                    Logger.info(locale.updatesNotFound());
+                } else {
+                    for (var s : locale.updatesFound()) Logger.info(s);
+                }
+            }), 30L);
         }
         GreatCombatProvider.setPlugin(this);
     }

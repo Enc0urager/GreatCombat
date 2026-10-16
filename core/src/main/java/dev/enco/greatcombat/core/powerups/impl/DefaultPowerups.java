@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 @UtilityClass
 @Getter
 public class DefaultPowerups {
-    public static final Powerup FLY_POWERUP = new Powerup() {
+    public final Powerup FLY_POWERUP = new Powerup() {
         @Override
         public boolean hasPowerup(@NotNull Player player) {
             return player.isFlying();
@@ -23,10 +23,10 @@ public class DefaultPowerups {
         }
     };
 
-    public static final Powerup GM_POWERUP = new Powerup() {
+    public final Powerup GM_POWERUP = new Powerup() {
         @Override
         public boolean hasPowerup(@NotNull Player player) {
-            return !player.getGameMode().equals(GameMode.SURVIVAL);
+            return player.getGameMode() != GameMode.SURVIVAL;
         }
 
         @Override
@@ -35,7 +35,7 @@ public class DefaultPowerups {
         }
     };
 
-    public static final Powerup WALKSPEED_POWERUP = new Powerup() {
+    public final Powerup WALKSPEED_POWERUP = new Powerup() {
         @Override
         public boolean hasPowerup(@NotNull Player player) {
             return player.getWalkSpeed() != 0.2F;

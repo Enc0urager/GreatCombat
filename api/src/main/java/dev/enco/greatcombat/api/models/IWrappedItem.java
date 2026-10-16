@@ -18,12 +18,14 @@ public interface IWrappedItem {
      * @return the original item stack
      */
     @NotNull ItemStack itemStack();
+
     /**
      * Returns the associated {@link ItemMeta}.
      *
      * @return the item meta, or null if not present
      */
     @Nullable ItemMeta itemMeta();
+
     /**
      * Indicates whether this item has metadata.
      *

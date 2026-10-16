@@ -16,7 +16,8 @@ import org.jetbrains.annotations.NotNull;
  * @see Cancellable
  * @see CombatDamageEvent
  */
-@RequiredArgsConstructor @Getter
+@RequiredArgsConstructor
+@Getter
 public class CombatPreStartEvent extends Event implements Cancellable {
     /**
      * The player who initiated the damage

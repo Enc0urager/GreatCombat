@@ -7,11 +7,11 @@ import dev.enco.greatcombat.core.utils.colorizer.Colorizer;
  * Context implementation for title display actions.
  * Contains all parameters required to display a title and subtitle.
  *
- * @param title The main title text
+ * @param title    The main title text
  * @param subtitle The subtitle text
- * @param fadeIn The fade-in time in ticks
- * @param stayIn The stay time in ticks
- * @param fadeOut The fade-out time in ticks
+ * @param fadeIn   The fade-in time in ticks
+ * @param stayIn   The stay time in ticks
+ * @param fadeOut  The fade-out time in ticks
  */
 public record TitleContext(
         String title,

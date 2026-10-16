@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class ReloadSubcommand implements Subcommand {
     private final ConfigManager configManager;
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         configManager.reload();

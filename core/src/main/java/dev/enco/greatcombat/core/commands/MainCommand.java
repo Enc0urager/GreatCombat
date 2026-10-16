@@ -51,6 +51,8 @@ public class MainCommand implements TabExecutor {
         try {
             var arg = CommandArg.valueOf(args[0].toUpperCase());
             return injector.getInstance(arg.getClazz()).onTab();
-        } catch (IllegalArgumentException e) { return List.of(); }
+        } catch (IllegalArgumentException e) {
+            return List.of();
+        }
     }
 }

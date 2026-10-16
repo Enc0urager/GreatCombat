@@ -9,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
 public class ActionBarAction implements Action<StringContext> {
     @Override
     public void execute(@NotNull Player player, StringContext context, String... replacement) {
-        player.sendActionBar(Placeholders.replaceInMessage(player, context.string(), replacement));
+        player.sendActionBar(Placeholders.replaceInMessage(player, context.string(), (Object[]) replacement));
     }
 }

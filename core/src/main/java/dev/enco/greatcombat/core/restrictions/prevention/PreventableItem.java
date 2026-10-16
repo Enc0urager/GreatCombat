@@ -15,4 +15,5 @@ public record PreventableItem(
         Set<String> handlers,
         CheckerHandle[] checkedMetas,
         boolean setMaterialCooldown
-) implements IPreventableItem {}
+) implements IPreventableItem {
+}

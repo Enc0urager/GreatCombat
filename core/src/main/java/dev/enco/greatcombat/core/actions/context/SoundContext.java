@@ -10,9 +10,9 @@ import java.text.MessageFormat;
  * Context implementation for sound playback actions.
  * Contains all parameters required to play a sound effect.
  *
- * @param sound Bukkit Sound enum value to play
+ * @param sound  Bukkit Sound enum value to play
  * @param volume The volume of the sound
- * @param pitch The pitch of the sound
+ * @param pitch  The pitch of the sound
  */
 public record SoundContext(
         Sound sound,

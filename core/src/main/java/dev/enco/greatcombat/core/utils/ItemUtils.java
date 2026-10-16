@@ -45,7 +45,7 @@ public class ItemUtils {
      * Finds all ItemStacks of the specified material in the inventory and removes them.
      *
      * @param inventory inventory to search in
-     * @param material material to search for
+     * @param material  material to search for
      * @return Array of cloned ItemStacks that were removed
      */
     public ItemStack[] findAndRemove(Inventory inventory, Material material) {
@@ -68,7 +68,7 @@ public class ItemUtils {
      * Gives multiple items to the player, dropping leftovers.
      *
      * @param player player to give items to
-     * @param items Array of items to give
+     * @param items  Array of items to give
      */
     public void giveOrDrop(Player player, ItemStack[] items) {
         var over = player.getInventory().addItem(items);
@@ -85,7 +85,7 @@ public class ItemUtils {
     /**
      * Removes items of a specific material from player's inventory and stores them in a cache
      *
-     * @param player The player whose items will be removed.
+     * @param player   The player whose items will be removed.
      * @param material The material of the items to be removed
      */
     public void removeItems(Player player, Material material) {

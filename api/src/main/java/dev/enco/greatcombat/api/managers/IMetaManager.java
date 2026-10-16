@@ -9,8 +9,8 @@ public interface IMetaManager extends IManager {
     /**
      * Checks if two items are similar based on the specified metadata checks.
      *
-     * @param f The first wrapped item to compare
-     * @param s The second wrapped item to compare
+     * @param f            The first wrapped item to compare
+     * @param s            The second wrapped item to compare
      * @param checkedMetas The array of metadata types to check
      * @return true if items match all specified metadata checks, false otherwise
      */
@@ -21,7 +21,7 @@ public interface IMetaManager extends IManager {
     /**
      * Registers a meta checker under the specified id
      *
-     * @param id unique checker id
+     * @param id      unique checker id
      * @param checker checker implementation to register
      */
     void registerChecker(@NotNull String id,

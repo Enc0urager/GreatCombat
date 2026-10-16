@@ -11,4 +11,5 @@ public record Commands(
         boolean changeComplete,
         ImmutableMap<String, Set<String>> commands,
         ImmutableSet<String> playerCommands
-) {}
+) {
+}

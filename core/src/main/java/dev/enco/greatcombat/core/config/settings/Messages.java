@@ -16,4 +16,5 @@ public record Messages(
         ActionMap onMerge,
         ActionMap onCooldownExpired,
         ActionMap onItemHeld
-) {}
+) {
+}

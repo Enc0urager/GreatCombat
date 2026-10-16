@@ -8,5 +8,5 @@ public record Scoreboard(
         String opponent,
         String empty,
         boolean enable
-)
-{}
+) {
+}

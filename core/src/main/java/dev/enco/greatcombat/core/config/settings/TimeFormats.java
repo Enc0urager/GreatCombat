@@ -4,4 +4,5 @@ public record TimeFormats(
         String form1,
         String form3,
         String form5
-) {}
+) {
+}

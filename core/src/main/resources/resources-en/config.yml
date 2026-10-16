@@ -17,7 +17,7 @@ update-checker: true
 use-papi: false
 api:
   # IF YOU ARE NOT A DEVELOPER - SKIP THIS SETTING
-  custom-checkers-ids: []
+  custom-checkers-ids: [ ]
 expansion:
   error: 'N/A'
   true: '&aYes'
@@ -138,7 +138,7 @@ allowed-teleportations-cause:
   - CHORUS_FRUIT
   - ENDER_PEARL
 # Worlds where combat couldn't start
-ignored-worlds: []
+ignored-worlds: [ ]
 # Combat couldn't start if player has this powerups
 # Available powerups
 # GAMEMODE - any gamemode except survival
@@ -170,7 +170,7 @@ kill-on-leave: true
 kill-on-kick: true
 # List of reasons will be player killed
 # If its empty player always will be killed
-kick-messages: []
+kick-messages: [ ]
 commands:
   # If the type is WHITELIST, all the commands from the list will be available to the player
   # If the BLACKLIST type is used, all commands except those in the list will be available to the player.

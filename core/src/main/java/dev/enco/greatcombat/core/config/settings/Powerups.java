@@ -9,4 +9,5 @@ public record Powerups(
         EnumSet<PowerupType> preventableTargetPowerups,
         EnumSet<PowerupType> disablingDamagerPowerups,
         EnumSet<PowerupType> disablingTargetPowerups
-) {}
+) {
+}

@@ -11,7 +11,7 @@ public interface ScoreboardProvider {
     /**
      * Sets the scoreboard for a user with the specified title and lines.
      *
-     * @param user User to set the scoreboard for
+     * @param user  User to set the scoreboard for
      * @param title The title to display at the top of the scoreboard
      * @param lines The list of lines to display on the scoreboard
      */

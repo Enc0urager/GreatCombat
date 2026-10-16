@@ -126,13 +126,13 @@ public class CooldownManager implements ICooldownManager {
             taskManager.getGlobalScheduler().runLater(() ->
                     player.setCooldown(
                             item.wrappedItem().itemStack().getType(), item.time() * 20
-                    ),1L
+                    ), 1L
             );
     }
 
     @Override
     public void clearPlayerCooldowns(@NotNull Player player) {
-        for (var entry: itemsCooldowns.entrySet()) {
+        for (var entry : itemsCooldowns.entrySet()) {
             player.setCooldown(entry.getKey().wrappedItem().itemStack().getType(), 0);
             entry.getValue().invalidate(player.getUniqueId());
         }

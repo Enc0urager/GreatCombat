@@ -22,5 +22,5 @@ commands:
   greatcombat:
     aliases: combat
 libraries:
-  - com.github.ben-manes.caffeine:caffeine:3.2.2
-  - com.google.inject:guice:5.1.0
+  - com.github.ben-manes.caffeine:caffeine:${caffeine.version}
+  - com.google.inject:guice:${guice.version}

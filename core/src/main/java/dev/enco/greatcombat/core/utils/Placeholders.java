@@ -18,13 +18,14 @@ import java.util.Locale;
 public class Placeholders {
     private final DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
     private final DecimalFormat df = new DecimalFormat("#.#", symbols);
-    @Setter private boolean usingPapi;
+    @Setter
+    private boolean usingPapi;
 
     /**
      * Replaces placeholders in a string specifically for scoreboard display.
      *
      * @param player The player to use for placeholder replacement
-     * @param s The string containing placeholders to replace
+     * @param s      The string containing placeholders to replace
      * @return The string with all placeholders replaced and colorized
      */
     public String replaceInBoard(Player player, String s) {
@@ -35,8 +36,8 @@ public class Placeholders {
      * Replaces placeholders in a message string with formatted replacements.
      * First formats the message with replacements, then processes placeholders.
      *
-     * @param player The player to use for placeholder replacement
-     * @param s The message format string containing placeholders
+     * @param player      The player to use for placeholder replacement
+     * @param s           The message format string containing placeholders
      * @param replacement Variable arguments for message formatting
      * @return The formatted string with all placeholders replaced and colorized
      */
@@ -49,7 +50,7 @@ public class Placeholders {
      * Detects and uses PlaceholderAPI if enabled and placeholders are present.
      *
      * @param player The player to use for placeholder replacement
-     * @param s The string containing placeholders to replace
+     * @param s      The string containing placeholders to replace
      * @return The string with all placeholders replaced and colorized
      */
     public String replace(Player player, String s) {
@@ -63,7 +64,7 @@ public class Placeholders {
      * Processes local placeholders in the form of {} or {index}.
      * {} is replaced sequentially, {index} uses the specific argument.
      *
-     * @param text The template string
+     * @param text        The template string
      * @param replacement The arguments to replace
      * @return The string with local placeholders replaced
      */
@@ -124,9 +125,9 @@ public class Placeholders {
      * Resolves the argument index from a placeholder.
      * Returns fallback (sequential index) if he placeholder is empty or contains non-digit characters.
      *
-     * @param text The template string
-     * @param start Start index of the placeholder content
-     * @param end End index of the placeholder content
+     * @param text     The template string
+     * @param start    Start index of the placeholder content
+     * @param end      End index of the placeholder content
      * @param fallback The sequential index to use for {}
      * @return The resolved argument index
      */

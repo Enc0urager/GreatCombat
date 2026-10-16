@@ -7,7 +7,10 @@ import dev.enco.greatcombat.core.utils.logger.Logger;
 import lombok.experimental.UtilityClass;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 

@@ -11,7 +11,7 @@ public interface MetaChecker {
     /**
      * Checks whether two wrapped items match, according to this checker.
      *
-     * @param first the first item
+     * @param first  the first item
      * @param second the second item
      * @return true if the items match, false otherwise
      */

@@ -9,4 +9,5 @@ public record Bossbar(
         String title,
         boolean progress,
         boolean enable
-) {}
+) {
+}

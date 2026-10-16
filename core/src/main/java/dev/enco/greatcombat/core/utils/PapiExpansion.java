@@ -81,7 +81,9 @@ public class PapiExpansion extends PlaceholderExpansion {
 
             return expansion.error();
 
-        } catch (Exception e) { return expansion.error(); }
+        } catch (Exception e) {
+            return expansion.error();
+        }
     }
 }
 

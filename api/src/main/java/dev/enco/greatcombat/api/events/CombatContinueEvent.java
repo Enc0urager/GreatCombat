@@ -19,7 +19,7 @@ public class CombatContinueEvent extends CombatDamageEvent {
      * Constructs a new CombatContinueEvent without specific damage cause.
      *
      * @param damager User who dealt damage
-     * @param target User who received damage
+     * @param target  User who received damage
      */
     public CombatContinueEvent(@NotNull IUser damager,
                                @NotNull IUser target
@@ -31,8 +31,8 @@ public class CombatContinueEvent extends CombatDamageEvent {
      * Constructs a new CombatContinueEvent with specific damage cause.
      *
      * @param damager User who dealt damage
-     * @param target User who received damage
-     * @param cause Specific cause of damage
+     * @param target  User who received damage
+     * @param cause   Specific cause of damage
      */
     public CombatContinueEvent(@NotNull IUser damager,
                                @NotNull IUser target,

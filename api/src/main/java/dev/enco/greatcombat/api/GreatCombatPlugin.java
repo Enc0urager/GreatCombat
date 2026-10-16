@@ -16,7 +16,7 @@ public interface GreatCombatPlugin {
      * Retrieves a manager instance by its class type.
      *
      * @param clazz the class of the manager to retrieve
-     * @param <T> the type of the manager
+     * @param <T>   the type of the manager
      * @return the manager instance associated with the given class
      * @throws ConfigurationException if the manager is not bound
      */

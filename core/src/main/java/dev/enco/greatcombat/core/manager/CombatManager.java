@@ -80,7 +80,7 @@ public class CombatManager implements ICombatManager {
      * Initiates combat between two players and calls appropriate combat events.
      *
      * @param damager player giving the damage
-     * @param target player receiving the damage
+     * @param target  player receiving the damage
      */
     @Override
     public void startCombat(@NotNull Player damager, @NotNull Player target) {
@@ -114,11 +114,9 @@ public class CombatManager implements ICombatManager {
 
         if (alreadyOpponents) {
             event = new CombatContinueEvent(damagerUser, targetUser);
-        }
-        else if (!isDamagerInCombat && !isTargetInCombat) {
+        } else if (!isDamagerInCombat && !isTargetInCombat) {
             event = new CombatStartEvent(damagerUser, targetUser);
-        }
-        else if (isDamagerInCombat && isTargetInCombat) {
+        } else if (isDamagerInCombat && isTargetInCombat) {
             event = new CombatMergeEvent(damagerUser, targetUser);
         } else {
             event = new CombatJoinEvent(

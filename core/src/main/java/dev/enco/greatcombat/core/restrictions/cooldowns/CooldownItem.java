@@ -7,11 +7,12 @@ import dev.enco.greatcombat.core.restrictions.WrappedItem;
 import java.util.Set;
 
 public record CooldownItem(
-       WrappedItem wrappedItem,
-       String translation,
-       CheckerHandle[] checkedMetas,
-       Set<String> handlers,
-       int time,
-       boolean setMaterialCooldown,
-       Set<String> linkedItems
-) implements ICooldownItem {}
+        WrappedItem wrappedItem,
+        String translation,
+        CheckerHandle[] checkedMetas,
+        Set<String> handlers,
+        int time,
+        boolean setMaterialCooldown,
+        Set<String> linkedItems
+) implements ICooldownItem {
+}

@@ -16,7 +16,7 @@ update-checker: true
 use-papi: false
 api:
   # ЕСЛИ ВЫ НЕ РАЗРАБОТЧИК - ПРОПУСТИТЕ ЭТУ НАСТРОЙКУ
-  custom-checkers-ids: []
+  custom-checkers-ids: [ ]
 # Отображение времени
 expansion:
   error: 'N/A'
@@ -133,7 +133,7 @@ allowed-teleportations-cause:
   - CHORUS_FRUIT
   - ENDER_PEARL
 # Миры, где бой не может начаться
-ignored-worlds: []
+ignored-worlds: [ ]
 # Бой не начнется, если атакующий имеет эти усиления
 # Доступные усиления:
 # GAMEMODE - любой режим кроме выживания
@@ -165,7 +165,7 @@ kill-on-leave: true
 kill-on-kick: true
 # Список причин, по которым игрок будет убит
 # Если пусто - игрок всегда будет убит
-kick-messages: []
+kick-messages: [ ]
 commands:
   # Если тип WHITELIST - только команды из списка будут доступны
   # Если BLACKLIST - все команды кроме указанных будут доступны

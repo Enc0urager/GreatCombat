@@ -48,10 +48,10 @@ public class PlayerListener implements Listener {
             if (damager != null) {
                 combatManager.startCombat(damager, target);
             }
-        }
-        else if (e.getEntity() instanceof EnderCrystal crystal) {
+        } else if (e.getEntity() instanceof EnderCrystal crystal) {
             Player exploder = getDamager(e.getDamager());
-            if (exploder != null) crystal.setMetadata("exploder", new FixedMetadataValue(plugin, exploder.getUniqueId()));
+            if (exploder != null)
+                crystal.setMetadata("exploder", new FixedMetadataValue(plugin, exploder.getUniqueId()));
         }
     }
 
@@ -83,7 +83,7 @@ public class PlayerListener implements Listener {
         var uuid = player.getUniqueId();
         var user = combatManager.getUser(uuid);
         if (user != null) {
-            pm.callEvent(new PlayerKickInCombatEvent(user,  ChatColor.stripColor(e.getReason())));
+            pm.callEvent(new PlayerKickInCombatEvent(user, ChatColor.stripColor(e.getReason())));
         }
     }
 
@@ -142,7 +142,8 @@ public class PlayerListener implements Listener {
                         messages.onPlayerCommand().execute(sender, targetName);
                         break;
                     }
-                } catch (IndexOutOfBoundsException ignored) {}
+                } catch (IndexOutOfBoundsException ignored) {
+                }
             }
         }
     }
@@ -170,12 +171,12 @@ public class PlayerListener implements Listener {
                 var cmds = commands.commands();
                 if (!cmds.isEmpty()) {
                     switch (commands.changeType()) {
-                        case WHITELIST : {
+                        case WHITELIST: {
                             e.getCommands().clear();
                             e.getCommands().addAll(cmds.keySet());
                             break;
                         }
-                        case BLACKLIST : {
+                        case BLACKLIST: {
                             e.getCommands().removeAll(cmds.keySet());
                             break;
                         }

@@ -50,7 +50,7 @@ public interface IInteractionManager extends IManager {
      *
      * @param event The event object.
      * @param <T>   The event type.
-     * @return      A Stream of handlers mapped to the class of the provided event.
+     * @return A Stream of handlers mapped to the class of the provided event.
      */
     <T extends Event> @NotNull Stream<InteractionHandler<T>> getHandlers(@NotNull T event);
 
@@ -62,7 +62,7 @@ public interface IInteractionManager extends IManager {
      *
      * @param event The event object.
      * @param <T>   The event type.
-     * @return      A Stream of active handlers for the current event state.
+     * @return A Stream of active handlers for the current event state.
      */
     <T extends Event> @Nullable InteractionHandler<T> getFirstPredicatedHandler(@NotNull T event);
 

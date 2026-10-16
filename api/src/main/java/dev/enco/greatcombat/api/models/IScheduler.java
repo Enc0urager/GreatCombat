@@ -9,13 +9,15 @@ import org.jetbrains.annotations.NotNull;
  * @see WrappedTask
  */
 public interface IScheduler {
-    /** Runs task synchronously
+    /**
+     * Runs task synchronously
      *
      * @param task Runnable to execute
      */
     void run(@NotNull Runnable task);
 
-    /** Runs task asynchronously
+    /**
+     * Runs task asynchronously
      *
      * @param task Runnable to execute
      */

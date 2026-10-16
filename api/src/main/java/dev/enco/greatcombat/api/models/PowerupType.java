@@ -29,7 +29,6 @@ public enum PowerupType {
      * before using its checker or disabler functionality.
      *
      * @param serverManager The server manager implementation to provide checker and disabler instances.
-     *
      * @see PowerupProvider
      */
     public void initialize(@NotNull PowerupProvider serverManager) {

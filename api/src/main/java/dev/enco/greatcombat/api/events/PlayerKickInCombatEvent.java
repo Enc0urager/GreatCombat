@@ -28,7 +28,7 @@ public class PlayerKickInCombatEvent extends Event {
     /**
      * Constructs a new PlayerKickInCombatEvent.
      *
-     * @param user User who was kicked
+     * @param user   User who was kicked
      * @param reason The reason for the kick
      */
     public PlayerKickInCombatEvent(@NotNull IUser user,

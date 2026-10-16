@@ -15,6 +15,7 @@ public interface Powerup {
      * @return true if the player has active powerup, false otherwise
      */
     boolean hasPowerup(@NotNull Player player);
+
     /**
      * Disables a specific powerup for the given player.
      * This method should handle the logic to disable the powerup effect

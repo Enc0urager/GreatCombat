@@ -95,7 +95,8 @@ public class InteractionManager implements IInteractionManager {
     private <T extends Event> void registerDynamic(Class<T> eventClass) {
         Bukkit.getPluginManager().registerEvent(
                 eventClass,
-                new Listener() {},
+                new Listener() {
+                },
                 EventPriority.HIGHEST,
                 (listener, event) -> {
                     if (eventClass == event.getClass()) {
@@ -167,8 +168,8 @@ public class InteractionManager implements IInteractionManager {
     public void registerDefaults() {
         registerMapping(EntityDamageByEntityEvent.class, newHandler(
                 "SHIELD_BLOCK",
-                e -> e.getEntity() instanceof Player && ((Player)e.getEntity()).isBlocking(),
-                e -> (Player)e.getEntity(),
+                e -> e.getEntity() instanceof Player && ((Player) e.getEntity()).isBlocking(),
+                e -> (Player) e.getEntity(),
                 e -> ((Player) e.getEntity()).getInventory().getItemInMainHand(),
                 e -> ((Player) e.getEntity()).getInventory().getItemInOffHand()));
 
@@ -234,7 +235,7 @@ public class InteractionManager implements IInteractionManager {
                 "RIPTIDE", e -> true, PlayerRiptideEvent::getPlayer, PlayerRiptideEvent::getItem));
 
         registerMapping(PlayerFishEvent.class, newHandler(
-                "FISHING",e -> true, PlayerEvent::getPlayer,
+                "FISHING", e -> true, PlayerEvent::getPlayer,
                 e -> e.getPlayer().getInventory().getItemInMainHand()));
     }
 }

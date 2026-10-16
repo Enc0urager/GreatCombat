@@ -14,8 +14,8 @@ public interface Action<C extends Context> {
     /**
      * Executes the action for the specified player with the given context.
      *
-     * @param player The player to execute the action on
-     * @param context The context containing action parameters
+     * @param player      The player to execute the action on
+     * @param context     The context containing action parameters
      * @param replacement Optional replacement values for message formatting
      */
     void execute(@NotNull Player player, @Nullable C context, @Nullable String... replacement);

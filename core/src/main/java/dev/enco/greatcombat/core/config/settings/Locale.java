@@ -45,4 +45,5 @@ public record Locale(
         String materialError,
         String langError,
         String langSuccess
-) {}
+) {
+}

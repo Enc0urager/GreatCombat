@@ -26,7 +26,7 @@ public abstract class CombatDamageEvent extends Event implements Cancellable {
      * Constructs a new CombatDamageEvent without specific damage cause.
      *
      * @param damager User who dealt damage
-     * @param target User who received damage
+     * @param target  User who received damage
      */
     public CombatDamageEvent(@NotNull IUser damager,
                              @NotNull IUser target
@@ -39,8 +39,8 @@ public abstract class CombatDamageEvent extends Event implements Cancellable {
      * Constructs a new CombatDamageEvent with specific damage cause.
      *
      * @param damager User who dealt damage
-     * @param target User who received damage
-     * @param cause Specific cause of damage
+     * @param target  User who received damage
+     * @param cause   Specific cause of damage
      */
     public CombatDamageEvent(@NotNull IUser damager,
                              @NotNull IUser target,

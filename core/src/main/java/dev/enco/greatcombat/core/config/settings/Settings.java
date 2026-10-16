@@ -16,4 +16,5 @@ public record Settings(
         long tickInterval,
         long minTime,
         ImmutableSet<EntityType> ignoredProjectile
-) {}
+) {
+}

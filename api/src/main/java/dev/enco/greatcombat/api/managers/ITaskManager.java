@@ -11,12 +11,14 @@ public interface ITaskManager extends IManager {
      * @return true if a platform is Folia, false overwise
      */
     boolean isFolia();
+
     /**
      * Returns global task scheduler based on a server platform
      *
      * @return Folia or Bukkit scheduler
      */
     @NotNull IScheduler getGlobalScheduler();
+
     /**
      * Returns entity-specific scheduler optimized for player-bound tasks.
      *

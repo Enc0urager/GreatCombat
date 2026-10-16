@@ -59,7 +59,8 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
             String rm = configManager.getMainConfig().getString("region-manager");
             RegionProvider provider = RegionProvider.valueOf(rm.toUpperCase());
             regionManager.setListener(injector.getInstance(provider.getClazz()));
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
         getManager(IInteractionManager.class).registerDefaults();
         Locale locale = configManager.getLocale();
         Logger.info(locale.onEnable());

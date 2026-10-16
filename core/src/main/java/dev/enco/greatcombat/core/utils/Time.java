@@ -7,7 +7,8 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class Time {
-    @Setter private ConfigManager configManager;
+    @Setter
+    private ConfigManager configManager;
 
     public String format(int sec) {
         TimeFormats secondsForms = configManager.getSecondsFormats();

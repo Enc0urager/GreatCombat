@@ -74,7 +74,7 @@ public class User implements IUser {
         createBossbar();
         Settings settings = configManager.getSettings();
         this.runnable = scheduler.runRepeating(() ->
-            pm.callEvent(new CombatTickEvent(User.this)),
+                        pm.callEvent(new CombatTickEvent(User.this)),
                 20L,
                 settings.tickInterval()
         );

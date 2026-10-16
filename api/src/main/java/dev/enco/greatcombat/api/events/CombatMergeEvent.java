@@ -18,7 +18,7 @@ public class CombatMergeEvent extends CombatDamageEvent {
      * Constructs a new CombatMergeEvent without specific damage cause.
      *
      * @param damager User who dealt damage
-     * @param target User who received damage
+     * @param target  User who received damage
      */
     public CombatMergeEvent(@NotNull IUser damager,
                             @NotNull IUser target
@@ -30,8 +30,8 @@ public class CombatMergeEvent extends CombatDamageEvent {
      * Constructs a new CombatMergeEvent with specific damage cause.
      *
      * @param damager User who dealt damage
-     * @param target User who received damage
-     * @param cause Specific cause of damage
+     * @param target  User who received damage
+     * @param cause   Specific cause of damage
      */
     public CombatMergeEvent(@NotNull IUser damager,
                             @NotNull IUser target,

@@ -24,8 +24,8 @@ public class CombatJoinEvent extends CombatDamageEvent {
     /**
      * Constructs a new CombatJoinEvent without specific damage cause.
      *
-     * @param damager User who dealt damage
-     * @param target User who received damage
+     * @param damager       User who dealt damage
+     * @param target        User who received damage
      * @param damagerJoiner True if damager was the joiner, false if target was the joiner
      */
     public CombatJoinEvent(@NotNull IUser damager,
@@ -39,10 +39,10 @@ public class CombatJoinEvent extends CombatDamageEvent {
     /**
      * Constructs a new CombatJoinEvent with specific damage cause.
      *
-     * @param damager User who dealt damage
-     * @param target User who received damage
+     * @param damager       User who dealt damage
+     * @param target        User who received damage
      * @param damagerJoiner True if damager was the joiner, false if target was the joiner
-     * @param cause Specific cause of damage
+     * @param cause         Specific cause of damage
      */
     public CombatJoinEvent(@NotNull IUser damager,
                            @NotNull IUser target,

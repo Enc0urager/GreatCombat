@@ -19,13 +19,19 @@ import java.text.MessageFormat;
 @UtilityClass
 public class LangUtils {
     private boolean USE_LANG_HELPER;
-    /** The TranslationManager instance */
+    /**
+     * The TranslationManager instance
+     */
     private Object manager;
 
-    /** The selected LangType */
+    /**
+     * The selected LangType
+     */
     private Object type;
 
-    /** Reflection method for getting item names */
+    /**
+     * Reflection method for getting item names
+     */
     private Method getMethod;
 
     /**
@@ -52,7 +58,7 @@ public class LangUtils {
      * Gets the translated name for an item.
      *
      * @param translation the custom translation string (can be null or empty)
-     * @param item the ItemStack to translate
+     * @param item        the ItemStack to translate
      * @return the translated item name, or custom translation if provided
      */
     public String getTranslation(String translation, ItemStack item) {
@@ -60,7 +66,9 @@ public class LangUtils {
         if (translation != null && !translation.isEmpty()) return translation;
         try {
             return (String) getMethod.invoke(manager, item, type);
-        } catch (Exception ignored) { return translation; }
+        } catch (Exception ignored) {
+            return translation;
+        }
     }
 
     /**

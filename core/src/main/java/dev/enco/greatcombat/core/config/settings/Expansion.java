@@ -5,4 +5,5 @@ public record Expansion(
         String boolTrue,
         String boolFalse,
         String delimiter
-) {}
+) {
+}

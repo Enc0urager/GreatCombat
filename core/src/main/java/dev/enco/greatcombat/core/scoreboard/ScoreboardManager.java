@@ -109,10 +109,11 @@ public class ScoreboardManager implements IScoreboardManager {
      */
     private List<String> getLines(IUser user, String time) {
         Scoreboard boardSettings = configManager.getScoreboard();
-        List<String> replaced = new ArrayList<>();
+        List<String> replaced = new ArrayList<>(boardSettings.lines().size());
         for (String line : boardSettings.lines()) {
-            if (line.contains("{opponents}")) replaced.addAll(getOpponents(user));
-            else {
+            if (line.contains("{opponents}")) {
+                replaced.addAll(getOpponents(user));
+            } else {
                 replaced.add(Placeholders.replace(user.asPlayer(), line.replace("{time}", time)));
             }
         }
@@ -130,7 +131,9 @@ public class ScoreboardManager implements IScoreboardManager {
         Scoreboard boardSettings = configManager.getScoreboard();
         List<String> opponentsList = new ArrayList<>();
         Set<IUser> opponents = user.getOpponents();
-        if (opponents.isEmpty()) opponentsList.add(boardSettings.empty());
+        if (opponents.isEmpty()) {
+            opponentsList.add(boardSettings.empty());
+        }
         for (IUser opponent : opponents) {
             opponentsList.add(Placeholders.replaceInBoard(opponent.asPlayer(), boardSettings.opponent()));
         }

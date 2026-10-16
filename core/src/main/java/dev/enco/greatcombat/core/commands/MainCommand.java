@@ -44,8 +44,9 @@ public class MainCommand implements TabExecutor {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!sender.hasPermission("greatcombat.admin")) return null;
         if (args.length == 1) {
-            List<String> result = new ArrayList<>();
-            for (CommandArg cmd : CommandArg.values()) result.add(cmd.name().toLowerCase());
+            CommandArg[] values = CommandArg.values();
+            List<String> result = new ArrayList<>(values.length);
+            for (CommandArg cmd : values) result.add(cmd.name().toLowerCase());
             return result;
         }
         try {

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class BroadcastActionBarAction implements Action<StringContext> {
     @Override
     public void execute(@NotNull Player player, StringContext context, String... replacement) {
-        String message = Placeholders.replaceInMessage(player, context.string(), (Object[]) replacement);
+        String message = Placeholders.replaceInMessage(player, context.string(), replacement);
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendActionBar(message);
         }

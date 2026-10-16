@@ -29,7 +29,7 @@ public class Placeholders {
      * @return The string with all placeholders replaced and colorized
      */
     public String replaceInBoard(Player player, String s) {
-        return replaceInMessage(player, s, player.getName(), df.format(player.getHealth()), player.getPing());
+        return replaceInMessage(player, s, player.getName(), df.format(player.getHealth()), Integer.toString(player.getPing()));
     }
 
     /**
@@ -41,7 +41,7 @@ public class Placeholders {
      * @param replacement Variable arguments for message formatting
      * @return The formatted string with all placeholders replaced and colorized
      */
-    public String replaceInMessage(Player player, String s, Object... replacement) {
+    public String replaceInMessage(Player player, String s, String... replacement) {
         return replace(player, parseLocals(s, replacement));
     }
 
@@ -68,7 +68,7 @@ public class Placeholders {
      * @param replacement The arguments to replace
      * @return The string with local placeholders replaced
      */
-    public String parseLocals(String text, Object... replacement) {
+    public String parseLocals(String text, String... replacement) {
         if (text == null || replacement == null || replacement.length == 0) return text;
 
         int length = text.length();

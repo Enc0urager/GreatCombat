@@ -10,8 +10,8 @@ import org.jetbrains.annotations.NotNull;
 public class BroadcastTitleAction implements Action<TitleContext> {
     @Override
     public void execute(@NotNull Player player, TitleContext context, String... replacement) {
-        String title = Placeholders.replaceInMessage(player, context.title(), (Object[]) replacement);
-        String subtitle = Placeholders.replaceInMessage(player, context.subtitle(), (Object[]) replacement);
+        String title = Placeholders.replaceInMessage(player, context.title(), replacement);
+        String subtitle = Placeholders.replaceInMessage(player, context.subtitle(), replacement);
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendTitle(title, subtitle, context.fadeIn(), context.fadeIn(), context.fadeOut());
         }

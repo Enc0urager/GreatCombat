@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
 public class TitleAction implements Action<TitleContext> {
     @Override
     public void execute(@NotNull Player player, TitleContext context, String... replacement) {
-        player.sendTitle(Placeholders.replaceInMessage(player, context.title(), (Object[]) replacement),
-                Placeholders.replaceInMessage(player, context.subtitle(), (Object[]) replacement),
+        player.sendTitle(Placeholders.replaceInMessage(player, context.title(), replacement),
+                Placeholders.replaceInMessage(player, context.subtitle(), replacement),
                 context.fadeIn(), context.fadeIn(), context.fadeOut());
     }
 }

@@ -9,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerAction implements Action<StringContext> {
     @Override
     public void execute(@NotNull Player player, StringContext context, String... replacement) {
-        player.chat(Placeholders.replaceInMessage(player, context.string(), (Object[]) replacement));
+        player.chat(Placeholders.replaceInMessage(player, context.string(), replacement));
     }
 }

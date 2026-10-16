@@ -10,6 +10,6 @@ import org.jetbrains.annotations.NotNull;
 public class ConsoleAction implements Action<StringContext> {
     @Override
     public void execute(@NotNull Player player, StringContext context, String... replacement) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Placeholders.replaceInMessage(player, context.string(), (Object[]) replacement));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Placeholders.replaceInMessage(player, context.string(), replacement));
     }
 }

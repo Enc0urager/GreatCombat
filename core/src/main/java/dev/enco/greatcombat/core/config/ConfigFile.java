@@ -63,9 +63,9 @@ public class ConfigFile {
 
     @SneakyThrows
     public void update() {
-        Integer ver = fileConfiguration.getInt("config-version");
+        int ver = fileConfiguration.getInt("config-version");
         int latest = versions.get(name);
-        if (ver == null || ver < latest) {
+        if (ver < latest) {
             InputStream def = plugin.getResource(filePath);
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(
                     new InputStreamReader(def, StandardCharsets.UTF_8));
@@ -78,7 +78,7 @@ public class ConfigFile {
                 }
             }
 
-            if (name.equals("config") && (ver == null || ver < 4)) {
+            if (name.equals("config") && ver < 4) {
                 if (fileConfiguration.isList("commands.commands")) {
                     List<?> list = fileConfiguration.getList("commands.commands");
                     if (list != null && !list.isEmpty()) {

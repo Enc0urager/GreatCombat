@@ -5,6 +5,8 @@ import dev.enco.greatcombat.core.config.settings.TimeFormats;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
 
+import java.time.format.DecimalStyle;
+
 @UtilityClass
 public class Time {
     @Setter
@@ -29,8 +31,17 @@ public class Time {
     }
 
     private void appendTimeUnit(StringBuilder sb, int value, String form1, String form3, String form5) {
-        if (value > 0)
-            sb.append(String.format("%d %s ", value, getCorrectForm(value, form1, form3, form5))); // Это пиздец.
+        if (value > 0) {
+            int start = sb.length();
+            sb.append(value);
+            char zeroDigit = DecimalStyle.ofDefaultLocale().getZeroDigit();
+            if (zeroDigit != '0') {
+                for (int i = start; i < sb.length(); i++) {
+                    sb.setCharAt(i, (char) (sb.charAt(i) + zeroDigit - '0'));
+                }
+            }
+            sb.append(' ').append(getCorrectForm(value, form1, form3, form5)).append(' ');
+        }
     }
 
     private String getCorrectForm(int value, String form1, String form3, String form5) {

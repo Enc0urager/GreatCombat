@@ -21,7 +21,9 @@ public class MainCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!sender.hasPermission("greatcombat.admin")) return true;
+        if (!sender.hasPermission("greatcombat.admin")) {
+            return true;
+        }
         if (args.length < 1) {
             sendHelpMessage(sender);
             return true;
@@ -37,16 +39,22 @@ public class MainCommand implements TabExecutor {
 
     private void sendHelpMessage(CommandSender sender) {
         final Locale locale = configManager.getLocale();
-        for (String s : locale.commandHelp()) sender.sendMessage(s);
+        for (String s : locale.commandHelp()) {
+            sender.sendMessage(s);
+        }
     }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (!sender.hasPermission("greatcombat.admin")) return null;
+        if (!sender.hasPermission("greatcombat.admin")) {
+            return null;
+        }
         if (args.length == 1) {
             CommandArg[] values = CommandArg.values();
             List<String> result = new ArrayList<>(values.length);
-            for (CommandArg cmd : values) result.add(cmd.name().toLowerCase());
+            for (CommandArg cmd : values) {
+                result.add(cmd.name().toLowerCase());
+            }
             return result;
         }
         try {

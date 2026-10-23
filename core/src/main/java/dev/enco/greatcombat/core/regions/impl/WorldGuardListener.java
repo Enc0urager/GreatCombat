@@ -26,7 +26,9 @@ public class WorldGuardListener implements IRegionListener {
 
     @EventHandler
     public void listen(WrappedDisallowedPVPEvent e) {
-        if (!configManager.getRegionWorlds().contains(e.getAttacker().getWorld().getName())) return;
+        if (!configManager.getRegionWorlds().contains(e.getAttacker().getWorld().getName())) {
+            return;
+        }
         boolean damagerInCombat = combatManager.isInCombat(e.getAttacker().getUniqueId());
         boolean targetInCombat = combatManager.isInCombat(e.getDefender().getUniqueId());
 

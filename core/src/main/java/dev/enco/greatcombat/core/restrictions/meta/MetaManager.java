@@ -23,11 +23,13 @@ public class MetaManager implements IMetaManager {
     }
 
     private void registerDefaults(ConfigManager configManager) {
-        for (DefaultCheckers meta : DefaultCheckers.values())
+        for (DefaultCheckers meta : DefaultCheckers.values()) {
             registerChecker(meta.name(), meta);
+        }
 
-        for (String name : configManager.getCheckers())
+        for (String name : configManager.getCheckers()) {
             registerChecker(name, null);
+        }
     }
 
     @Override
@@ -44,10 +46,16 @@ public class MetaManager implements IMetaManager {
     public boolean isSimilar(@NotNull IWrappedItem f, @NotNull IWrappedItem s, MetaChecker[] checkedMetas) {
         for (MetaChecker checker : checkedMetas) {
             if (checker.requiresMeta()) {
-                if (f.hasMeta() != s.hasMeta()) return false;
-                if (!f.hasMeta()) continue;
+                if (f.hasMeta() != s.hasMeta()) {
+                    return false;
+                }
+                if (!f.hasMeta()) {
+                    continue;
+                }
             }
-            if (!checker.matches(f, s)) return false;
+            if (!checker.matches(f, s)) {
+                return false;
+            }
         }
         return true;
     }

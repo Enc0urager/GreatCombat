@@ -24,8 +24,9 @@ public class ActionMap {
             ActionType type = types[i];
             Context[] typeContexts = contexts[i];
             Action<Context> action = type.getAction();
-            for (Context context : typeContexts)
+            for (Context context : typeContexts) {
                 action.execute(player, context, replacements);
+            }
         }
     }
 }

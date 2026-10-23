@@ -33,7 +33,9 @@ public final class GreatCombatProvider {
      * @throws IllegalStateException if the plugin has not been initialized yet
      */
     public static @NotNull GreatCombatPlugin getPlugin() {
-        if (!isLoaded()) throw new IllegalStateException("GreatCombat isn't loaded yet!");
+        if (!isLoaded()) {
+            throw new IllegalStateException("GreatCombat isn't loaded yet!");
+        }
         return plugin;
     }
 
@@ -44,7 +46,9 @@ public final class GreatCombatProvider {
      * @throws IllegalStateException if the plugin has already been initialized
      */
     public static void setPlugin(GreatCombatPlugin pl) {
-        if (isLoaded()) throw new IllegalStateException("GreatCombat is already loaded!");
+        if (isLoaded()) {
+            throw new IllegalStateException("GreatCombat is already loaded!");
+        }
         plugin = pl;
     }
 }

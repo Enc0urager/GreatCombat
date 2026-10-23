@@ -40,7 +40,9 @@ public class CombatManager implements ICombatManager {
             user.deleteBossbar();
             scoreboardManager.resetScoreboard(user);
             WrappedTask<?> runnable = user.getRunnable();
-            if (runnable != null) runnable.cancel();
+            if (runnable != null) {
+                runnable.cancel();
+            }
         }
         playersInCombat.clear();
     }
@@ -85,7 +87,9 @@ public class CombatManager implements ICombatManager {
      */
     @Override
     public void startCombat(@NotNull Player damager, @NotNull Player target) {
-        if (damager == target) return;
+        if (damager == target) {
+            return;
+        }
 
         UUID damagerUUID = damager.getUniqueId();
         UUID targetUUID = target.getUniqueId();
@@ -96,8 +100,12 @@ public class CombatManager implements ICombatManager {
         boolean isDamagerInCombat = damagerUser != null;
         boolean isTargetInCombat = targetUser != null;
 
-        if (!isDamagerInCombat) damagerUser = getOrCreateUser(damagerUUID);
-        if (!isTargetInCombat) targetUser = getOrCreateUser(targetUUID);
+        if (!isDamagerInCombat) {
+            damagerUser = getOrCreateUser(damagerUUID);
+        }
+        if (!isTargetInCombat) {
+            targetUser = getOrCreateUser(targetUUID);
+        }
 
         boolean alreadyOpponents = damagerUser.containsOpponent(targetUser);
 
@@ -105,8 +113,12 @@ public class CombatManager implements ICombatManager {
             CombatPreStartEvent preStartEvent = new CombatPreStartEvent(damager, target);
             pm.callEvent(preStartEvent);
             if (preStartEvent.isCancelled()) {
-                if (!isDamagerInCombat) removeFromCombatMap(damagerUser);
-                if (!isTargetInCombat) removeFromCombatMap(targetUser);
+                if (!isDamagerInCombat) {
+                    removeFromCombatMap(damagerUser);
+                }
+                if (!isTargetInCombat) {
+                    removeFromCombatMap(targetUser);
+                }
                 return;
             }
         }
@@ -152,7 +164,9 @@ public class CombatManager implements ICombatManager {
     @Override
     public @NotNull IUser getOrCreateUser(@NotNull UUID uuid) {
         IUser user = getUser(uuid);
-        if (user != null) return user;
+        if (user != null) {
+            return user;
+        }
         Player player = Bukkit.getPlayer(uuid);
         User u = new User(
                 player,

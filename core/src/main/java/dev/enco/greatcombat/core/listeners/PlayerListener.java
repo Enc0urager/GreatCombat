@@ -55,20 +55,31 @@ public class PlayerListener implements Listener {
             }
         } else if (e.getEntity() instanceof EnderCrystal crystal) {
             Player exploder = getDamager(e.getDamager());
-            if (exploder != null)
+            if (exploder != null) {
                 crystal.setMetadata("exploder", new FixedMetadataValue(plugin, exploder.getUniqueId()));
+            }
         }
     }
 
     private Player getDamager(Entity damager) { // Screw you legacy shit, when I'll move to java 21 I'll kill you, I promise!
         Settings settings = configManager.getSettings();
-        if (damager instanceof Player pl) return pl;
-        if (damager instanceof Projectile pr && pr.getShooter() instanceof Player pl)
-            if (!settings.ignoredProjectile().contains(damager.getType())) return pl;
-        if (damager instanceof AreaEffectCloud cl && cl.getSource() instanceof Player pl) return pl;
-        if (damager instanceof TNTPrimed tnt && tnt.getSource() instanceof Player pl) return pl;
-        if (damager instanceof EnderCrystal crystal && crystal.hasMetadata("exploder"))
+        if (damager instanceof Player pl) {
+            return pl;
+        }
+        if (damager instanceof Projectile pr && pr.getShooter() instanceof Player pl) {
+            if (!settings.ignoredProjectile().contains(damager.getType())) {
+                return pl;
+            }
+        }
+        if (damager instanceof AreaEffectCloud cl && cl.getSource() instanceof Player pl) {
+            return pl;
+        }
+        if (damager instanceof TNTPrimed tnt && tnt.getSource() instanceof Player pl) {
+            return pl;
+        }
+        if (damager instanceof EnderCrystal crystal && crystal.hasMetadata("exploder")) {
             return Bukkit.getPlayer((UUID) crystal.getMetadata("exploder").get(0).value());
+        }
         return null;
     }
 
@@ -97,7 +108,9 @@ public class PlayerListener implements Listener {
     )
     public void onPreprocess(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
-        if (player.hasPermission("greatcombat.commands.bypass")) return;
+        if (player.hasPermission("greatcombat.commands.bypass")) {
+            return;
+        }
         handlePlayerCommand(player, e.getMessage(), e);
         UUID uuid = player.getUniqueId();
         Commands commands = configManager.getCommands();
@@ -110,11 +123,15 @@ public class PlayerListener implements Listener {
             boolean match = matchSubcommands(command, subCommand, commands);
             switch (commands.changeType()) {
                 case BLACKLIST: {
-                    if (match) cancel = true;
+                    if (match) {
+                        cancel = true;
+                    }
                     break;
                 }
                 case WHITELIST: {
-                    if (!match) cancel = true;
+                    if (!match) {
+                        cancel = true;
+                    }
                     break;
                 }
             }
@@ -128,9 +145,15 @@ public class PlayerListener implements Listener {
     private boolean matchSubcommands(String command, String subCommand, Commands commands) {
         Map<String, Set<String>> cmds = commands.commands();
         Set<String> subCmds = cmds.get(command);
-        if (subCmds == null) return false;
-        if (subCmds.isEmpty()) return true;
-        if (subCommand == null) return false;
+        if (subCmds == null) {
+            return false;
+        }
+        if (subCmds.isEmpty()) {
+            return true;
+        }
+        if (subCommand == null) {
+            return false;
+        }
         return subCmds.contains(subCommand);
     }
 
@@ -156,10 +179,16 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTeleport(PlayerTeleportEvent e) {
         Settings settings = configManager.getSettings();
-        if (settings.allowedTpCause().contains(e.getCause())) return;
+        if (settings.allowedTpCause().contains(e.getCause())) {
+            return;
+        }
         Player player = e.getPlayer();
-        if (player.hasPermission("greatcombat.teleports.bypass")) return;
-        if (!combatManager.isInCombat(player.getUniqueId())) return;
+        if (player.hasPermission("greatcombat.teleports.bypass")) {
+            return;
+        }
+        if (!combatManager.isInCombat(player.getUniqueId())) {
+            return;
+        }
         e.setCancelled(true);
     }
 
@@ -168,7 +197,9 @@ public class PlayerListener implements Listener {
     )
     public void onSend(PlayerCommandSendEvent e) {
         Player player = e.getPlayer();
-        if (player.hasPermission("greatcombat.commands.bypass")) return;
+        if (player.hasPermission("greatcombat.commands.bypass")) {
+            return;
+        }
         UUID uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             Commands commands = configManager.getCommands();
@@ -206,14 +237,20 @@ public class PlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onHeld(PlayerItemHeldEvent e) {
         ActionMap actionMap = configManager.getMessages().onItemHeld();
-        if (actionMap.isEmpty()) return;
+        if (actionMap.isEmpty()) {
+            return;
+        }
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         if (combatManager.isInCombat(uuid)) {
             ItemStack is = player.getInventory().getItem(e.getNewSlot());
-            if (is == null) return;
+            if (is == null) {
+                return;
+            }
             ICooldownItem item = cooldownManager.getCooldownItem(is);
-            if (item == null) return;
+            if (item == null) {
+                return;
+            }
             if (cooldownManager.hasCooldown(uuid, item)) {
                 actionMap.execute(
                         player,
@@ -228,11 +265,21 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onGlide(EntityToggleGlideEvent e) {
-        if (configManager.isElytraGlideAllowed()) return;
-        if (!(e.getEntity() instanceof Player player)) return;
-        if (player.hasPermission("greatcombat.glide.bypass")) return;
+        if (configManager.isElytraGlideAllowed()) {
+            return;
+        }
+        if (!(e.getEntity() instanceof Player player)) {
+            return;
+        }
+        if (player.hasPermission("greatcombat.glide.bypass")) {
+            return;
+        }
         ItemStack chestplate = player.getInventory().getChestplate();
-        if (chestplate == null || chestplate.getType() != Material.ELYTRA) return;
-        if (combatManager.isInCombat(player.getUniqueId())) e.setCancelled(true);
+        if (chestplate == null || chestplate.getType() != Material.ELYTRA) {
+            return;
+        }
+        if (combatManager.isInCombat(player.getUniqueId())) {
+            e.setCancelled(true);
+        }
     }
 }

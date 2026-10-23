@@ -69,11 +69,15 @@ public class Placeholders {
      * @return The string with local placeholders replaced
      */
     public String parseLocals(String text, String... replacement) {
-        if (text == null || replacement == null || replacement.length == 0) return text;
+        if (text == null || replacement == null || replacement.length == 0) {
+            return text;
+        }
 
         int length = text.length();
         int rLength = replacement.length;
-        if (length < 3) return text;
+        if (length < 3) {
+            return text;
+        }
 
         int argIndex = 0;
         StringBuilder result = new StringBuilder(length + 16);
@@ -92,7 +96,9 @@ public class Placeholders {
 
                 if (index < rLength) {
                     result.append(replacement[index]);
-                    if (start == end) argIndex++;
+                    if (start == end) {
+                        argIndex++;
+                    }
                 } else {
                     result.append(text, i, end + 1);
                 }
@@ -116,7 +122,9 @@ public class Placeholders {
      */
     private int findClosing(String text, int from) {
         for (int i = from; i < text.length(); i++) {
-            if (text.charAt(i) == '}') return i;
+            if (text.charAt(i) == '}') {
+                return i;
+            }
         }
         return -1;
     }
@@ -132,12 +140,16 @@ public class Placeholders {
      * @return The resolved argument index
      */
     private int resolveIndex(String text, int start, int end, int fallback) {
-        if (start == end) return fallback;
+        if (start == end) {
+            return fallback;
+        }
 
         int value = 0;
         for (int i = start; i < end; i++) {
             char c = text.charAt(i);
-            if (c < '0' || c > '9') return fallback;
+            if (c < '0' || c > '9') {
+                return fallback;
+            }
             value = value * 10 + (c - '0');
         }
 

@@ -71,7 +71,9 @@ public class ConfigFile {
                     new InputStreamReader(def, StandardCharsets.UTF_8));
 
             for (String key : defConfig.getKeys(true)) {
-                if (IGNORED.contains(key.split("\\.")[0])) continue;
+                if (IGNORED.contains(key.split("\\.")[0])) {
+                    continue;
+                }
                 if (!fileConfiguration.contains(key)) {
                     Object val = defConfig.get(key);
                     fileConfiguration.set(key, val);

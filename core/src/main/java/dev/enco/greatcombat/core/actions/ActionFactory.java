@@ -37,7 +37,9 @@ public class ActionFactory {
      * @return Immutable map of ActionType to list of validated Contexts
      */
     public ActionMap from(Locale locale, List<String> settings) {
-        if (settings == null || settings.isEmpty()) return ActionMap.EMPTY;
+        if (settings == null || settings.isEmpty()) {
+            return ActionMap.EMPTY;
+        }
         Map<ActionType, List<Context>> actions = new EnumMap<>(ActionType.class);
         for (String s : settings) {
             Matcher matcher = ACTION_PATTERN.matcher(s);
@@ -60,7 +62,9 @@ public class ActionFactory {
             BiFunction<String, Locale, ? extends Context> validator =
                     VALIDATORS.get(type.getContextType());
             Context context = validator.apply(contextStr, locale);
-            if (context != null) contexts.add(context);
+            if (context != null) {
+                contexts.add(context);
+            }
         }
 
         ActionType[] types = new ActionType[actions.size()];

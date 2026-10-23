@@ -51,7 +51,9 @@ public class TaskManager implements ITaskManager {
      */
     @Override
     public @NotNull IScheduler getEntityScheduler(@NotNull Player player) {
-        if (IS_FOLIA) return new EntityScheduler(plugin, player);
+        if (IS_FOLIA) {
+            return new EntityScheduler(plugin, player);
+        }
         return globalScheduler;
     }
 }

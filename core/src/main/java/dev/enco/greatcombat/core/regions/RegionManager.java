@@ -16,8 +16,12 @@ public class RegionManager implements IRegionManager {
 
     @Override
     public void setListener(@NotNull IRegionListener listener) {
-        if (listener == null) throw new IllegalArgumentException("IRegionListener cannot be null");
-        if (this.listener != null) this.listener.unregisterListener();
+        if (listener == null) {
+            throw new IllegalArgumentException("IRegionListener cannot be null");
+        }
+        if (this.listener != null) {
+            this.listener.unregisterListener();
+        }
         this.listener = listener;
         listener.registerListener(plugin);
     }

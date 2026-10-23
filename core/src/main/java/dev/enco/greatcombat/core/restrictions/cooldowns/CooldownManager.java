@@ -51,9 +51,11 @@ public class CooldownManager implements ICooldownManager {
 
     @Override
     public ICooldownItem getCooldownItem(@NotNull IWrappedItem wrapped) {
-        for (ICooldownItem item : itemsCooldowns.keySet())
-            if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
+        for (ICooldownItem item : itemsCooldowns.keySet()) {
+            if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas())) {
                 return item;
+            }
+        }
         return null;
     }
 
@@ -95,7 +97,9 @@ public class CooldownManager implements ICooldownManager {
                     .removalListener(((k, v, cause) -> {
                         if (cause == RemovalCause.EXPIRED) {
                             Player player = Bukkit.getPlayer((UUID) k);
-                            if (player == null || !player.isOnline()) return;
+                            if (player == null || !player.isOnline()) {
+                                return;
+                            }
                             configManager.getMessages().onCooldownExpired().execute(player, translation);
                         }
                     }))
@@ -120,17 +124,20 @@ public class CooldownManager implements ICooldownManager {
     @Override
     public void putCooldown(@NotNull UUID playerUUID, @NotNull Player player, @NotNull ICooldownItem item) {
         setCooldown(playerUUID, player, item);
-        for (String id : item.linkedItems()) setCooldown(playerUUID, player, idsRefs.get(id));
+        for (String id : item.linkedItems()) {
+            setCooldown(playerUUID, player, idsRefs.get(id));
+        }
     }
 
     private void setCooldown(UUID playerUUID, Player player, ICooldownItem item) {
         itemsCooldowns.get(item).put(playerUUID, System.currentTimeMillis());
-        if (item.setMaterialCooldown())
+        if (item.setMaterialCooldown()) {
             taskManager.getGlobalScheduler().runLater(() ->
                     player.setCooldown(
                             item.wrappedItem().itemStack().getType(), item.time() * 20
                     ), 1L
             );
+        }
     }
 
     @Override

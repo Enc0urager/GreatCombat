@@ -42,9 +42,11 @@ public class PreventionManager implements IPreventionManager {
 
     @Override
     public IPreventableItem getPreventableItem(@NotNull IWrappedItem wrapped) {
-        for (IPreventableItem item : preventableItems)
-            if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas()))
+        for (IPreventableItem item : preventableItems) {
+            if (metaManager.isSimilar(item.wrappedItem(), wrapped, item.checkedMetas())) {
                 return item;
+            }
+        }
         return null;
     }
 

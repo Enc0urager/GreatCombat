@@ -72,7 +72,9 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
                 if (getDescription().getVersion().equals(version)) {
                     Logger.info(locale.updatesNotFound());
                 } else {
-                    for (String s : locale.updatesFound()) Logger.info(s);
+                    for (String s : locale.updatesFound()) {
+                        Logger.info(s);
+                    }
                 }
             }), 30L);
         }
@@ -81,7 +83,9 @@ public final class GreatCombat extends JavaPlugin implements GreatCombatPlugin {
 
     @Override
     public void onDisable() {
-        if (combatManager != null) combatManager.stop();
+        if (combatManager != null) {
+            combatManager.stop();
+        }
         Locale locale = configManager.getLocale();
         if (locale != null) {
             Logger.info(locale.onDisable());

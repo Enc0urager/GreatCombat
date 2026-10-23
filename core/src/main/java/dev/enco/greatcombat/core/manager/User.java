@@ -41,7 +41,9 @@ public class User implements IUser {
     public @NotNull String getOpponentsFormatted(@NotNull String delimiter) {
         StringBuilder sb = new StringBuilder();
         for (IUser u : opponents) {
-            if (!sb.isEmpty()) sb.append(delimiter);
+            if (!sb.isEmpty()) {
+                sb.append(delimiter);
+            }
             sb.append(u.asPlayer().getName());
         }
         return sb.toString();
@@ -62,7 +64,9 @@ public class User implements IUser {
      */
     @Override
     public void removeFromOpponentsMaps() {
-        for (IUser user : opponents) user.removeOpponent(this);
+        for (IUser user : opponents) {
+            user.removeOpponent(this);
+        }
     }
 
     /**
@@ -89,7 +93,9 @@ public class User implements IUser {
     @Override
     public void refresh(long start) {
         this.startPvpTime = start;
-        if (this.runnable != null) runnable.cancel();
+        if (this.runnable != null) {
+            runnable.cancel();
+        }
         deleteBossbar();
         startTimer();
     }
@@ -197,7 +203,9 @@ public class User implements IUser {
      */
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof IUser user)) return false;
+        if (!(other instanceof IUser user)) {
+            return false;
+        }
         return user.getPlayerUUID().equals(this.getPlayerUUID());
     }
 

@@ -75,8 +75,9 @@ public class ItemUtils {
         if (!over.isEmpty()) {
             World world = player.getWorld();
             Location location = player.getLocation();
-            for (ItemStack stack : over.values())
+            for (ItemStack stack : over.values()) {
                 world.dropItemNaturally(location, stack);
+            }
         }
     }
 
@@ -103,8 +104,12 @@ public class ItemUtils {
     public void backItems(Player player) {
         UUID uuid = player.getUniqueId();
         EnumMap<Material, ItemStack[]> matMap = stored.get(uuid);
-        if (matMap == null) return;
-        for (ItemStack[] i : matMap.values()) giveOrDrop(player, i);
+        if (matMap == null) {
+            return;
+        }
+        for (ItemStack[] i : matMap.values()) {
+            giveOrDrop(player, i);
+        }
         stored.remove(uuid);
     }
 }

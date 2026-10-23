@@ -70,7 +70,9 @@ public class ConfigManager {
         LangUtils.setup(this);
         Time.setConfigManager(this);
         ConfigurationSection colorizerSection = mainConfig.getConfigurationSection("colorizer");
-        if (colorizerSection == null) mainConfig.createSection("colorizer");
+        if (colorizerSection == null) {
+            mainConfig.createSection("colorizer");
+        }
         Colorizer.setColorizer(mainConfig.getString("colorizer", "LEGACY"));
         setupScoreboard();
         FileConfiguration messagesConfig = FilesHandler.getConfigFile("messages").get();
@@ -101,7 +103,9 @@ public class ConfigManager {
     public void checkAndCreateLangFiles() {
         File languageFile = new File(plugin.getDataFolder(), "locale.yml");
         boolean firstLoad = !languageFile.exists();
-        if (firstLoad) plugin.saveResource("locale.yml", false);
+        if (firstLoad) {
+            plugin.saveResource("locale.yml", false);
+        }
         FileConfiguration langConfig = YamlConfiguration.loadConfiguration(languageFile);
         if (firstLoad) {
             if (isRussian()) {

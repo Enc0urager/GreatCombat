@@ -10,7 +10,9 @@ public class FilesHandler {
     private final List<ConfigFile> configFiles = new ArrayList<>();
 
     public void reloadAll() {
-        for (ConfigFile file : configFiles) file.reload();
+        for (ConfigFile file : configFiles) {
+            file.reload();
+        }
     }
 
     public void addConfigFile2List(ConfigFile configFile) {

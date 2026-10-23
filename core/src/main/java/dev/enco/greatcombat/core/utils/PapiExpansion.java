@@ -54,28 +54,38 @@ public class PapiExpansion extends PlaceholderExpansion {
                 args = Arrays.copyOfRange(args, 2, args.length);
             }
 
-            // Я думаю, что тут точно можно что-то ускорить, но я не знаю что
             switch (args[0]) {
                 case "time": {
                     int sec = (int) (user.getRemaining() / 1000L);
-                    if (args.length == 1)
+                    if (args.length == 1) {
                         return String.valueOf(sec);
-
-                    if (args[1].equals("formatted"))
+                    }
+                    if (args[1].equals("formatted")) {
                         return Time.format(sec);
+                    }
                 }
                 case "in": {
                     boolean bool = combatManager.isInCombat(uuid);
-                    if (args.length == 1) return String.valueOf(bool);
-                    if (args[1].equals("formatted")) return bool ? expansion.boolTrue() : expansion.boolFalse();
+                    if (args.length == 1) {
+                        return String.valueOf(bool);
+                    }
+                    if (args[1].equals("formatted")) {
+                        return bool ? expansion.boolTrue() : expansion.boolFalse();
+                    }
                 }
                 case "opponents": {
-                    if (args.length == 1) return user.getOpponentsFormatted(expansion.delimiter());
+                    if (args.length == 1) {
+                        return user.getOpponentsFormatted(expansion.delimiter());
+                    }
                     if (args[1].equals("contains")) {
                         IUser opponent = combatManager.getUser(Bukkit.getPlayer(args[2]).getUniqueId());
                         boolean bool = user.containsOpponent(opponent);
-                        if (args.length == 3) return String.valueOf(bool);
-                        if (args[3].equals("formatted")) return bool ? expansion.boolTrue() : expansion.boolFalse();
+                        if (args.length == 3) {
+                            return String.valueOf(bool);
+                        }
+                        if (args[3].equals("formatted")) {
+                            return bool ? expansion.boolTrue() : expansion.boolFalse();
+                        }
                     }
                 }
             }

@@ -41,7 +41,9 @@ public class LangUtils { // Покумекать с бумычем по пово
         Locale locale = configManager.getLocale();
         FileConfiguration config = configManager.getMainConfig();
         USE_LANG_HELPER = config.getBoolean("use-lang-helper");
-        if (!USE_LANG_HELPER) return;
+        if (!USE_LANG_HELPER) {
+            return;
+        }
         try {
             String lang = config.getString("helper-lang");
             manager = LangHelper.getInstance().getTranslateManager();
@@ -62,8 +64,12 @@ public class LangUtils { // Покумекать с бумычем по пово
      * @return the translated item name, or custom translation if provided
      */
     public String getTranslation(String translation, ItemStack item) {
-        if (!USE_LANG_HELPER) return translation;
-        if (translation != null && !translation.isEmpty()) return translation;
+        if (!USE_LANG_HELPER) {
+            return translation;
+        }
+        if (translation != null && !translation.isEmpty()) {
+            return translation;
+        }
         try {
             return (String) getMethod.invoke(manager, item, type);
         } catch (Exception ignored) {
@@ -77,7 +83,8 @@ public class LangUtils { // Покумекать с бумычем по пово
      * @param bool if true, forces shutdown LangHelper plugin
      */
     public void shutdown(boolean bool) {
-        if (USE_LANG_HELPER && bool)
+        if (USE_LANG_HELPER && bool) {
             Bukkit.getPluginManager().disablePlugin(LangHelper.getInstance());
+        }
     }
 }

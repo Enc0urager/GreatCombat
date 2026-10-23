@@ -32,7 +32,9 @@ public class LandsListener implements IRegionListener {
 
     @EventHandler
     public void listenEnter(PlayerAreaEnterEvent e) {
-        if (!configManager.getRegionWorlds().contains(e.getLandPlayer().getPlayer().getWorld().getName())) return;
+        if (!configManager.getRegionWorlds().contains(e.getLandPlayer().getPlayer().getWorld().getName())) {
+            return;
+        }
         Area area = e.getArea();
         LandPlayer landPlayer = e.getLandPlayer();
         Player player = landPlayer.getPlayer();

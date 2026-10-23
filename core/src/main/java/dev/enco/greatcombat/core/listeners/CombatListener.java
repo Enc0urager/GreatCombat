@@ -46,8 +46,9 @@ public class CombatListener implements Listener {
 
         Powerups powerups = configManager.getPowerups();
         if (powerupsManager.hasPowerups(damager, powerups.preventableDamagerPowerups())
-                || powerupsManager.hasPowerups(target, powerups.preventableTargetPowerups()))
+                || powerupsManager.hasPowerups(target, powerups.preventableTargetPowerups())) {
             e.setCancelled(true);
+        }
     }
 
     @EventHandler(
@@ -134,7 +135,9 @@ public class CombatListener implements Listener {
     public void onEndCombat(CombatEndEvent e) {
         IUser user = e.getUser();
         WrappedTask<?> runnable = user.getRunnable();
-        if (runnable != null) runnable.cancel();
+        if (runnable != null) {
+            runnable.cancel();
+        }
         user.removeFromOpponentsMaps();
         user.deleteBossbar();
         scoreboardManager.resetScoreboard(user);
@@ -186,7 +189,9 @@ public class CombatListener implements Listener {
         long remainingTime = user.getRemaining();
         Messages messages = configManager.getMessages();
         Settings settings = configManager.getSettings();
-        if (remainingTime < settings.minTime()) combatManager.stopCombat(user);
+        if (remainingTime < settings.minTime()) {
+            combatManager.stopCombat(user);
+        }
         else {
             messages.onTick().execute(user.asPlayer(), Time.format((int) (remainingTime / 1000L)));
             user.updateBoardAndBar(remainingTime);

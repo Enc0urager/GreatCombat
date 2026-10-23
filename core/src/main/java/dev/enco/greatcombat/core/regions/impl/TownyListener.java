@@ -15,13 +15,16 @@ public class TownyListener implements IRegionListener {
 
     @EventHandler
     public void listen(TownyPlayerDamagePlayerEvent event) {
-        if (!configManager.getRegionWorlds().contains(event.getAttackingPlayer().getWorld().getName())) return;
+        if (!configManager.getRegionWorlds().contains(event.getAttackingPlayer().getWorld().getName())) {
+            return;
+        }
         if (event.isCancelled()) {
             boolean damagerInCombat = combatManager.isInCombat(event.getAttackingPlayer().getUniqueId());
             boolean targetInCombat = combatManager.isInCombat(event.getVictimPlayer().getUniqueId());
 
-            if (damagerInCombat && targetInCombat)
+            if (damagerInCombat && targetInCombat) {
                 event.setCancelled(false);
+            }
         }
     }
 }

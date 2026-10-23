@@ -34,8 +34,9 @@ public class PowerupsManager implements IPowerupsManager {
     public void setPowerupProvider(@NotNull PowerupProvider provider) {
         this.provider = provider;
         provider.setup();
-        for (PowerupType type : PowerupType.values())
+        for (PowerupType type : PowerupType.values()) {
             type.initialize(provider);
+        }
     }
 
     public void setServerManager(String manager) {
@@ -49,18 +50,26 @@ public class PowerupsManager implements IPowerupsManager {
 
     @Override
     public boolean hasPowerups(@NotNull Player player, @NotNull EnumSet<PowerupType> checks) {
-        if (player.hasPermission("greatcombat.powerups.bypass")) return false;
+        if (player.hasPermission("greatcombat.powerups.bypass")) {
+            return false;
+        }
 
-        for (PowerupType check : checks)
-            if (check.getPowerup().hasPowerup(player)) return true;
+        for (PowerupType check : checks) {
+            if (check.getPowerup().hasPowerup(player)) {
+                return true;
+            }
+        }
 
         return false;
     }
 
     @Override
     public void disablePowerups(@NotNull Player player, @NotNull EnumSet<PowerupType> checks) {
-        if (player.hasPermission("greatcombat.powerups.bypass")) return;
-        for (PowerupType check : checks)
+        if (player.hasPermission("greatcombat.powerups.bypass")) {
+            return;
+        }
+        for (PowerupType check : checks) {
             check.getPowerup().disablePowerup(player);
+        }
     }
 }
